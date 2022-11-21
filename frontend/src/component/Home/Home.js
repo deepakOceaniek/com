@@ -6,8 +6,8 @@ const Home = () => {
   return (
     <>
       <div className="banner">
-        <p>Welcome to the shop</p>
-        <h1>Find Amazing Product below</h1>
+        <p>Welcome To The MediPros </p>
+        <h1>Find Amazing And Qualtity Product Below</h1>
 
         <a href="#container">
           <button>

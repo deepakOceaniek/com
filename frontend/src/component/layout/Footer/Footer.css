@@ -1,7 +1,7 @@
 footer {
   margin-top: 10vmax;
   padding: 2vmax;
-  background-color: rgb(34, 33, 33);
+  background-color: rgb(50, 137, 218);
   color: white;
   display: flex;
   align-items: center;
@@ -24,7 +24,7 @@ footer {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
-.leftFooter > img {
+.leftFooter > a >img {
   width: 10vmax;
   margin: 1vmax;
   cursor: pointer;
@@ -32,24 +32,22 @@ footer {
 
 .midFooter {
   width: 60%;
-
   text-align: center;
 }
 
 .midFooter > h1 {
   font-size: 4vmax;
   font-family: "Roboto";
-  color: #eb4034;
+  color: #cdeb60;
 }
 .midFooter > p {
   max-width: 60%;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: sans-serif;
   margin: 1vmax auto;
 }
 
 .rightFooter {
   width: 20%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,5 +67,5 @@ footer {
 }
 
 .rightFooter > a:hover {
-  color: #eb4034;
+  color: #f08119;
 }
