@@ -13,6 +13,8 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
 // Get All Product
 exports.getAllProduct = catchAsyncErrors(async (req, res, next) => {
+  // return next(new ErrorHandler("This Is My Temp Error", 500));
+
   const resultPerPage = 8;
   const productCount = await Product.countDocuments();
 

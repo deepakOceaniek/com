@@ -91,7 +91,9 @@
 }
 
 .productCard > img {
-  width: 14vmax;
+  width: 6vw;
+  height: 20vh;
+  margin: auto;
 }
 
 .productCard > div {
@@ -126,7 +128,6 @@
 
 .productCard:hover {
   box-shadow: 0 0 5px rgba(15, 15, 15, 0.26);
-
   transform: translateY(-1vmax);
 }
 

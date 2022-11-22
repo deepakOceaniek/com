@@ -6,6 +6,7 @@ import React from "react";
 import { useEffect } from "react";
 import WebFont from "webfontloader";
 import Home from "./component/Home/Home.js";
+import Loader from "./component/layout/Loader/Loader";
 
 function App() {
   useEffect(() => {
@@ -21,7 +22,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path="" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/loading" element={<Loader />} />
         </Routes>
         <Footer />
       </Router>

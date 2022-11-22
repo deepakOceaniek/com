@@ -1,34 +1,30 @@
 import React from "react";
-import { CgMouse } from "react-icons/cg";
 import "./Home.css";
-import Product from "./Product.js";
+import { CgMouse } from "react-icons/cg";
+import ProductCart from "./ProductCart";
 import MetaData from "../layout/MetaData";
 import { getProduct } from "../../actions/productAction";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Loader from "../layout/Loader/Loader";
+import {useAlert} from "react-alert"
 
 const Home = () => {
+  const alert = useAlert()
   const dispatch = useDispatch();
   const { loading, error, products, productsCount } = useSelector((state) =>
-    console.log(state.products)
+    state.products
   );
-
+ 
   useEffect(() => {
+    if(error){
+      return alert.error(error)
+    }
     dispatch(getProduct());
-  }, [dispatch]);
+  }, [ alert,dispatch, error]);
 
-  // const product = {
-  //   name: "Blue Tshirt",
-  //   image: [{ url: "https://i.ibb.co/DRST11n/1.webp" }],
-  //   price: "₹3000",
-  //   _id: "deepak",
-  // };
-  // console.log(loading);
-  // console.log(error);
-  // console.log(products);
-  // console.log(productsCount);
-  return (
-    <>
+  return ( <>
+{loading ? (<Loader />):(<>
       <MetaData title="MediPros" />
       <div className="banner">
         <p>Welcome To The MediPros </p>
@@ -42,7 +38,7 @@ const Home = () => {
       </div>
       <h2 className="homeHeading">Featured Product</h2>
       <div className="container" id="container">
-        {products && products.map((product) => <Product product={product} />)}
+        {products && products.map((product) => <ProductCart product={product} key ={product._id}/>)}
         {/* <Product product={product} />
         <Product product={product} />
         <Product product={product} />
@@ -53,6 +49,9 @@ const Home = () => {
         <Product product={product} /> */}
       </div>
     </>
+    )}  </>
+
+    
   );
 };
 
