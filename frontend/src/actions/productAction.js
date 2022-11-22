@@ -28,17 +28,16 @@ export const getProduct = () => async (dispatch) => {
   }
 };
 
-
 export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_DETAILS_REQUEST,
     });
-    const { data } = await axios.get(`/api/v1/products/${id}`);
-    console.log(data)
+    const { data } = await axios.get(`/api/v1/product/${id}`);
+    console.log(data);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
-      payload: data.product,
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -47,8 +46,6 @@ export const getProductDetails = (id) => async (dispatch) => {
     });
   }
 };
-
-
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

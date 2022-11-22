@@ -6,7 +6,8 @@ import React from "react";
 import { useEffect } from "react";
 import WebFont from "webfontloader";
 import Home from "./component/Home/Home.js";
-import Loader from "./component/layout/Loader/Loader";
+import Loader from "./component/layout/Loader/Loader.js";
+import ProductDetails from "./component/Product/ProductDetails.js";
 
 function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/loading" element={<Loader />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
         <Footer />
       </Router>
