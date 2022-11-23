@@ -1,11 +1,25 @@
+import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Registration.css";
 
-// let isEdit = false;
 const Registration = () => {
+  const [myData, setMyData] = useState([]);
+  const [isError, setIsError] = useState([]);
+
+  const apiCall = () => {
+    axios
+      .get("pharmacy/profile/637e5553aa795ea274b0f369")
+      .then((res) => setMyData(res.data))
+      .catch((error) => setIsError(error.message));
+  };
+
+  useEffect(() => {
+    apiCall();
+  }, []);
+  console.log(myData.data);
   const [registrationData, setRegistrationData] = useState({
-    category :"",
+    category: "",
     name: "",
     contact: "",
     pharmacyImage: "",
@@ -16,102 +30,99 @@ const Registration = () => {
     status: "",
   });
 
-  const [phImage ,setPhImage ] =useState("")
-  const [cfImage ,setCfImage ] =useState("")
-  const fileInput1 = React.createRef();
-  const fileInput2 = React.createRef();
-  // const [response, setResponse] = useState([]);
   const handleInput = (e) => {
     const feildName = e.target.name;
     const value = e.target.value;
 
-
     setRegistrationData({ ...registrationData, [feildName]: value });
- 
   };
 
-  // const isEditHandler = () => {
-  //   isEdit = true;
-  //   setRegistrationData({
-  //     name: response[0].name,
-  //     email: response[0].email,
-  //     address: response[0].address,
-  //     password: response[0].password,
-  //     confpassword: response[0].confpassword,
-  //   });
-  // };
+  const uploadPharmacyImage = (e) => {
+    setRegistrationData({
+      ...registrationData,
+      pharmacyImage: e.target.files[0],
+    });
+  };
+
+  const uploadCertificateImage = (e) => {
+    setRegistrationData({
+      ...registrationData,
+      certificateImage: e.target.files[0],
+    });
+  };
 
   const submithandler = async (e) => {
     e.preventDefault();
-    const {  category ,
-    name,
-    contact,
-    pharmacyImage ,
-    address,
-    certificateImage ,
-    fromTime,
-    toTime,
-    status, } = registrationData;
-  //      setRegistrationData({  ...registrationData,
-  //     pharmacyImage: fileInput1.current.files[0].name,  
-  //     certificateImage:fileInput2.current.files[0].name,  
-  // });
-setPhImage( fileInput1.current.files[0].name);
-setCfImage(fileInput2.current.files[0].name)
-    console.log(registrationData)
-    console.log(fileInput1.current.files[0].name,)
-    console.log(fileInput2.current.files[0].name,)
-  
+    const {
+      category,
+      name,
+      contact,
+      pharmacyImage,
+      address,
+      certificateImage,
+      fromTime,
+      toTime,
+      status,
+    } = registrationData;
 
-    if (!category  ||
-    !name ||
-    !contact ||
-    !pharmacyImage ||
-    !address ||
-    !certificateImage ||
-    !fromTime ||
-    !toTime ||
-    !status ) {
+    if (
+      !category ||
+      !name ||
+      !contact ||
+      !pharmacyImage ||
+      !address ||
+      !certificateImage ||
+      !fromTime ||
+      !toTime ||
+      !status
+    ) {
       window.alert("Plz fill the form first");
     } else {
-      const url= "pharmacy/registration";
+      const url = "pharmacy/registration";
+      const formData = new FormData();
+      console.log(
+        `pp ${registrationData.pharmacyImage}=====${registrationData.pharmacyImage.name}`
+      );
+      formData.append(
+        "pharmacyImage",
+        registrationData.pharmacyImage,
+        registrationData.pharmacyImage.name
+      );
+      formData.append(
+        "certificateImage",
+        registrationData.certificateImage,
+        registrationData.certificateImage.name
+      );
+      formData.append("category", registrationData.category);
+      formData.append("name", registrationData.name);
+      formData.append("contact", registrationData.contact);
+      formData.append("address", registrationData.address);
+      formData.append("fromTime", registrationData.fromTime);
+      formData.append("toTime", registrationData.toTime);
+      formData.append("status", registrationData.status);
 
-      const resposne = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          category ,
-    name,
-    contact,
-    phImage,
-    address,
-    cfImage,
-    fromTime,
-    toTime,
-    status,
-        }),
-      });
-      const data = await resposne.json();
-      console.log(data)
-      if (resposne.status === 422 || !data) {
-        window.alert("Invalid Registration");
-      } else {
-        window.alert("Registration Successfull ");
-        console.log("Registration Successfull ");
-        // setResponse([data]);
-        setRegistrationData({
-          category :"",
-          name: "",
-          contact: "",
-          pharmacyImage: "",
-          address: "",
-          certificateImage: "",
-          fromTime: "",
-          toTime: "",
-          status: "",
-        });
+      try {
+        console.log(formData);
+        let response = await axios.post(url, formData);
+        if (response.status === 422 || !response) {
+          window.alert("Invalid Registration");
+        } else {
+          window.alert("Registration Successfull ");
+          console.log("Registration Successfull ");
+          setRegistrationData({
+            category: "",
+            name: "",
+            contact: "",
+            pharmacyImage: "",
+            address: "",
+            certificateImage: "",
+            fromTime: "",
+            toTime: "",
+            status: "",
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -130,15 +141,13 @@ setCfImage(fileInput2.current.files[0].name)
                 onSubmit={submithandler}
               >
                 <div className="form-group dropDown">
-                 
-                  <label htmlFor="category" >Choose a Category : </label>
-                  <select name="category" id="category"  onChange={handleInput} >
+                  <label htmlFor="category">Choose a Category : </label>
+                  <select name="category" id="category" onChange={handleInput}>
                     <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
                     <option value="opel">Opel</option>
                     <option value="audi">Audi</option>
                   </select>
-                 
                 </div>
 
                 <div className="form-group">
@@ -175,7 +184,8 @@ setCfImage(fileInput2.current.files[0].name)
                   </label>
                   <input
                     type="file"
-                   ref={fileInput1}
+                    name="pharmacyImage"
+                    onChange={uploadPharmacyImage}
                   />
                 </div>
                 <div className="form-group">
@@ -199,7 +209,8 @@ setCfImage(fileInput2.current.files[0].name)
                   </label>
                   <input
                     type="file"
-                    ref={fileInput2}
+                    name="certificateImage"
+                    onChange={uploadCertificateImage}
                   />
                 </div>
 
@@ -255,34 +266,19 @@ setCfImage(fileInput2.current.files[0].name)
                   />
                 </div>
               </form>
-
-              {/* <div className="form-group form-submit">
-                <button
-                  name="edit"
-                  id="edit"
-                  className="form-edit"
-                  onClick={isEditHandler}
-                >
-                  Edit
-                </button>
-              </div> */}
             </div>
           </div>
         </div>
       </section>
-      {/* <div className="response_data">
-        {response.map((currEl) => {
-          const { _id, name, email, address, password } = currEl;
-          return (
-            <div className="field" key={_id}>
-              <p>{name}</p>
-              <p>{email}</p>
-              <p>{address}</p>
-              <p>{password}</p>
-            </div>
-          );
-        })}
-      </div> */}
+
+      <p>{myData.data.name}</p>
+      <p>{myData.data.contact}</p>
+      <img src={myData.data.pharmacyImage} alt="ab" />
+      <img src={myData.data.certificateImage} alt="ns" />
+      <p>{myData.data.address}</p>
+      <p>{myData.data.fromTime}</p>
+      <p>{myData.data.toTime}</p>
+      <p>{myData.data.status}</p>
     </>
   );
 };
