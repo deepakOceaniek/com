@@ -8,6 +8,7 @@ import WebFont from "webfontloader";
 import Home from "./component/Home/Home.js";
 import Loader from "./component/layout/Loader/Loader.js";
 import ProductDetails from "./component/Product/ProductDetails.js";
+import Registration from "./component/Register/Registration";
 
 function App() {
   useEffect(() => {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/loading" element={<Loader />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/Registration" element={<Registration />} />
         </Routes>
         <Footer />
       </Router>

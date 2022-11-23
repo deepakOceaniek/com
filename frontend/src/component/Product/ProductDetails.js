@@ -15,12 +15,12 @@ const ProductDetails = () => {
   useEffect(() => {
     dispatch(getProductDetails(id));
   }, [dispatch, id]);
-
+// console.log(product)///
   return (
     <>
       <div className="ProductDetails">
         <div>
-          <Carousel>
+          <Carousel>{console.log(product.images)}
             {product.images &&
               product.images.map((item, i) => (
                 <img
