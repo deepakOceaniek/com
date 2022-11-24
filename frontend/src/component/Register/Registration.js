@@ -17,7 +17,7 @@ const Registration = () => {
   useEffect(() => {
     apiCall();
   }, []);
-  console.log(myData.data);
+  
   const [registrationData, setRegistrationData] = useState({
     category: "",
     name: "",
@@ -64,7 +64,7 @@ const Registration = () => {
       toTime,
       status,
     } = registrationData;
-
+    
     if (
       !category ||
       !name ||
@@ -75,17 +75,17 @@ const Registration = () => {
       !fromTime ||
       !toTime ||
       !status
-    ) {
+      ) {
       window.alert("Plz fill the form first");
     } else {
       const url = "pharmacy/registration";
       const formData = new FormData();
       console.log(
         `pp ${registrationData.pharmacyImage}=====${registrationData.pharmacyImage.name}`
-      );
-      formData.append(
-        "pharmacyImage",
-        registrationData.pharmacyImage,
+        );
+        formData.append(
+          "pharmacyImage",
+          registrationData.pharmacyImage,
         registrationData.pharmacyImage.name
       );
       formData.append(
@@ -126,7 +126,7 @@ const Registration = () => {
       }
     }
   };
-
+  
   return (
     <>
       <section className="registration">
@@ -271,14 +271,31 @@ const Registration = () => {
         </div>
       </section>
 
-      <p>{myData.data.name}</p>
-      <p>{myData.data.contact}</p>
-      <img src={myData.data.pharmacyImage} alt="ab" />
-      <img src={myData.data.certificateImage} alt="ns" />
-      <p>{myData.data.address}</p>
-      <p>{myData.data.fromTime}</p>
-      <p>{myData.data.toTime}</p>
-      <p>{myData.data.status}</p>
+    { myData.data && [myData.data].map(elem =>{
+      const { category,
+        name,
+        contact,
+        pharmacyImage,
+        address,
+        certificateImage,
+        fromTime,
+        toTime,
+        status,} = elem
+      return(  <div  key={elem._id}>
+        <p>{category}</p>
+        <p>{name}</p>
+        <p>{contact}</p>
+        <img src={pharmacyImage}  alt=""/>
+        <p>{address}</p>
+        <img src={certificateImage}  alt=""/>
+        <p>{fromTime}</p>
+        <p>{toTime}</p>
+        <p>{status}</p>
+      </div>)
+    })  }
+
+    {}
+
     </>
   );
 };
