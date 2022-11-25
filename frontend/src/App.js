@@ -10,6 +10,8 @@ import Loader from "./component/layout/Loader/Loader.js";
 import ProductDetails from "./component/Product/ProductDetails.js";
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
+import Products from "./component/Product/Products.js";
+import Search from "./component/Product/Search.js";
 
 function App() {
   useEffect(() => {
@@ -28,6 +30,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/loading" element={<Loader />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/search" element={<Search />} />
+
           <Route path="/Registration" element={<Registration />} />
           <Route path="/addMedicine" element={<AddMedicine />} />
         </Routes>
