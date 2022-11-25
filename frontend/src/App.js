@@ -8,10 +8,11 @@ import WebFont from "webfontloader";
 import Home from "./component/Home/Home.js";
 import Loader from "./component/layout/Loader/Loader.js";
 import ProductDetails from "./component/Product/ProductDetails.js";
-import Registration from "./component/Register/Registration";
-import AddMedicine from "./component/Register/AddMedicine";
 import Products from "./component/Product/Products.js";
 import Search from "./component/Product/Search.js";
+import Registration from "./component/Register/Registration";
+import AddMedicine from "./component/Register/AddMedicine";
+import AddTest from "./component/Register/AddTest";
 
 function App() {
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
 
           <Route path="/Registration" element={<Registration />} />
           <Route path="/addMedicine" element={<AddMedicine />} />
+          <Route path="/addTest" element={<AddTest />} />
         </Routes>
         <Footer />
       </Router>

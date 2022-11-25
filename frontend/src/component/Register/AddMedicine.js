@@ -30,13 +30,11 @@ const AddMedicine = () => {
 
     setMedicineData({ ...medicineData, [feildName]: value });
   };
-
   const uploadProductImage = (e) => {
       console.log(e.target.files)
     setMedicineData({
       ...medicineData,
       productImage: e.target.files,
-
     });
   };
 
@@ -99,26 +97,30 @@ console.log(hsn_code)
         `pp ${medicineData.productImage}=====${medicineData.productImage[0].name}`
         );
 
-        // for(let i =0 ; i<productImage.length ; i++){
-        //     formData.append(
-        //         "productImage",
-        //         medicineData.productImage[i],
-        //       medicineData.productImage[i].name
-        //     );
-        //     console.log( medicineData.productImage[i])
-        //     console.log( medicineData.productImage[i].name)
-        // }
+        for(let i =0 ; i<productImage.length ; i++){
+            formData.append(
+                "productImage",
+                medicineData.productImage[i],
+              medicineData.productImage[i].name
+            );
+            console.log( medicineData.productImage[i])
+            console.log( medicineData.productImage[i].name)
+        }
        
-        formData.append(
-            "productImage",
-            medicineData.productImage[0],
-          medicineData.productImage[0].name
-        )
-        formData.append(
-            "productImage",
-            medicineData.productImage[1],
-          medicineData.productImage[1].name
-        )
+        // formData.append(
+        //     "productImage",
+        //     medicineData.productImage,
+        //   medicineData.productImage[0].name
+        // )
+
+        // for (let i = 0; i < productImage.length; i++) {
+        //   formData.append(productImage[i].name, productImage[i])
+        // }
+        // formData.append(
+        //     "productImage",
+        //     medicineData.productImage[1],
+        //   medicineData.productImage[1].name
+        // )
     
 
       formData.append("medicineCategory", medicineData.medicineCategory);
@@ -126,15 +128,14 @@ console.log(hsn_code)
       formData.append("salt", medicineData.salt);
       formData.append("type", medicineData.type);
       formData.append("expired", medicineData.expired);
-      formData.append("tablet_per_strip", medicineData.tablet_per_strip);
-      formData.append("price", medicineData.price);
-      formData.append("stock", medicineData.stock);
+      formData.append("tablet_per_strip", Number(medicineData.tablet_per_strip));
+      formData.append("price", Number(medicineData.price));
+      formData.append("stock", Number(medicineData.stock));
       formData.append("category", medicineData.category);
       formData.append("company", medicineData.company);
       formData.append("gst", medicineData.gst);
       formData.append("batch_code", medicineData.batch_code);
       formData.append("hsn_code", medicineData.hsn_code);
-console.log(formData)
       try {
         let response = await axios.post(url, formData);
         if (response.status === 422 || !response) {
@@ -146,7 +147,7 @@ console.log(formData)
             medicineCategory: "",
     medicineName: "",
     salt: "",
-    productImage: "",
+    productImage:"",
     type: "",
     expired: "",
     tablet_per_strip: "",
@@ -181,10 +182,12 @@ console.log(formData)
                 <div className="form-group dropDown">
                   <label htmlFor="medicineCategory">Choose a Medicine Category : </label>
                   <select name="medicineCategory" id="medicineCategory" onChange={handleInput}>
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                    <option value="selectCategory" selected disabled hidden >Select Category</option>
+                    <option value="volvo">Ayurveda</option>
+                    <option value="saab">Vitamins & supplements</option>
+                    <option value="opel">Pain Relief</option>
+                    <option value="audi">Diabetes Care</option>
+                    <option value="audi">Skin Care</option>
                   </select>
                 </div>
 
@@ -263,8 +266,8 @@ console.log(formData)
                     id="expired"
                     autoComplete="off"
                     value={medicineData.expired}
-                    onChange={handleInput}
-                    placeholder="Enter Expired date"
+                    onChange={handleInput }
+                    placeholder="Enter Expired date "
                   />
                 </div>
                 <div className="form-group">

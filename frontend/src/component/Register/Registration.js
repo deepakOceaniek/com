@@ -143,7 +143,8 @@ const Registration = () => {
                 <div className="form-group dropDown">
                   <label htmlFor="category">Choose a Category : </label>
                   <select name="category" id="category" onChange={handleInput}>
-                    <option value="volvo">Volvo</option>
+                    <option value="selectCategory" selected disabled hidden >Select Category</option>
+                    <option value="volvo" >Volvo</option>
                     <option value="saab">Saab</option>
                     <option value="opel">Opel</option>
                     <option value="audi">Audi</option>
