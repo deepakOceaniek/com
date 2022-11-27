@@ -20,7 +20,7 @@ class ApiFeatures {
     const queryCopy = { ...this.queryStr };
     // console.log(queryCopy); //{ keyword: 'samosa', category: 'laptop' }
 
-    //Removing sone field for Category
+    //Removing some field for Category
     const removeField = ["keyword", "page", "limit"];
     removeField.forEach((key) => delete queryCopy[key]);
     // console.log(queryCopy); // { category: 'laptop' }

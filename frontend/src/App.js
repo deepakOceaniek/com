@@ -13,27 +13,42 @@ import Search from "./component/Product/Search.js";
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
 import AddTest from "./component/Register/AddTest";
-
+import LoginSignUp from "./component/User/LoginSignUp";
+import store from "./store";
+import { loadUser } from "./actions/userAction";
+import UserOption from "./component/layout/Header/UserOptions.js";
+import { useSelector } from "react-redux";
+import Profile from "./component/User/Profile.js";
+// import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 function App() {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
   useEffect(() => {
     WebFont.load({
       google: {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
+
+    store.dispatch(loadUser());
   }, []);
 
   return (
     <>
       <Router>
         <Header />
+
+        {isAuthenticated && <UserOption user={user} />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/loading" element={<Loader />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/products/:keyword" element={<Products />} />
 
+          <Route path="/search" element={<Search />} />
+          <Route path="/login" element={<LoginSignUp />} />
+          {isAuthenticated && <Route path="/account" element={<Profile />} />}
           <Route path="/Registration" element={<Registration />} />
           <Route path="/addMedicine" element={<AddMedicine />} />
           <Route path="/addTest" element={<AddTest />} />
