@@ -9,10 +9,14 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../actions/userAction";
 import { useDispatch } from "react-redux";
+import { useAlert } from "react-alert";
+
 
 const UserOptions = ({ user }) => {
   const Naviagte = useNavigate();
   const dispatch = useDispatch();
+  const alert = useAlert();
+
   const [open, setOpen] = useState(false);
   const options = [
     { icon: <ListAltIcon />, name: "Orders", func: orders },
@@ -57,7 +61,7 @@ const UserOptions = ({ user }) => {
         icon={
           <img
             className="speedDialIcon"
-            src={user.avatar.url ? user.avatar.url : "/Profile.png"}
+            src={user.avatar.url ? user.avatar.url : "Images/Profile.png"}
             alt="Profile"
           />
         }

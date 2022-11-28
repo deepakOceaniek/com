@@ -1,7 +1,7 @@
 import "./App.css";
 import Header from "./component/layout/Header/Header.js";
 import Footer from "./component/layout/Footer/Footer.js";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route  } from "react-router-dom";
 import React from "react";
 import { useEffect } from "react";
 import WebFont from "webfontloader";
@@ -19,8 +19,13 @@ import { loadUser } from "./actions/userAction";
 import UserOption from "./component/layout/Header/UserOptions.js";
 import { useSelector } from "react-redux";
 import Profile from "./component/User/Profile.js";
+import ProfileUpdate from "./component/User/ProfileUpdate.js";
+import UpdatePassword  from "./component/User/UpdatePassword.js"
+import ForgotPassword from "./component/User/ForgotPassword.js"
+import ResetPassword from "./component/User/ResetPassword.js"
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 function App() {
+
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -49,6 +54,12 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/login" element={<LoginSignUp />} />
           {isAuthenticated && <Route path="/account" element={<Profile />} />}
+          {isAuthenticated && <Route path="/me/update" element={<ProfileUpdate />} />}
+          {isAuthenticated && <Route path="/password/update" element={<UpdatePassword />} />}
+          <Route path="/password/forgot" element={<ForgotPassword />} />
+          <Route  path="/password/reset/:token" element={<ResetPassword />} />
+
+
           <Route path="/Registration" element={<Registration />} />
           <Route path="/addMedicine" element={<AddMedicine />} />
           <Route path="/addTest" element={<AddTest />} />
