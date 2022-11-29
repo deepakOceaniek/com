@@ -11,8 +11,9 @@ import { logout } from "../../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Loader from "../Loader/Loader";
 
-const UserOptions = ({ user }) => {
+const UserOptions = ({ loading, user }) => {
   const Naviagte = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -33,7 +34,7 @@ const UserOptions = ({ user }) => {
     { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
   ];
 
-  if (user.role === "admin") {
+  if (user.user.role === "admin") {
     options.unshift({
       icon: <DashboardIcon />,
       name: "Dashboard",
@@ -58,10 +59,14 @@ const UserOptions = ({ user }) => {
     dispatch(logout());
     alert.success("Logout Successfully");
   }
+  console.log(user)
+  console.log(user.user.avatar.url)
+  console.log(user.loading)
+
 
   return (
     <>
-      <Backdrop open={open} style={{ zIndex: "10" }} />
+      {user.loading ? <Loader /> : <> <Backdrop open={open} style={{ zIndex: "10" }} />
       <SpeedDial
         ariaLabel="SpeedDial toolTip example"
         onClose={() => setOpen(false)}
@@ -73,7 +78,7 @@ const UserOptions = ({ user }) => {
         icon={
           <img
             className="speedDialIcon"
-            src={user.avatar.url ? user.avatar.url : "Images/Profile.png"}
+            src={user.user.avatar.url ? user.user.avatar.url : "Images/Profile.png"}
             alt="Profile"
           />
         }
@@ -87,7 +92,7 @@ const UserOptions = ({ user }) => {
             tooltipOpen={window.innerWidth <= 600 ? true : false}
           />
         ))}
-      </SpeedDial>
+      </SpeedDial> </>}
     </>
   );
 };

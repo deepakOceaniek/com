@@ -2,12 +2,15 @@ import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import "./Registration.css";
+import {  useNavigate } from "react-router-dom";
 
 const Registration = () => {
+  const Navigate = useNavigate();
   const [myData, setMyData] = useState([]);
   const [isError, setIsError] = useState([]);
 
   const apiCall = () => {
+
     axios
       .get("pharmacy/profile/637e5553aa795ea274b0f369")
       .then((res) => setMyData(res.data))
@@ -22,7 +25,7 @@ const Registration = () => {
     category: "",
     name: "",
     contact: "",
-    pharmacyImage: "",
+    profileImage: "",
     address: "",
     certificateImage: "",
     fromTime: "",
@@ -37,10 +40,10 @@ const Registration = () => {
     setRegistrationData({ ...registrationData, [feildName]: value });
   };
 
-  const uploadPharmacyImage = (e) => {
+  const uploadProfileImage = (e) => {
     setRegistrationData({
       ...registrationData,
-      pharmacyImage: e.target.files[0],
+      profileImage: e.target.files[0],
     });
   };
 
@@ -57,7 +60,7 @@ const Registration = () => {
       category,
       name,
       contact,
-      pharmacyImage,
+      profileImage,
       address,
       certificateImage,
       fromTime,
@@ -69,7 +72,7 @@ const Registration = () => {
       !category ||
       !name ||
       !contact ||
-      !pharmacyImage ||
+      !profileImage ||
       !address ||
       !certificateImage ||
       !fromTime ||
@@ -78,15 +81,21 @@ const Registration = () => {
       ) {
       window.alert("Plz fill the form first");
     } else {
-      const url = "pharmacy/registration";
+      console.log(category)
+      let url 
+      if(category==="Pharmacy"){
+         url = "pharmacy/registration";
+      }else{
+         url = "lab/registrationlab";
+      }
       const formData = new FormData();
       console.log(
-        `pp ${registrationData.pharmacyImage}=====${registrationData.pharmacyImage.name}`
+        `pp ${registrationData.profileImage}=====${registrationData.profileImage.name}`
         );
         formData.append(
-          "pharmacyImage",
-          registrationData.pharmacyImage,
-        registrationData.pharmacyImage.name
+          "profileImage",
+          registrationData.profileImage,
+        registrationData.profileImage.name
       );
       formData.append(
         "certificateImage",
@@ -108,12 +117,13 @@ const Registration = () => {
           window.alert("Invalid Registration");
         } else {
           window.alert("Registration Successfull ");
+          Navigate("/dashboard")
           console.log("Registration Successfull ");
           setRegistrationData({
             category: "",
             name: "",
             contact: "",
-            pharmacyImage: "",
+            profileImage: "",
             address: "",
             certificateImage: "",
             fromTime: "",
@@ -144,10 +154,8 @@ const Registration = () => {
                   <label htmlFor="category">Choose a Category : </label>
                   <select name="category" id="category" onChange={handleInput}>
                     <option value="selectCategory" selected disabled hidden >Select Category</option>
-                    <option value="volvo" >Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                    <option value="Pharmacy" >Pharmacy</option>
+                    <option value="Lab">Lab </option>
                   </select>
                 </div>
 
@@ -185,8 +193,8 @@ const Registration = () => {
                   </label>
                   <input
                     type="file"
-                    name="pharmacyImage"
-                    onChange={uploadPharmacyImage}
+                    name="profileImage"
+                    onChange={uploadProfileImage}
                   />
                 </div>
                 <div className="form-group">

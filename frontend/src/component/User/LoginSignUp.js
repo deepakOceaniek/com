@@ -91,7 +91,6 @@ const LoginSignUp = () => {
     dispatch(register(myForm));
   };
 
-  console.log(isAuthenticated);
 
   return (
     <>

@@ -10,8 +10,8 @@ const AddMedicine = () => {
     // medicineCategory: "",
     testName: "",
     testPrice: "",
-    // productImage: "",
     testPrecautions: "",
+    productImage: "",
     testDescription: "",
     testVerified: "",
     requiedTest: "",
@@ -27,13 +27,14 @@ const AddMedicine = () => {
 
     setTestData({ ...testData, [feildName]: value });
   };
-//   const uploadProductImage = (e) => {
-//       console.log(e.target.files)
-//     setTestData({
-//       ...testData,
-//       productImage: e.target.files,
-//     });
-//   };
+  const uploadProductImage = (e) => {
+      console.log(e.target.files)
+    setTestData({
+      ...testData,
+      productImage: e.target.files,
+    });
+  };
+
 
   
 
@@ -43,6 +44,7 @@ const AddMedicine = () => {
     testName,
     testPrice,
     testPrecautions,
+    productImage,
     testDescription,
     testVerified,
     requiedTest,
@@ -52,6 +54,8 @@ const AddMedicine = () => {
 console.log(testData)
 console.log(testName)
 console.log(testPrice)
+console.log(testPrecautions)
+console.log(productImage)
 console.log(testDescription)
 console.log(testVerified)
 console.log(requiedTest)
@@ -60,6 +64,8 @@ console.log(Report)
     if (
         !testName||
         !testPrice||
+        !testPrecautions ||
+        !productImage ||
         !testDescription||
         !testVerified||
         !requiedTest||
@@ -73,6 +79,16 @@ console.log(Report)
       console.log(
         `pp ${testData.productImage}=====${testData.productImage[0].name}`
         );
+
+        for(let i =0 ; i<productImage.length ; i++){
+          formData.append(
+              "productImage",
+              testData.productImage[i],
+              testData.productImage[i].name
+          );
+          console.log( testData.productImage[i])
+          console.log( testData.productImage[i].name)
+      }
 
         // for(let i =0 ; i<productImage.length ; i++){
         //     formData.append(
@@ -100,8 +116,8 @@ console.log(Report)
         if (response.status === 422 || !response) {
           window.alert("Invalid Registration");
         } else {
-          window.alert("Medicine added Successfull ");
-          console.log("Medicine added Successfull ");
+          window.alert("Test added Successfull ");
+          console.log("Test added Successfull ");
           setTestData({
     testName: "",
     testPrice: "",
@@ -177,6 +193,18 @@ console.log(Report)
                   />
                 </div>
 
+                <div className="form-group">
+                  <label htmlFor="image">
+                    <i className="zmdi zmdi-account zmdi-hc-lg material-icon-name"></i>
+                  </label>
+                  <input
+                    type="file"
+                    name="productImage"
+                    multiple
+                    onChange={uploadProductImage}
+                  />
+                </div>
+
 
                 <div className="form-group">
                   <label htmlFor="testDescription">
@@ -191,6 +219,30 @@ console.log(Report)
                     onChange={handleInput }
                     placeholder="Enter Test Description  "
                   />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="testVerified">
+                    <i className="zmdi zmdi-lock zmdi-hc-lg material-icon-name"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="testVerified"
+                    id="testVerified"
+                    autoComplete="off"
+                    value={testData.testVerified}
+                    onChange={handleInput}
+                    placeholder="Enter Test Verified"
+                  />
+                </div>
+                <div className="form-group dropDown">
+                  <label htmlFor="sampleRequied">Choose for Sample Required : </label>
+                  <select name="sampleRequied" id="sampleRequied" onChange={handleInput}>
+                    <option   disabled selected hidden >Select Sample</option>
+                    <option value="Blood Sample">Blood Sample</option>
+                    <option value="Urine Samples">Urine Samples</option>
+                    <option value="Serum Samples">Serum Samples</option>
+                    <option value="Core Samples">Core Samples</option>
+                  </select>
                 </div>
               
                 <div className="form-group">
@@ -209,40 +261,18 @@ console.log(Report)
                 </div>
 
 
-                <div className="form-group dropDown">
-                  <label htmlFor="sampleRequied">Choose for Sample Required : </label>
-                  <select name="sampleRequied" id="sampleRequied" onChange={handleInput}>
-                    <option value="selectSample" selected disabled hidden >Select Sample</option>
-                    <option value="volvo">Blood Sample</option>
-                    <option value="saab">Urine Samples</option>
-                    <option value="opel">Serum Samples</option>
-                    <option value="audi">Core Samples</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="testVerified">
-                    <i className="zmdi zmdi-lock zmdi-hc-lg material-icon-name"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="testVerified"
-                    id="testVerified"
-                    autoComplete="off"
-                    value={testData.testVerified}
-                    onChange={handleInput}
-                    placeholder="Enter Test Verified"
-                  />
-                </div>
+             
+             
 
 
                 <div className="form-group dropDown">
                   <label htmlFor="Report"> Report : </label>
                   <select name="Report" id="Report" onChange={handleInput}>
                     <option value="selectReport" selected disabled hidden >Select Report</option>
-                    <option value="volvo">Same Day</option>
-                    <option value="saab">1-2 Days</option>
-                    <option value="opel">3-4 Days</option>
-                    <option value="audi">! week </option>
+                    <option value="Same Day">Same Day</option>
+                    <option value="1-2 Days">1-2 Days</option>
+                    <option value="3-4 Days">3-4 Days</option>
+                    <option value="1 week">1 week </option>
                   </select>
                 </div>
 

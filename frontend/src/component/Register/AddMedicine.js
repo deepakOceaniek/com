@@ -183,11 +183,11 @@ console.log(hsn_code)
                   <label htmlFor="medicineCategory">Choose a Medicine Category : </label>
                   <select name="medicineCategory" id="medicineCategory" onChange={handleInput}>
                     <option value="selectCategory" selected disabled hidden >Select Category</option>
-                    <option value="volvo">Ayurveda</option>
-                    <option value="saab">Vitamins & supplements</option>
-                    <option value="opel">Pain Relief</option>
-                    <option value="audi">Diabetes Care</option>
-                    <option value="audi">Skin Care</option>
+                    <option value="Ayurveda">Ayurveda</option>
+                    <option value="Vitamins & supplements">Vitamins & supplements</option>
+                    <option value="Pain Relief">Pain Relief</option>
+                    <option value="Diabetes Care">Diabetes Care</option>
+                    <option value="Skin Care">Skin Care</option>
                   </select>
                 </div>
 
