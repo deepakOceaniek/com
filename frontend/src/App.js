@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./component/layout/Header/Header.js";
@@ -20,6 +20,8 @@ import UpdatePassword from "./component/User/UpdatePassword.js";
 import ForgotPassword from "./component/User/ForgotPassword.js";
 import ResetPassword from "./component/User/ResetPassword.js";
 import Cart from "./component/Cart/Cart.js";
+import Shipping from "./component/Cart/Shipping.js";
+import ConfirmOrder from "./component/Cart/ConfirmOrder.js";
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
@@ -27,7 +29,7 @@ import AddTest from "./component/Register/AddTest";
 import AdminDashborad from "./component/Register/AdminDashborad";
 import AdminProfile from "./component/Register/AdminProfile";
 function App() {
-  const { loading ,isAuthenticated, user } = useSelector((state) => state.user);
+  const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   useEffect(() => {
     WebFont.load({
       google: {
@@ -42,7 +44,7 @@ function App() {
       <Router>
         <Header />
 
-        {isAuthenticated && <UserOption user={{loading ,user}} />}
+        {isAuthenticated && <UserOption user={{ loading, user }} />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/loading" element={<Loader />} />
@@ -51,9 +53,7 @@ function App() {
           <Route path="/products/:keyword" element={<Products />} />
 
           <Route path="/search" element={<Search />} />
-          <Route path="/cart" element={<Cart />} />
           {isAuthenticated && <Route path="/account" element={<Profile />} />}
-          <Route path="/login" element={<LoginSignUp />} />
           {isAuthenticated && (
             <Route path="/me/update" element={<ProfileUpdate />} />
           )}
@@ -63,6 +63,14 @@ function App() {
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
 
+          <Route path="/login" element={<LoginSignUp />} />
+          <Route path="/cart" element={<Cart />} />
+          {isAuthenticated && (
+            <Route path="/login/shipping" element={<Shipping />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/order/confirm" element={<ConfirmOrder />} />
+          )}
 
           <Route path="/Registration" element={<Registration />} />
           <Route path="/dashboard" element={<AdminDashborad />} />
