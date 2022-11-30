@@ -9,7 +9,6 @@ const {
   updateOrder,
   deleteOrder,
 } = require("../controllers/orderControllers");
-const { mapReduce } = require("../models/userModel");
 
 router.route("/order/new").post(isAuthenticated, newOrder);
 router.route("/order/:id").get(isAuthenticated, getSingleOrder);
