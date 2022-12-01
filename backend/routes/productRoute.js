@@ -10,9 +10,13 @@ const {
   createProductReview,
   getAllProductReviews,
   deleteReview,
+  getAdminProducts,
 } = require("../controllers/productController");
 
 router.route("/products").get(getAllProduct);
+router
+  .route("/admin/products")
+  .get(isAuthenticated, authorizeRoles("admin"), getAdminProducts);
 router
   .route("/admin/products/new")
   .post(isAuthenticated, authorizeRoles("admin"), createProduct);

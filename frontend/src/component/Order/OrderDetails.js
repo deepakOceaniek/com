@@ -10,7 +10,7 @@ import { useAlert } from "react-alert";
 import { useParams } from "react-router-dom";
 
 const OrderDetails = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const { order, error, loading } = useSelector((state) => state.orderDetails);
 
   const dispatch = useDispatch();

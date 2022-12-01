@@ -20,11 +20,11 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder, clearErrors } from "../../actions/orderAction";
 import { useNavigate } from "react-router-dom";
 
-const Payment = ({stripeApiKey}) => {
+const Payment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
 
   const dispatch = useDispatch();
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
   const alert = useAlert();
   const stripe = useStripe();
   const elements = useElements();
@@ -53,14 +53,11 @@ const Payment = ({stripeApiKey}) => {
     payBtn.current.disabled = true;
 
     try {
-      console.log(stripeApiKey)
       const config = {
         headers: {
-          Authorization: `Bearer ${stripeApiKey}`,
           "Content-Type": "application/json",
         },
       };
-      console.log(config)
       const { data } = await axios.post(
         "/api/v1/payment/process",
         paymentData,
@@ -101,7 +98,7 @@ const Payment = ({stripeApiKey}) => {
 
           dispatch(createOrder(order));
 
-        Navigate("/success");
+          Navigate("/success");
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -114,16 +111,16 @@ const Payment = ({stripeApiKey}) => {
 
   useEffect(() => {
     if (error) {
-      console.log(error)
+      console.log(error);
       alert.error(error);
       dispatch(clearErrors());
     }
   }, [dispatch, error, alert]);
 
-//YOU DID NOT PROVIDE AN API KEY. 
-//YOU NEED TO PROVIDE YOUR API KEY IN THE AUTHORIZATION HEADER, 
-//USING BEARER AUTH (E.G. 'AUTHORIZATION: BEARER YOUR_SECRET_KEY'). 
-//SEE HTTPS://STRIPE.COM/DOCS/API#AUTHENTICATION FOR DETAILS, OR WE CAN HELP AT HTTPS://SUPPORT.STRIPE.COM/.
+  //YOU DID NOT PROVIDE AN API KEY.
+  //YOU NEED TO PROVIDE YOUR API KEY IN THE AUTHORIZATION HEADER,
+  //USING BEARER AUTH (E.G. 'AUTHORIZATION: BEARER YOUR_SECRET_KEY').
+  //SEE HTTPS://STRIPE.COM/DOCS/API#AUTHENTICATION FOR DETAILS, OR WE CAN HELP AT HTTPS://SUPPORT.STRIPE.COM/.
 
   return (
     <Fragment>

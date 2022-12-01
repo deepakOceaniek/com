@@ -43,7 +43,7 @@ const UserOptions = ({ loading, user }) => {
   }
 
   function dashboard() {
-    Naviagte("/dashboard");
+    Naviagte("/admin/dashboard");
   }
   function orders() {
     Naviagte("/orders");
@@ -59,40 +59,50 @@ const UserOptions = ({ loading, user }) => {
     dispatch(logout());
     alert.success("Logout Successfully");
   }
-  console.log(user)
-  console.log(user.user.avatar.url)
-  console.log(user.loading)
-
+  console.log(user);
+  console.log(user.user.avatar.url);
+  console.log(user.loading);
 
   return (
     <>
-      {user.loading ? <Loader /> : <> <Backdrop open={open} style={{ zIndex: "10" }} />
-      <SpeedDial
-        ariaLabel="SpeedDial toolTip example"
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        open={open}
-        className="speedDial"
-        direction="down"
-        style={{ zIndex: "11" }}
-        icon={
-          <img
-            className="speedDialIcon"
-            src={user.user.avatar.url ? user.user.avatar.url : "Images/Profile.png"}
-            alt="Profile"
-          />
-        }
-      >
-        {options.map((item) => (
-          <SpeedDialAction
-            key={item.name}
-            icon={item.icon}
-            tooltipTitle={item.name}
-            onClick={item.func}
-            tooltipOpen={window.innerWidth <= 600 ? true : false}
-          />
-        ))}
-      </SpeedDial> </>}
+      {user.loading ? (
+        <Loader />
+      ) : (
+        <>
+          {" "}
+          <Backdrop open={open} style={{ zIndex: "10" }} />
+          <SpeedDial
+            ariaLabel="SpeedDial toolTip example"
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            open={open}
+            className="speedDial"
+            direction="down"
+            style={{ zIndex: "11" }}
+            icon={
+              <img
+                className="speedDialIcon"
+                src={
+                  user.user.avatar.url
+                    ? user.user.avatar.url
+                    : "Images/Profile.png"
+                }
+                alt="Profile"
+              />
+            }
+          >
+            {options.map((item) => (
+              <SpeedDialAction
+                key={item.name}
+                icon={item.icon}
+                tooltipTitle={item.name}
+                onClick={item.func}
+                tooltipOpen={window.innerWidth <= 600 ? true : false}
+              />
+            ))}
+          </SpeedDial>{" "}
+        </>
+      )}
     </>
   );
 };
