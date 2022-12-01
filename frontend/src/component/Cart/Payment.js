@@ -17,10 +17,10 @@ import "./payment.css";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
-// import { createOrder, clearErrors } from "../../actions/orderAction";
+import { createOrder, clearErrors } from "../../actions/orderAction";
 import { useNavigate } from "react-router-dom";
 
-const Payment = ({ history }) => {
+const Payment = ({stripeApiKey}) => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
 
   const dispatch = useDispatch();
@@ -53,11 +53,14 @@ const Payment = ({ history }) => {
     payBtn.current.disabled = true;
 
     try {
+      console.log(stripeApiKey)
       const config = {
         headers: {
+          Authorization: `Bearer ${stripeApiKey}`,
           "Content-Type": "application/json",
         },
       };
+      console.log(config)
       const { data } = await axios.post(
         "/api/v1/payment/process",
         paymentData,
@@ -96,7 +99,7 @@ const Payment = ({ history }) => {
             status: result.paymentIntent.status,
           };
 
-        //   dispatch(createOrder(order));
+          dispatch(createOrder(order));
 
         Navigate("/success");
         } else {
@@ -111,10 +114,16 @@ const Payment = ({ history }) => {
 
   useEffect(() => {
     if (error) {
+      console.log(error)
       alert.error(error);
-    //   dispatch(clearErrors());
+      dispatch(clearErrors());
     }
   }, [dispatch, error, alert]);
+
+//YOU DID NOT PROVIDE AN API KEY. 
+//YOU NEED TO PROVIDE YOUR API KEY IN THE AUTHORIZATION HEADER, 
+//USING BEARER AUTH (E.G. 'AUTHORIZATION: BEARER YOUR_SECRET_KEY'). 
+//SEE HTTPS://STRIPE.COM/DOCS/API#AUTHENTICATION FOR DETAILS, OR WE CAN HELP AT HTTPS://SUPPORT.STRIPE.COM/.
 
   return (
     <Fragment>
