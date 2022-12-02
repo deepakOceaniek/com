@@ -7,7 +7,7 @@ import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 
-const Cart = ({ history }) => {
+const Cart = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);

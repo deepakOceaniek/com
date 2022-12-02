@@ -31,6 +31,9 @@ import OrderDetails from "./component/Order/OrderDetails.js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Dashboard from "./component/Admin/Dashboard.js";
+import ProductList from "./component/Admin/ProductList.js"
+import NewProduct from "./component/Admin/NewProduct.js"
+import UpdateProduct from "./component/Admin/UpdateProduct.js"
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
@@ -121,6 +124,11 @@ function App() {
               // </ProtectedRoute>
             }
           />
+          <Route  path="/admin/products"  element={<ProductList />} />
+          <Route  path="/admin/product"  element={<NewProduct />}  />
+          <Route  path="/admin/product/:id"  element={<UpdateProduct />}  />
+
+       
 
           <Route path="/Registration" element={<Registration />} />
           <Route path="/admindashboard" element={<AdminDashborad />} />
