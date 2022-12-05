@@ -34,6 +34,11 @@ import Dashboard from "./component/Admin/Dashboard.js";
 import ProductList from "./component/Admin/ProductList.js"
 import NewProduct from "./component/Admin/NewProduct.js"
 import UpdateProduct from "./component/Admin/UpdateProduct.js"
+import OrderList from "./component/Admin/OrderList.js"
+import ProcessOrder from "./component/Admin/ProcessOrder.js"
+import UserList from "./component/Admin/UserList.js"
+import UpdateUser from "./component/Admin/UpdateUser.js"
+import ProductReviews from "./component/Admin/ProductReviews.js"
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
@@ -127,6 +132,12 @@ function App() {
           <Route  path="/admin/products"  element={<ProductList />} />
           <Route  path="/admin/product"  element={<NewProduct />}  />
           <Route  path="/admin/product/:id"  element={<UpdateProduct />}  />
+
+          <Route  path="/admin/orders"  element={<OrderList />}  />
+          <Route  path="/admin/order/:id"  element={<ProcessOrder />}  />
+          <Route  path="/admin/users"  element={<UserList />}  />
+          <Route  path="/admin/user/:id"  element={<UpdateUser />}  />
+          <Route  path="/admin/reviews"  element={<ProductReviews/>}  />
 
        
 

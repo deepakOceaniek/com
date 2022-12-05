@@ -14,10 +14,11 @@ const Dashboard = () => {
     const dispatch = useDispatch();
 
     const { products } = useSelector((state) => state.products);
+    console.log(products)
 
-    // const { orders } = useSelector((state) => state.allOrders);
+    const { orders } = useSelector((state) => state.allOrders);
 
-    // const { users } = useSelector((state) => state.allUsers);
+    const { users } = useSelector((state) => state.allUsers);
 
     let outOfStock = 0;
 
@@ -30,15 +31,15 @@ const Dashboard = () => {
 
     useEffect(() => {
       dispatch(getAdminProduct());
-      // dispatch(getAllOrders());
-      // dispatch(getAllUsers());
+      dispatch(getAllOrders());
+      dispatch(getAllUsers());
     }, [dispatch]);
 
-    // let totalAmount = 0;
-    // orders &&
-    //   orders.forEach((item) => {
-    //     totalAmount += item.totalPrice;
-    //   });
+    let totalAmount = 0;
+    orders &&
+      orders.forEach((item) => {
+        totalAmount += item.totalPrice;
+      });
 
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"],
@@ -48,10 +49,10 @@ const Dashboard = () => {
         backgroundColor: ["tomato"],
         hoverBackgroundColor: ["rgb(197, 72, 49)"],
         data: [
-          0,
+          // 0,
 
-          // totalAmount
-          4000,
+          totalAmount
+          // 4000,
         ],
       },
     ],
@@ -83,7 +84,7 @@ const Dashboard = () => {
           <div>
             <p>
               Total Amount <br />
-              {/* ₹{totalAmount} */}
+              ₹{totalAmount}
             </p>
           </div>
           <div className="dashboardSummaryBox2">
@@ -94,13 +95,13 @@ const Dashboard = () => {
             <Link to="/admin/orders">
               <p>Orders</p>
               <p>
-                {/* {orders && orders.length} */}
+                {orders && orders.length}
                 </p>
             </Link>
             <Link to="/admin/users">
               <p>Users</p>
               <p>
-                {/* {users && users.length} */}
+                {users && users.length}
                 </p>
             </Link>
           </div>
