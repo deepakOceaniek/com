@@ -18,10 +18,10 @@ router
   .route("/admin/products")
   .get(isAuthenticated, authorizeRoles("admin"), getAdminProducts);
 router
-  .route("/admin/products/new")
+  .route("/admin/product/new")
   .post(isAuthenticated, authorizeRoles("admin"), createProduct);
 router
-  .route("/admin/products/:id")
+  .route("/admin/product/:id")
   .put(isAuthenticated, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticated, authorizeRoles("admin"), deleteProduct);
 
