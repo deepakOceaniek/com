@@ -59,9 +59,9 @@ const UserOptions = ({ loading, user }) => {
     dispatch(logout());
     alert.success("Logout Successfully");
   }
-  console.log(user);
-  console.log(user.user.avatar.url);
-  console.log(user.loading);
+  // console.log(user);
+  // console.log(user.user.avatar.url);
+  // console.log(user.loading);
 
   return (
     <>
@@ -69,7 +69,6 @@ const UserOptions = ({ loading, user }) => {
         <Loader />
       ) : (
         <>
-          {" "}
           <Backdrop open={open} style={{ zIndex: "10" }} />
           <SpeedDial
             ariaLabel="SpeedDial toolTip example"
@@ -100,7 +99,7 @@ const UserOptions = ({ loading, user }) => {
                 tooltipOpen={window.innerWidth <= 600 ? true : false}
               />
             ))}
-          </SpeedDial>{" "}
+          </SpeedDial>
         </>
       )}
     </>

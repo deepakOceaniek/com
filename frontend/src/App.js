@@ -129,15 +129,15 @@ function App() {
               // </ProtectedRoute>
             }
           />
-          <Route  path="/admin/products"  element={<ProductList />} />
-          <Route  path="/admin/product"  element={<NewProduct />}  />
-          <Route  path="/admin/product/:id"  element={<UpdateProduct />}  />
+         {isAuthenticated &&( <Route  path="/admin/products"  element={<ProductList />} /> )}
+         {isAuthenticated &&( <Route  path="/admin/product"  element={<NewProduct />}  /> )}
+         {isAuthenticated &&( <Route  path="/admin/product/:id"  element={<UpdateProduct />}  /> )}
 
-          <Route  path="/admin/orders"  element={<OrderList />}  />
-          <Route  path="/admin/order/:id"  element={<ProcessOrder />}  />
-          <Route  path="/admin/users"  element={<UserList />}  />
-          <Route  path="/admin/user/:id"  element={<UpdateUser />}  />
-          <Route  path="/admin/reviews"  element={<ProductReviews/>}  />
+         {isAuthenticated &&( <Route  path="/admin/orders"  element={<OrderList />}  /> )}
+         {isAuthenticated &&( <Route  path="/admin/order/:id"  element={<ProcessOrder />}  /> )}
+         {isAuthenticated &&( <Route  path="/admin/users"  element={<UserList />}  /> )}
+         {isAuthenticated &&( <Route  path="/admin/user/:id"  element={<UpdateUser />}  /> )}
+         {isAuthenticated &&( <Route  path="/admin/reviews"  element={<ProductReviews/>}  /> )}
 
        
 

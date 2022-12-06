@@ -97,7 +97,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (req.body.status === "Delivered") {
     order.deliveredAt = Date.now();
   }
-
+console.log(order)
   await order.save({ validateBeforeSave: false });
   res.status(200).json({
     success: true,
@@ -107,7 +107,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
 async function updateStock(id, quantity) {
   const product = await Product.findById(id);
 
-  product.Stock -= quantity;
+  product.stock -= quantity;
 
   await product.save({ validateBeforeSave: false });
 }

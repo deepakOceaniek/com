@@ -20,7 +20,7 @@ const ProcessOrder = () => {
     const {id} = useParams()
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
-
+console.log(order)
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -131,7 +131,7 @@ const ProcessOrder = () => {
                   </div>
                 </div>
                 <div className="confirmCartItems">
-                  <Typography>Your Cart Items:</Typography>
+                  <Typography>Order Items </Typography>
                   <div className="confirmCartItemsContainer">
                     {order.orderItems &&
                       order.orderItems.map((item) => (
@@ -139,7 +139,7 @@ const ProcessOrder = () => {
                           <img src={item.image} alt="Product" />
                           <Link to={`/product/${item.product}`}>
                             {item.name}
-                          </Link>{" "}
+                          </Link>
                           <span>
                             {item.quantity} X ₹{item.price} ={" "}
                             <b>₹{item.price * item.quantity}</b>
@@ -149,7 +149,7 @@ const ProcessOrder = () => {
                   </div>
                 </div>
               </div>
-              {/*  */}
+              
               <div
                 style={{
                   display: order.orderStatus === "Delivered" ? "none" : "block",
@@ -159,12 +159,12 @@ const ProcessOrder = () => {
                   className="updateOrderForm"
                   onSubmit={updateOrderSubmitHandler}
                 >
-                  <h1>Process Order</h1>
+                  <h1>Update Order status </h1>
 
                   <div>
                     <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
-                      <option value="">Choose Category</option>
+                      <option value="">Update Status</option>
                       {order.orderStatus === "Processing" && (
                         <option value="Shipped">Shipped</option>
                       )}
