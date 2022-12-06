@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -18,7 +18,7 @@ import { DELETE_ORDER_RESET } from "../../constants/orderConstant";
 
 const OrderList = () => {
   const dispatch = useDispatch();
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   const alert = useAlert();
 
@@ -128,14 +128,18 @@ const OrderList = () => {
         <div className="productListContainer">
           <h1 id="productListHeading">ALL ORDERS</h1>
 
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            autoHeight
-          />
+          {orders && orders.length > 0 ? (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="productListTable"
+              autoHeight
+            />
+          ) : (
+            <h1 className="noOrder">No Orders Found</h1>
+          )}
         </div>
       </div>
     </Fragment>

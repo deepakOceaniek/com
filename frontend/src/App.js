@@ -31,14 +31,15 @@ import OrderDetails from "./component/Order/OrderDetails.js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Dashboard from "./component/Admin/Dashboard.js";
-import ProductList from "./component/Admin/ProductList.js"
-import NewProduct from "./component/Admin/NewProduct.js"
-import UpdateProduct from "./component/Admin/UpdateProduct.js"
-import OrderList from "./component/Admin/OrderList.js"
-import ProcessOrder from "./component/Admin/ProcessOrder.js"
-import UserList from "./component/Admin/UserList.js"
-import UpdateUser from "./component/Admin/UpdateUser.js"
-import ProductReviews from "./component/Admin/ProductReviews.js"
+import ProductList from "./component/Admin/ProductList.js";
+import NewProduct from "./component/Admin/NewProduct.js";
+import UpdateProduct from "./component/Admin/UpdateProduct.js";
+import OrderList from "./component/Admin/OrderList.js";
+import ProcessOrder from "./component/Admin/ProcessOrder.js";
+import UserList from "./component/Admin/UserList.js";
+import UpdateUser from "./component/Admin/UpdateUser.js";
+import ProductReviews from "./component/Admin/ProductReviews.js";
+import ErrorPage from "./component/layout/NotFound/ErrorPage.js";
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
@@ -66,6 +67,9 @@ function App() {
     store.dispatch(loadUser());
     getStripeApiKey();
   }, []);
+
+  // It will disable the rightclick so we can not inspect
+  // window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <>
@@ -129,17 +133,32 @@ function App() {
               // </ProtectedRoute>
             }
           />
-         {isAuthenticated &&( <Route  path="/admin/products"  element={<ProductList />} /> )}
-         {isAuthenticated &&( <Route  path="/admin/product"  element={<NewProduct />}  /> )}
-         {isAuthenticated &&( <Route  path="/admin/product/:id"  element={<UpdateProduct />}  /> )}
+          {isAuthenticated && (
+            <Route path="/admin/products" element={<ProductList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/product" element={<NewProduct />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/product/:id" element={<UpdateProduct />} />
+          )}
 
-         {isAuthenticated &&( <Route  path="/admin/orders"  element={<OrderList />}  /> )}
-         {isAuthenticated &&( <Route  path="/admin/order/:id"  element={<ProcessOrder />}  /> )}
-         {isAuthenticated &&( <Route  path="/admin/users"  element={<UserList />}  /> )}
-         {isAuthenticated &&( <Route  path="/admin/user/:id"  element={<UpdateUser />}  /> )}
-         {isAuthenticated &&( <Route  path="/admin/reviews"  element={<ProductReviews/>}  /> )}
-
-       
+          {isAuthenticated && (
+            <Route path="/admin/orders" element={<OrderList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/order/:id" element={<ProcessOrder />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/users" element={<UserList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/user/:id" element={<UpdateUser />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/reviews" element={<ProductReviews />} />
+          )}
+          <Route path="*" element={<ErrorPage />} />
 
           <Route path="/Registration" element={<Registration />} />
           <Route path="/admindashboard" element={<AdminDashborad />} />

@@ -156,7 +156,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
-  // Cloudinary 
+  // Cloudinary
   if (req.body.avatar !== "") {
     const user = await User.findById(req.user.id);
     const imageId = user.avatar.public_id;
@@ -168,7 +168,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
       width: 150,
       crop: "scale",
     });
-    
+
     newUserData.avatar = {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
@@ -179,7 +179,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
-  console.log(user)
+  console.log(user);
   res.status(200).json({ success: true });
 });
 
@@ -214,16 +214,19 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
     email: req.body.email,
     role: req.body.role,
   };
+  // let user = User.findById(req.params.id);
+
+  // if (!user) {
+  //   return next(
+  //     new ErrorHandler(`User Does Not Exist with Id: ${req.params.id}`, 400)
+  //   );
+  // }
   const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
-  if (!user) {
-    return next(
-      new ErrorHandler(`User Does Not Exist with Id: ${req.params.id}`, 400)
-    );
-  }
+
   res.status(200).json({ success: true });
 });
 
@@ -237,6 +240,10 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler(`User Does Not Exist with Id: ${req.params.id}`, 400)
     );
   }
+
+  const imageId = user.avatar.public_id;
+  await cloudinary.v2.uploader.destroy(imageId);
+
   await user.remove();
   res.status(200).json({ success: true, message: "User deleted successfully" });
 });
