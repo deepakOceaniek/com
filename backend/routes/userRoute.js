@@ -17,7 +17,11 @@ const {
   registerAdmin,
   getAdminDetails,
 } = require("../controllers/userController");
-const { isAuthenticated, authorizeRoles } = require("../middleware/auth");
+const {
+  isAuthenticated,
+  authorizeRoles,
+  isAuthenticatedAdmin,
+} = require("../middleware/auth");
 
 router.route("/login").get(optVerify);
 router.route("/verify").get(loginUser);
@@ -29,15 +33,15 @@ router.route("/admin/register").post(registerAdmin);
 // router.route("/password/reset/:token").put(resetPassword);
 router.route("/logout").get(logout);
 router.route("/me").get(isAuthenticated, getUserDetails);
-router.route("/admin/me").get(isAuthenticated, getAdminDetails);
+router.route("/admin/me").get(isAuthenticatedAdmin, getAdminDetails);
 // router.route("/password/update").put(isAuthenticated, updatePassword);
 router.route("/me/update").put(isAuthenticated, updateProfile);
 router
   .route("/admin/users")
-  .get(isAuthenticated, authorizeRoles("admin"), getAllUser);
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllUser);
 router
   .route("/admin/user/:id")
-  .get(isAuthenticated, authorizeRoles("admin"), getSingleUser)
-  .put(isAuthenticated, authorizeRoles("admin"), updateUserRole)
-  .delete(isAuthenticated, authorizeRoles("admin"), deleteUser);
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getSingleUser)
+  .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateUserRole)
+  .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteUser);
 module.exports = router;

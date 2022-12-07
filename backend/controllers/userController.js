@@ -1,29 +1,34 @@
 const User = require("../models/userModel");
-const Admin =require("../Models/adminModel")
+const Admin = require("../models/adminModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const cloudinary = require("cloudinary");
-const client = require("twilio")(process.env.ACCOUNTSID,process.env.AUTHTOKEN);
-
+const client = require("twilio")(process.env.ACCOUNTSID, process.env.AUTHTOKEN);
 
 //Register Admin
 exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
+  const profileMyCloud = await cloudinary.v2.uploader.upload(
+    req.body.profileImage,
+    {
+      folder: "profileImage",
+      width: 150,
+      crop: "scale",
+    }
+  );
+  const certificateMyCloud = await cloudinary.v2.uploader.upload(
+    req.body.certificateImage,
+    {
+      folder: "certificateImage",
+      width: 150,
+      crop: "scale",
+    }
+  );
 
-   const profileMyCloud = await cloudinary.v2.uploader.upload(req.body.profileImage, {
-    folder: "profileImage",
-    width: 150,
-    crop: "scale",
-  });
-  const certificateMyCloud = await cloudinary.v2.uploader.upload(req.body.certificateImage, {
-    folder: "certificateImage",
-    width: 150,
-    crop: "scale",
-  });
-
-  const {category, name, contact ,address,fromTime,toTime,status } = req.body;
+  const { category, name, contact, address, fromTime, toTime, status } =
+    req.body;
   const admin = await Admin.create({
     category,
     name,
@@ -39,12 +44,10 @@ exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
     },
     fromTime,
     toTime,
-    status
+    status,
   });
   sendToken(admin, 201, res);
 });
-
-
 
 //Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -68,45 +71,44 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
   const { name, contact } = req.body;
   console.log(name, contact);
-  if (!name || !contact ) {
+  if (!name || !contact) {
     return next(new ErrorHandler("Please fill the all entries", 400));
   }
-  
-    const userExist = await User.findOne({ contact: contact });
 
-    if(userExist){
-      return next(new ErrorHandler("Successfully registered", 400));
-    }else{
-      const user = await User.create({
-        name,
-        contact
-      });
-      sendToken(user, 201, res);
-    }
+  const userExist = await User.findOne({ contact: contact });
+
+  if (userExist) {
+    return next(new ErrorHandler("Successfully registered", 400));
+  } else {
+    const user = await User.create({
+      name,
+      contact,
+    });
+    sendToken(user, 201, res);
+  }
 });
 
 //**  login phoneNumber and channel(sms/call) **
 exports.optVerify = catchAsyncErrors(async (req, res, next) => {
- 
-  const contact = req.query.phonenumber
+  const contact = req.query.phonenumber;
   const user = await User.findOne({ contact });
-    if (!user) {
-      return next(new ErrorHandler("Invalid Please Register ", 400));
-    } 
-    const admin = await Admin.findOne({ contact });
-    if (!user) {
-      return next(new ErrorHandler("Invalid Please Register ", 400));
-    }
+  if (!user) {
+    return next(new ErrorHandler("Invalid Please Register ", 400));
+  }
+  const admin = await Admin.findOne({ contact });
+  if (!user) {
+    return next(new ErrorHandler("Invalid Please Register ", 400));
+  }
   const optreq = await client.verify
-  .services(process.env.SERVICEID)
-  .verifications.create({
-    to: `+${req.query.phonenumber}`,
-    channel: req.query.channel,
-  });
-if (optreq) {
-  res.status(200).send(optreq);
-}
-})
+    .services(process.env.SERVICEID)
+    .verifications.create({
+      to: `+${req.query.phonenumber}`,
+      channel: req.query.channel,
+    });
+  if (optreq) {
+    res.status(200).send(optreq);
+  }
+});
 
 //**  verify phonenumber and code**
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
@@ -117,15 +119,14 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
       code: req.query.code,
     });
   if (verified) {
-   const loginUserExist = await User.findOne({
+    const loginUserExist = await User.findOne({
       contact: `+${req.query.phonenumber}`,
     });
     sendToken(verified, 200, res);
   } else {
     return next(new ErrorHandler("Invalid Credentials", 400));
   }
-
-})
+});
 // //Login User
 // exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 //   const { email, password } = req.body;
@@ -233,7 +234,7 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 });
 //Get User Details --User Own Details
 exports.getAdminDetails = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.user.id)
+  console.log(req.user.id);
   const user = await Admin.findById(req.user.id);
   res.status(200).json({ success: true, user });
 });

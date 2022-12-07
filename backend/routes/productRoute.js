@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { isAuthenticated, authorizeRoles } = require("../middleware/auth");
+const {
+  isAuthenticated,
+  authorizeRoles,
+  isAuthenticatedAdmin,
+} = require("../middleware/auth");
 const {
   getAllProduct,
   createProduct,
@@ -16,14 +20,14 @@ const {
 router.route("/products").get(getAllProduct);
 router
   .route("/admin/products")
-  .get(isAuthenticated, authorizeRoles("admin"), getAdminProducts);
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAdminProducts);
 router
   .route("/admin/product/new")
-  .post(isAuthenticated, authorizeRoles("admin"), createProduct);
+  .post(isAuthenticatedAdmin, authorizeRoles("admin"), createProduct);
 router
   .route("/admin/product/:id")
-  .put(isAuthenticated, authorizeRoles("admin"), updateProduct)
-  .delete(isAuthenticated, authorizeRoles("admin"), deleteProduct);
+  .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateProduct)
+  .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteProduct);
 
 router.route("/product/:id").get(getProductDetails);
 router.route("/review").put(isAuthenticated, createProductReview);

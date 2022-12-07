@@ -11,7 +11,7 @@ import Products from "./component/Product/Products.js";
 import Search from "./component/Product/Search.js";
 import LoginSignUp from "./component/User/LoginSignUp";
 import store from "./store";
-import { loadUser,loadadmin } from "./actions/userAction";
+import { loadUser, loadadmin } from "./actions/userAction";
 import UserOption from "./component/layout/Header/UserOptions.js";
 import { useSelector } from "react-redux";
 import Profile from "./component/User/Profile.js";
@@ -41,12 +41,12 @@ import UpdateUser from "./component/Admin/UpdateUser.js";
 import ProductReviews from "./component/Admin/ProductReviews.js";
 import ErrorPage from "./component/layout/NotFound/ErrorPage.js";
 import AdminLoginSignUp from "./component/User/AdminLoginSignUp";
+import AdminProfile from "./component/User/AdminProfile.js";
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
 import AddTest from "./component/Register/AddTest";
 import AdminDashborad from "./component/Register/AdminDashborad";
-import AdminProfile from "./component/Register/AdminProfile";
 function App() {
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
 
@@ -164,9 +164,13 @@ function App() {
           )}
           <Route path="*" element={<ErrorPage />} />
 
+          {isAuthenticated && (
+            <Route path="/admin/me" element={<AdminProfile />} />
+          )}
+
           <Route path="/Registration" element={<Registration />} />
           <Route path="/admindashboard" element={<AdminDashborad />} />
-          <Route path="/adminprofile" element={<AdminProfile />} />
+          {/* <Route path="/adminprofile" element={<AdminProfile />} /> */}
 
           <Route path="/addMedicine" element={<AddMedicine />} />
           <Route path="/addTest" element={<AddTest />} />
