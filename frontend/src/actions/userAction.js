@@ -7,9 +7,17 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
 
+  REGISTER_ADMIN_REQUEST,
+  REGISTER_ADMIN_SUCCESS,
+  REGISTER_ADMIN_FAIL,
+
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
+
+  LOAD_ADMIN_REQUEST,
+  LOAD_ADMIN_SUCCESS,
+  LOAD_ADMIN_FAIL,
 
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
@@ -66,11 +74,11 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// Register
+// Register -- user 
 export const register = (userData) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.post(`/api/v1/register`, userData, config);
     console.log(data);
@@ -78,6 +86,24 @@ export const register = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Register -- Admin 
+export const registerAdmin = (userData) => async (dispatch) => {
+  console.log(userData)
+  try {
+    dispatch({ type: REGISTER_ADMIN_REQUEST });
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+
+    const { data } = await axios.post(`/api/v1/admin/register`, userData, config);
+    console.log(data);
+    dispatch({ type: REGISTER_ADMIN_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({
+      type: REGISTER_ADMIN_FAIL,
       payload: error.response.data.message,
     });
   }
@@ -92,6 +118,18 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message  });
+  }
+};
+
+//Load admin -- backend mai get userDetails
+export const loadadmin = () => async (dispatch) => {
+  try {
+    dispatch({ type: LOAD_ADMIN_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/admin/me`);
+    dispatch({ type: LOAD_ADMIN_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({ type: LOAD_ADMIN_FAIL, payload: error.response.data.message  });
   }
 };
 

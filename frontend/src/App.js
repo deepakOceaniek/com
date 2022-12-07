@@ -11,7 +11,7 @@ import Products from "./component/Product/Products.js";
 import Search from "./component/Product/Search.js";
 import LoginSignUp from "./component/User/LoginSignUp";
 import store from "./store";
-import { loadUser } from "./actions/userAction";
+import { loadUser,loadadmin } from "./actions/userAction";
 import UserOption from "./component/layout/Header/UserOptions.js";
 import { useSelector } from "react-redux";
 import Profile from "./component/User/Profile.js";
@@ -40,6 +40,7 @@ import UserList from "./component/Admin/UserList.js";
 import UpdateUser from "./component/Admin/UpdateUser.js";
 import ProductReviews from "./component/Admin/ProductReviews.js";
 import ErrorPage from "./component/layout/NotFound/ErrorPage.js";
+import AdminLoginSignUp from "./component/User/AdminLoginSignUp";
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 import Registration from "./component/Register/Registration";
 import AddMedicine from "./component/Register/AddMedicine";
@@ -56,15 +57,17 @@ function App() {
 
     setStripeApiKey(data.stripeApiKey);
   }
-  console.log(isAuthenticated);
-  console.log(stripeApiKey);
+  // console.log(isAuthenticated);
+  // console.log(stripeApiKey);
   useEffect(() => {
     WebFont.load({
       google: {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
+    store.dispatch(loadadmin());
     store.dispatch(loadUser());
+
     getStripeApiKey();
   }, []);
 
@@ -96,6 +99,7 @@ function App() {
           <Route path="/password/reset/:token" element={<ResetPassword />} />
 
           <Route path="/login" element={<LoginSignUp />} />
+          <Route path="/admin/login" element={<AdminLoginSignUp />} />
           <Route path="/cart" element={<Cart />} />
           {isAuthenticated && (
             <Route path="/login/shipping" element={<Shipping />} />

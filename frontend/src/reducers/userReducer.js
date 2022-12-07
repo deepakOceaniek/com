@@ -7,9 +7,17 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
 
+  REGISTER_ADMIN_REQUEST,
+  REGISTER_ADMIN_SUCCESS,
+  REGISTER_ADMIN_FAIL,
+
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
+  
+  LOAD_ADMIN_REQUEST,
+  LOAD_ADMIN_SUCCESS,
+  LOAD_ADMIN_FAIL,
 
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
@@ -58,6 +66,8 @@ export const userReducer = (state = { user: {} }, action) => {
     case LOGIN_REQUEST:
     case REGISTER_USER_REQUEST:
     case LOAD_USER_REQUEST:
+    case REGISTER_ADMIN_REQUEST:
+      case LOAD_ADMIN_REQUEST:
       return {
         loading: true,
         isAuthenticated: false,
@@ -65,6 +75,8 @@ export const userReducer = (state = { user: {} }, action) => {
     case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:
     case LOAD_USER_SUCCESS:
+      case REGISTER_ADMIN_SUCCESS:
+        case LOAD_ADMIN_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -80,6 +92,8 @@ export const userReducer = (state = { user: {} }, action) => {
       };
     case LOGIN_FAIL:
     case REGISTER_USER_FAIL:
+      case REGISTER_ADMIN_FAIL:
+        case LOAD_ADMIN_FAIL:
       return {
         ...state,
         loading: false,

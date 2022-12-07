@@ -14,7 +14,7 @@
 .LoginSignUpBox {
   background-color: white;
   width: 25vw;
-  height: 70vh;
+  height: 90vh;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -50,10 +50,13 @@
   align-items: center;
   margin: auto;
   padding: 2vmax;
+  padding-top: 7vmax;
   justify-content: space-evenly;
-  height: 70%;
+  height: 60%;
   transition: all 0.5s;
+  overflow-y: scroll;
 }
+
 
 .signUpForm {
   transform: translateY(-100%) translateX(-100vmax);

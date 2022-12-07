@@ -6,11 +6,11 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 import { useSelector, useDispatch } from "react-redux";
-import { login, clearErrors, register } from "../../actions/userAction";
+import { login, clearErrors, registerAdmin } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import Loader from "../layout/Loader/Loader";
 
-const LoginSignUp = () => {
+const AdminLoginSignUp = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
@@ -25,39 +25,60 @@ const LoginSignUp = () => {
   const switcherTab = useRef(null);
 
   // const [loginName, setLoginEmail] = useState("");
-  const [loginContact, setLoginContact] = useState("");
+  const [loginContact, setLoginPassword] = useState("");
   const [user, setUser] = useState({
+    category:"",
     name: "",
     contact: "",
-    
+    address:"",
+    fromTime :"",
+    toTime:"",
+    status:""
   });
-  const { name, contact} = user;
-  // const [avatar, setAvatar] = useState("/Profile.png");
-  // const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const {category, name, contact, address, fromTime,toTime,status} = user;
+  const [profileImage, setProfileImage] = useState("/Profile.png");
+  const [profilePreview, setProfilePreview] = useState("/Profile.png");
+  const [certificateImage, setCertificateImage] = useState("/Profile.png");
+  const [certificatePreview, setCertificatePreview] = useState("/Profile.png");
   const registerDataChange = (e) => {
-    // if (e.target.name === "avatar") {
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     if (reader.readyState === 2) {
-    //       // setAvatarPreview(reader.result);
-    //       // setAvatar(reader.result);
-    //     }
-    //   };
-    //   reader.readAsDataURL(e.target.files[0]);
-    // } else {
+    if (e.target.name === "profileImage") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setProfilePreview(reader.result);
+          setProfileImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
       setUser({ ...user, [e.target.name]: e.target.value });
-    // }
+    }
+    if (e.target.name === "certificateImage") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setCertificatePreview(reader.result);
+          setCertificateImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    }
   };
-  const redirect = location.search ? location.search.split("=")[1] : "/account";
+  
+  // const redirect = location.search ? location.search.split("=")[1] : "/account";
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-      Navigate(redirect);
+      Navigate("/admin/dashboard");
     }
-  }, [dispatch, alert, error, isAuthenticated, Navigate, redirect]);
+  }, [dispatch, alert, error, isAuthenticated, Navigate, 
+    // redirect
+  ]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
@@ -84,12 +105,17 @@ const LoginSignUp = () => {
     e.preventDefault();
     const myForm = new FormData();
 
+    myForm.append("category", category);
     myForm.append("name", name);
     myForm.append("contact", contact);
-    // myForm.append("password", password);
-    // myForm.append("avatar", avatar);
+    myForm.append("address", address);
+    myForm.append("fromTime", fromTime);
+    myForm.append("toTime", toTime);
+    myForm.append("status", status);
+    myForm.append("profileImage", profileImage);
+    myForm.append("certificateImage", certificateImage);
 
-    dispatch(register(myForm));
+    dispatch(registerAdmin(myForm));
   };
 
   return (
@@ -125,7 +151,7 @@ const LoginSignUp = () => {
                   placeholder="Contact"
                   required
                   value={loginContact}
-                  onChange={(e) => setLoginContact(e.target.value)}
+                  onChange={(e) => setLoginPassword(e.target.value)}
                 />
               </div>
               {/* <Link to="/password/forgot">Forget Password ?</Link> */}
@@ -137,6 +163,17 @@ const LoginSignUp = () => {
               encType="multipart/form-data"
               onSubmit={registerSubmit}
             >
+                <div className="signUpCategory">
+                <FaceIcon />
+                <input
+                  type="text"
+                  placeholder="Category"
+                  required
+                  name="category"
+                  value={category}
+                  onChange={registerDataChange}
+                />
+              </div>
               <div className="signUpName">
                 <FaceIcon />
                 <input
@@ -159,27 +196,72 @@ const LoginSignUp = () => {
                   onChange={registerDataChange}
                 />
               </div>
-              {/* <div className="signUpPassword">
-                <LockOpenIcon />
+              <div className="signUpAddress">
+                <MailOutlineIcon />
                 <input
-                  type="password"
-                  placeholder="Password"
+                  type="text"
+                  placeholder="Address"
                   required
-                  name="password"
-                  value={password}
+                  name="address"
+                  value={address}
                   onChange={registerDataChange}
                 />
-              </div> */}
-              {/* <div id="registerImage">
-                <img src={avatarPreview} alt="Avatar Preview" />
+              </div>
+              <div className="signUpFromTime">
+                <MailOutlineIcon />
+                <input
+                  type="time"
+                  placeholder="Opening Time"
+                  required
+                  name="fromTime"
+                  value={fromTime}
+                  onChange={registerDataChange}
+                />
+              </div>
+              <div className="signUpToTime">
+                <MailOutlineIcon />
+                <input
+                  type="time"
+                  placeholder="Closing Time"
+                  required
+                  name="toTime"
+                  value={toTime}
+                  onChange={registerDataChange}
+                />
+              </div>
+              <div className="signUpStatus">
+                <MailOutlineIcon />
+                <input
+                  type="text"
+                  placeholder="Status"
+                  required
+                  name="status"
+                  value={status}
+                  onChange={registerDataChange}
+                />
+              </div>
+         
+              <div id="registerImage">
+                <img src={profilePreview} alt="Profile Preview" />
                 <input
                   type="file"
-                  name="avatar"
+                  name="profileImage"
                   value={""}
                   // value="image/*"
                   onChange={registerDataChange}
                 />
-              </div> */}
+              </div>
+
+              <div id="registerImage">
+                <img src={certificatePreview} alt="Certificate Preview" />
+                <input
+                  type="file"
+                  name="certificateImage"
+                  value={""}
+                  // value="image/*"
+                  onChange={registerDataChange}
+                />
+              </div>
               <input type="submit" value="Register" className="signUpBtn" />
             </form>
           </div>
@@ -189,4 +271,4 @@ const LoginSignUp = () => {
   );
 };
 
-export default LoginSignUp;
+export default AdminLoginSignUp;

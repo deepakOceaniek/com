@@ -4,25 +4,33 @@ const {
   registerUser,
   loginUser,
   logout,
-  forgetPassword,
-  resetPassword,
+  // forgetPassword,
+  // resetPassword,
   getUserDetails,
-  updatePassword,
+  // updatePassword,
   updateProfile,
   getAllUser,
   getSingleUser,
   updateUserRole,
   deleteUser,
+  optVerify,
+  registerAdmin,
+  getAdminDetails,
 } = require("../controllers/userController");
 const { isAuthenticated, authorizeRoles } = require("../middleware/auth");
 
-router.route("/login").post(loginUser);
+router.route("/login").get(optVerify);
+router.route("/verify").get(loginUser);
+
+// router.route("/login").post(loginUser);
 router.route("/register").post(registerUser);
-router.route("/password/forgot").post(forgetPassword);
-router.route("/password/reset/:token").put(resetPassword);
+router.route("/admin/register").post(registerAdmin);
+// router.route("/password/forgot").post(forgetPassword);
+// router.route("/password/reset/:token").put(resetPassword);
 router.route("/logout").get(logout);
 router.route("/me").get(isAuthenticated, getUserDetails);
-router.route("/password/update").put(isAuthenticated, updatePassword);
+router.route("/admin/me").get(isAuthenticated, getAdminDetails);
+// router.route("/password/update").put(isAuthenticated, updatePassword);
 router.route("/me/update").put(isAuthenticated, updateProfile);
 router
   .route("/admin/users")
