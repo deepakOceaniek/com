@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createProduct } from "../../actions/productAction";
+import { clearErrors, createCategory } from "../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -19,26 +19,23 @@ const NewCategory = () => {
   const alert = useAlert();
   const Navigate = useNavigate();
 
-  const { loading, error, success } = useSelector((state) => state.newProduct);
+  const { loading, error, success } = useSelector((state) => state.newCategory);
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [Stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
 
-  const categories = [
-    "laptop",
-    "footware",
-    "bottom",
-    "tops",
-    "attire",
-    "camera",
-    "smartPhone",
-    "fruit",
-  ];
+  const [categoryImage, setCategoryImage] = useState();
+  const [categoryPreview, setCategoryPreview] = useState("/Profile.png");
+
+  // const categories = [
+  //   "laptop",
+  //   "footware",
+  //   "bottom",
+  //   "tops",
+  //   "attire",
+  //   "camera",
+  //   "smartPhone",
+  //   "fruit",
+  // ];
 
   useEffect(() => {
     if (error) {
@@ -47,7 +44,7 @@ const NewCategory = () => {
     }
 
     if (success) {
-      alert.success("Product Created Successfully");
+      alert.success("Category Created Successfully");
       Navigate("/admin/dashboard");
       dispatch({ type: NEW_CATEGORY_RESET });
     }
@@ -58,41 +55,28 @@ const NewCategory = () => {
 
     const myForm = new FormData();
 
-    myForm.set("name", name);
-    myForm.set("price", price);
-    myForm.set("description", description);
-    myForm.set("category", category);
-    myForm.set("Stock", Stock);
+    myForm.set("categoryName", categoryName);
+    myForm.set("categoryImage", categoryImage);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
-    dispatch(createProduct(myForm));
+    dispatch(createCategory(myForm));
   };
 
   const createProductImagesChange = (e) => {
-    const files = Array.from(e.target.files);
+    const reader = new FileReader();
 
-    setImages([]);
-    setImagesPreview([]);
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setCategoryPreview(reader.result);
+        setCategoryImage(reader.result);
+      }
+    };
 
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
     <Fragment>
-      <MetaData title="Create Product" />
+      <MetaData title="Create Category" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
@@ -101,76 +85,27 @@ const NewCategory = () => {
             encType="multipart/form-data"
             onSubmit={createProductSubmitHandler}
           >
-            <h1>Create Product</h1>
+            <h1>Create Category</h1>
 
             <div>
               <SpellcheckIcon />
               <input
                 type="text"
-                placeholder="Product Name"
+                placeholder="Category Name"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="number"
-                placeholder="Price"
-                required
-                onChange={(e) => setPrice(e.target.value)}
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
               />
             </div>
 
-            <div>
-              <DescriptionIcon />
-
-              <textarea
-                placeholder="Product Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
-            </div>
-
-            <div>
-              <AccountTreeIcon />
-              <select onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Choose Category</option>
-                {categories.map((cate) => (
-                  <option key={cate} value={cate}>
-                    {cate}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="Stock"
-                required
-                onChange={(e) => setStock(e.target.value)}
-              />
-            </div>
-
-            <div id="createProductFormFile">
+            <div id="updateProfileImage">
+              <img src={categoryPreview} alt="Avatar Preview" />
               <input
                 type="file"
                 name="avatar"
                 accept="image/*"
                 onChange={createProductImagesChange}
-                multiple
               />
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
             </div>
 
             <Button

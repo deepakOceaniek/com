@@ -4,51 +4,39 @@ import {
   ADMIN_PRODUCT_REQUEST,
   ADMIN_PRODUCT_SUCCESS,
   ADMIN_PRODUCT_FAIL,
-
   NEW_PRODUCT_REQUEST,
   NEW_PRODUCT_SUCCESS,
   NEW_PRODUCT_FAIL,
-
   UPDATE_PRODUCT_REQUEST,
   UPDATE_PRODUCT_SUCCESS,
   UPDATE_PRODUCT_FAIL,
-
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
-
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
-
   ALL_REVIEW_REQUEST,
   ALL_REVIEW_SUCCESS,
   ALL_REVIEW_FAIL,
-  
   DELETE_REVIEW_REQUEST,
   DELETE_REVIEW_SUCCESS,
   DELETE_REVIEW_FAIL,
-
   ADMIN_CATEGORY_REQUEST,
   ADMIN_CATEGORY_SUCCESS,
   ADMIN_CATEGORY_FAIL,
-
   NEW_CATEGORY_REQUEST,
   NEW_CATEGORY_SUCCESS,
   NEW_CATEGORY_FAIL,
-
   UPDATE_CATEGORY_REQUEST,
   UPDATE_CATEGORY_SUCCESS,
   UPDATE_CATEGORY_FAIL,
-
   DELETE_CATEGORY_REQUEST,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_FAIL,
-
   CATEGORY_DETAILS_REQUEST,
   CATEGORY_DETAILS_SUCCESS,
   CATEGORY_DETAILS_FAIL,
-
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -144,7 +132,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
-// Get Products Details admin 
+// Get Products Details admin
 export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -207,9 +195,10 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
 export const getAdminCategory = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CATEGORY_REQUEST });
+    console.log("data");
 
     const { data } = await axios.get("/api/v1/admin/categories");
-
+    console.log(data);
     dispatch({
       type: ADMIN_CATEGORY_SUCCESS,
       payload: data.category,
@@ -230,12 +219,13 @@ export const createCategory = (categoryData) => async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-
+    console.log(categoryData);
     const { data } = await axios.post(
       `/api/v1/admin/category/new`,
       categoryData,
       config
     );
+    console.log(data);
 
     dispatch({
       type: NEW_CATEGORY_SUCCESS,
@@ -295,7 +285,7 @@ export const deleteCategory = (id) => async (dispatch) => {
   }
 };
 
-// Get Category Details admin 
+// Get Category Details admin
 export const getCategoryDetails = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -313,7 +303,6 @@ export const getCategoryDetails = (id) => async (dispatch) => {
     });
   }
 };
-
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

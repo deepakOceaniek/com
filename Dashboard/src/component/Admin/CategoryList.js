@@ -4,7 +4,7 @@ import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  getAdminProduct,
+  getAdminCategory,
   deleteProduct,
 } from "../../actions/productAction";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ import MetaData from "../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "./Sidebar";
-import { DELETE_CATEGORY_RESET} from "../../constants/productConstants";
+import { DELETE_CATEGORY_RESET } from "../../constants/productConstants";
 
 const CategoryList = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const CategoryList = () => {
 
   const alert = useAlert();
 
-  const { error, category } = useSelector((state) => state.products);
+  const { error, category } = useSelector((state) => state.categories);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -49,7 +49,7 @@ const CategoryList = () => {
       dispatch({ type: DELETE_CATEGORY_RESET });
     }
 
-    dispatch(getAdminProduct());
+    dispatch(getAdminCategory());
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [

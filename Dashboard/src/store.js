@@ -12,6 +12,9 @@ import {
   productReducer,
   productReviewsReducer,
   reviewReducer,
+  categoriesReducer,
+  newCategoryReducer,
+  categoryDetailsReducer,
 } from "./reducers/productReducer";
 import {
   userReducer,
@@ -27,19 +30,21 @@ import {
 
 const reducer = combineReducers({
   products: productsReducer, // all product and category
+  categories: categoriesReducer,
   productDetails: productDetailsReducer, // product and category details
+  categoryDetails: categoryDetailsReducer,
   user: userReducer,
   profile: profileReducer,
   orderDetails: orderDetailsReducer,
-  newProduct :newProductReducer, //add product and category
-  product : productReducer, // update and delete products and category
+  newProduct: newProductReducer, //add product and category
+  newCategory: newCategoryReducer,
+  product: productReducer, // update and delete products and category
   allOrders: allOrdersReducer,
   order: orderReducer,
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
-  productReviews :productReviewsReducer,
-  review : reviewReducer
-
+  productReviews: productReviewsReducer,
+  review: reviewReducer,
 });
 
 let initialState = {

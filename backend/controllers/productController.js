@@ -230,16 +230,18 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 
 // All Category 
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
-  const category = await Category.find();
+  console.log("get")
+  // const category = await Category.find();
 
   res.status(200).json({
     success: true,
-    category,
+    // category,
   });
 });
 
 // Add Category ---admin 
 exports.addCategory = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.body)
   const myCloud = await cloudinary.v2.uploader.upload(req.body.categoryImage, {
     folder: "category",
     width: 150,

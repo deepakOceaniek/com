@@ -23,7 +23,7 @@ const UpdateCategory = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
 
-  const { error, product } = useSelector((state) => state.productDetails);
+  const { error, category } = useSelector((state) => state.categoryDetails);
 
   const {
     loading,
@@ -34,7 +34,7 @@ const UpdateCategory = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryName, setCategoryName] = useState("");
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
@@ -54,15 +54,15 @@ const UpdateCategory = () => {
   const productId = id;
 
   useEffect(() => {
-    if (product && product._id !== productId) {
+    if (category && category._id !== productId) {
       dispatch(getProductDetails(productId));
     } else {
-      setName(product.name);
-      setDescription(product.description);
-      setPrice(product.price);
-      setCategory(product.category);
-      setStock(product.stock);
-      setOldImages(product.images);
+      setName(category.name);
+      setDescription(category.description);
+      setPrice(category.price);
+      setCategoryName(category.categoryName);
+      setStock(category.stock);
+      setOldImages(category.images);
     }
     if (error) {
       alert.error(error);
@@ -86,7 +86,7 @@ const UpdateCategory = () => {
     Navigate,
     isUpdated,
     productId,
-    product,
+    category,
     updateError,
   ]);
 
@@ -98,7 +98,7 @@ const UpdateCategory = () => {
     myForm.set("name", name);
     myForm.set("price", price);
     myForm.set("description", description);
-    myForm.set("category", category);
+    myForm.set("categoryName", categoryName);
     myForm.set("stock", stock);
 
     images.forEach((image) => {
@@ -177,8 +177,8 @@ const UpdateCategory = () => {
             <div>
               <AccountTreeIcon />
               <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
               >
                 <option value="">Choose Category</option>
                 {categories.map((cate) => (

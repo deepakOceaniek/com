@@ -10,6 +10,7 @@ const client = require("twilio")(process.env.ACCOUNTSID, process.env.AUTHTOKEN);
 
 //Register Admin
 exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.body);
   const profileMyCloud = await cloudinary.v2.uploader.upload(
     req.body.profileImage,
     {
@@ -289,7 +290,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ success: true });
 });
 
-
 //Update Admin Profile
 exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
@@ -308,11 +308,14 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
 
     await cloudinary.v2.uploader.destroy(imageId);
 
-    const profileMyCloud = await cloudinary.v2.uploader.upload(req.body.profileImage, {
-      folder: "profileImage",
-      width: 150,
-      crop: "scale",
-    });
+    const profileMyCloud = await cloudinary.v2.uploader.upload(
+      req.body.profileImage,
+      {
+        folder: "profileImage",
+        width: 150,
+        crop: "scale",
+      }
+    );
 
     newUserData.profileImage = {
       public_id: profileMyCloud.public_id,
@@ -325,11 +328,14 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
 
     await cloudinary.v2.uploader.destroy(imageId);
 
-    const certificateMyCloud = await cloudinary.v2.uploader.upload(req.body.certificateImage, {
-      folder: "avatars",
-      width: 150,
-      crop: "scale",
-    });
+    const certificateMyCloud = await cloudinary.v2.uploader.upload(
+      req.body.certificateImage,
+      {
+        folder: "avatars",
+        width: 150,
+        crop: "scale",
+      }
+    );
 
     newUserData.certificateImage = {
       public_id: certificateMyCloud.public_id,
@@ -409,5 +415,3 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   await user.remove();
   res.status(200).json({ success: true, message: "User deleted successfully" });
 });
-
-

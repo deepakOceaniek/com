@@ -21,9 +21,9 @@ import ProductReviews from "./component/Admin/ProductReviews.js";
 import ErrorPage from "./component/layout/NotFound/ErrorPage.js";
 import AdminLoginSignUp from "./component/User/AdminLoginSignUp";
 import AdminProfile from "./component/User/AdminProfile.js";
-import NewCategory from "./component/Admin/NewCategory.js"
-import CategoryList from "./component/Admin/CategoryList.js"
-import UpdateCategory from "./component/Admin/UpdateCategory.js"
+import NewCategory from "./component/Admin/NewCategory.js";
+import CategoryList from "./component/Admin/CategoryList.js";
+import UpdateCategory from "./component/Admin/UpdateCategory.js";
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
 // import AddMedicine from "./component/Register/AddMedicine";
@@ -99,7 +99,6 @@ function App() {
           {isAuthenticated && (
             <Route path="/admin/me" element={<AdminProfile />} />
           )}
-         
 
           {isAuthenticated && (
             <Route path="/admin/categories" element={<CategoryList />} />
