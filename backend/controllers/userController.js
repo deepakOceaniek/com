@@ -260,27 +260,83 @@ exports.getAdminDetails = catchAsyncErrors(async (req, res, next) => {
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
-    email: req.body.email,
+    contact: req.body.contact,
+  };
+  // // Cloudinary
+  // if (req.body.avatar !== "") {
+  //   const user = await User.findById(req.user.id);
+  //   const imageId = user.avatar.public_id;
+
+  //   await cloudinary.v2.uploader.destroy(imageId);
+
+  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  //     folder: "avatars",
+  //     width: 150,
+  //     crop: "scale",
+  //   });
+
+  //   newUserData.avatar = {
+  //     public_id: myCloud.public_id,
+  //     url: myCloud.secure_url,
+  //   };
+  // }
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  console.log(user);
+  res.status(200).json({ success: true });
+});
+
+
+//Update Admin Profile
+exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    category: req.body.category,
+    name: req.body.name,
+    contact: req.body.contact,
+    address: req.body.address,
+    fromTime: req.body.fromTime,
+    toTime: req.body.toTime,
+    status: req.body.status,
   };
   // Cloudinary
-  if (req.body.avatar !== "") {
-    const user = await User.findById(req.user.id);
-    const imageId = user.avatar.public_id;
+  if (req.body.profileImage !== "") {
+    const user = await Admin.findById(req.user.id);
+    const imageId = user.profileImage.public_id;
 
     await cloudinary.v2.uploader.destroy(imageId);
 
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    const profileMyCloud = await cloudinary.v2.uploader.upload(req.body.profileImage, {
+      folder: "profileImage",
+      width: 150,
+      crop: "scale",
+    });
+
+    newUserData.profileImage = {
+      public_id: profileMyCloud.public_id,
+      url: profileMyCloud.secure_url,
+    };
+  }
+  if (req.body.certificateImage !== "") {
+    const user = await Admin.findById(req.user.id);
+    const imageId = user.certificateImage.public_id;
+
+    await cloudinary.v2.uploader.destroy(imageId);
+
+    const certificateMyCloud = await cloudinary.v2.uploader.upload(req.body.certificateImage, {
       folder: "avatars",
       width: 150,
       crop: "scale",
     });
 
-    newUserData.avatar = {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
+    newUserData.certificateImage = {
+      public_id: certificateMyCloud.public_id,
+      url: certificateMyCloud.secure_url,
     };
   }
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  const user = await Admin.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -353,3 +409,5 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   await user.remove();
   res.status(200).json({ success: true, message: "User deleted successfully" });
 });
+
+

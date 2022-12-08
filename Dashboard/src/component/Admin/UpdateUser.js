@@ -16,7 +16,7 @@ import {
 } from "../../actions/userAction";
 import Loader from "../layout/Loader/Loader";
 
-const UpdateUser = ({ history, match }) => {
+const UpdateUser = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const {id} = useParams()

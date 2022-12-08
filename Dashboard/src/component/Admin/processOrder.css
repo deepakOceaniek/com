@@ -2,6 +2,7 @@
     margin: 5vmax 0;
     padding: 3vmax;
     background-color: white;
+    display: block;
   }
   
   .updateOrderForm > div {

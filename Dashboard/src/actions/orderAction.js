@@ -1,12 +1,4 @@
 import {
-    CREATE_ORDER_REQUEST,
-    CREATE_ORDER_SUCCESS,
-    CREATE_ORDER_FAIL,
-
-    MY_ORDERS_REQUEST,
-    MY_ORDERS_SUCCESS,
-    MY_ORDERS_FAIL,
-
     ALL_ORDERS_REQUEST,
     ALL_ORDERS_SUCCESS,
     ALL_ORDERS_FAIL,
@@ -29,43 +21,6 @@ import {
 
 import axios from "axios";
 
-// Create Order
-export const createOrder = (order) => async (dispatch) => {
-  try {
-    dispatch({ type: CREATE_ORDER_REQUEST });
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const { data } = await axios.post("/api/v1/order/new", order, config);
-
-    dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: CREATE_ORDER_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
-
-// My Orders
-export const myOrders = () => async (dispatch) => {
-    try {
-      dispatch({ type: MY_ORDERS_REQUEST });
-  
-      const { data } = await axios.get("/api/v1/orders/me");
-  
-      dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
-    } catch (error) {
-      dispatch({
-        type: MY_ORDERS_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
-
   // Get All Orders (admin)
 export const getAllOrders = () => async (dispatch) => {
   try {
@@ -82,7 +37,7 @@ export const getAllOrders = () => async (dispatch) => {
   }
 };
 
-// Update Order
+// Update Order --admin
 export const updateOrder = (id, order) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ORDER_REQUEST });
@@ -107,7 +62,7 @@ export const updateOrder = (id, order) => async (dispatch) => {
   }
 };
 
-// Delete Order
+// Delete Order -- admin
 export const deleteOrder = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ORDER_REQUEST });
@@ -123,7 +78,7 @@ export const deleteOrder = (id) => async (dispatch) => {
   }
 };
 
-  // Get Order Details
+  // Get Order Details 
 export const getOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ORDER_DETAILS_REQUEST });
@@ -139,7 +94,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
   }
 };
 
-// Clearing Errors
+// Clearing Errors 
 export const clearErrors = () => async (dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
   };

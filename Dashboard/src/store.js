@@ -8,7 +8,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productsReducer,
   productDetailsReducer,
-  newReviewReducer,
   newProductReducer,
   productReducer,
   productReviewsReducer,
@@ -16,33 +15,24 @@ import {
 } from "./reducers/productReducer";
 import {
   userReducer,
-  forgotPasswordReducer,
   profileReducer,
   allUsersReducer,
   userDetailsReducer,
 } from "./reducers/userReducer";
-import { cardReducer } from "./reducers/cartReducer";
 import {
   allOrdersReducer,
-  myOrdersReducer,
-  newOrderReducer,
   orderDetailsReducer,
   orderReducer,
 } from "./reducers/orderReducer";
 
 const reducer = combineReducers({
-  products: productsReducer,
-  productDetails: productDetailsReducer,
+  products: productsReducer, // all product and category
+  productDetails: productDetailsReducer, // product and category details
   user: userReducer,
   profile: profileReducer,
-  forgotPassword: forgotPasswordReducer,
-  cart: cardReducer,
-  newOrder: newOrderReducer,
-  myOrders: myOrdersReducer,
   orderDetails: orderDetailsReducer,
-  newReview: newReviewReducer,
-  newProduct :newProductReducer,
-  product : productReducer,
+  newProduct :newProductReducer, //add product and category
+  product : productReducer, // update and delete products and category
   allOrders: allOrdersReducer,
   order: orderReducer,
   allUsers: allUsersReducer,
@@ -53,14 +43,14 @@ const reducer = combineReducers({
 });
 
 let initialState = {
-  cart: {
-    cartItems: localStorage.getItem("cartItems")
-      ? JSON.parse(localStorage.getItem("cartItems"))
-      : [],
-    shippingInfo: localStorage.getItem("shippingInfo")
-      ? JSON.parse(localStorage.getItem("shippingInfo"))
-      : {},
-  },
+  // cart: {
+  //   cartItems: localStorage.getItem("cartItems")
+  //     ? JSON.parse(localStorage.getItem("cartItems"))
+  //     : [],
+  //   shippingInfo: localStorage.getItem("shippingInfo")
+  //     ? JSON.parse(localStorage.getItem("shippingInfo"))
+  //     : {},
+  // },
 };
 
 const middleware = [thunk];

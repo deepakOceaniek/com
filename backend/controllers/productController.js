@@ -1,4 +1,6 @@
 const Product = require("../models/productModel");
+const Category =require("../Models/categoryModel")
+
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const ApiFeatures = require("../utils/apiFeatures");
@@ -223,4 +225,88 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
   });
+});
+
+
+// All Category 
+exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
+  const category = await Category.find();
+
+  res.status(200).json({
+    success: true,
+    category,
+  });
+});
+
+// Add Category ---admin 
+exports.addCategory = catchAsyncErrors(async (req, res, next) => {
+  const myCloud = await cloudinary.v2.uploader.upload(req.body.categoryImage, {
+    folder: "category",
+    width: 150,
+    crop: "scale",
+  });
+  const { categroyName} = req.body;
+  console.log(categroyName);
+  const category = await Category.create({
+    categroyName,
+    categoryImage: {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    },
+  });
+  res.status(201).json({
+    success: true,
+  });
+});
+
+
+//Update User Profile
+exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
+  const newCategoryData = {
+    categroyName: req.body.categroyName,
+   
+  };
+  // Cloudinary
+  if (req.body.categoryImage !== "") {
+    const category = await Category.findById(req.user.id);
+    const imageId = category.categoryImage.public_id;
+
+    await cloudinary.v2.uploader.destroy(imageId);
+
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.categoryImage, {
+      folder: "categoryImage",
+      width: 150,
+      crop: "scale",
+    });
+
+    newCategoryData.categoryImage = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
+  const category = await Category.findByIdAndUpdate(req.user.id, newCategoryData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  console.log(category);
+  res.status(200).json({ success: true, category});
+});
+
+//Delete category --admin
+exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
+  // We will remove cloudinary later
+
+  const category = await User.findById(req.params.id);
+  if (!category) {
+    return next(
+      new ErrorHandler(`Category Does Not Exist with Id: ${req.params.id}`, 400)
+    );
+  }
+
+  const imageId = category.categoryImage.public_id;
+  await cloudinary.v2.uploader.destroy(imageId);
+
+  await category.remove();
+  res.status(200).json({ success: true, message: "Category deleted successfully" });
 });

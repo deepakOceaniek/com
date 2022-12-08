@@ -11,6 +11,9 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import RateReviewIcon from "@material-ui/icons/RateReview";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import UsbIcon from '@material-ui/icons/Usb';
 
 const Sidebar = () => {
   return (
@@ -30,7 +33,7 @@ const Sidebar = () => {
         >
           <TreeItem nodeId="1" label="Products">
             <Link to="/admin/products">
-              <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
+              <TreeItem nodeId="2" label="All" icon={<FormatListBulletedIcon />} />
             </Link>
 
             <Link to="/admin/product">
@@ -56,6 +59,22 @@ const Sidebar = () => {
           Reviews
         </p>
       </Link>
+      <Link>
+      <TreeView
+          defaultCollapseIcon={<VerticalAlignTopIcon />}
+          defaultExpandIcon={<UsbIcon />}
+        >
+          <TreeItem nodeId="1" label="Category">
+            <Link to="/admin/categories">
+              <TreeItem nodeId="2" label="All" icon={<FormatListBulletedIcon />} />
+            </Link>
+
+            <Link to="/admin/category">
+              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+            </Link>
+          </TreeItem>
+        </TreeView>
+        </Link>
     </div>
   );
 };

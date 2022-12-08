@@ -17,7 +17,7 @@ import SideBar from "./Sidebar";
 import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
 import { useParams, useNavigate } from "react-router-dom";
 
-const UpdateProduct = () => {
+const UpdateCategory = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
@@ -237,4 +237,4 @@ const UpdateProduct = () => {
   );
 };
 
-export default UpdateProduct;
+export default UpdateCategory;

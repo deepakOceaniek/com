@@ -16,6 +16,8 @@ const {
   optVerify,
   registerAdmin,
   getAdminDetails,
+  updateAdminProfile,
+  getAllCategory
 } = require("../controllers/userController");
 const {
   isAuthenticated,
@@ -33,9 +35,10 @@ router.route("/admin/register").post(registerAdmin);
 // router.route("/password/reset/:token").put(resetPassword);
 router.route("/logout").get(logout);
 router.route("/me").get(isAuthenticated, getUserDetails);
-router.route("/admin/me").get(isAuthenticatedAdmin, getAdminDetails);
-// router.route("/password/update").put(isAuthenticated, updatePassword);
 router.route("/me/update").put(isAuthenticated, updateProfile);
+// router.route("/password/update").put(isAuthenticated, updatePassword);
+router.route("/admin/me").get(isAuthenticatedAdmin, authorizeRoles("admin"), getAdminDetails);
+router.route("/admin/me/update").put(isAuthenticatedAdmin,  authorizeRoles("admin"), updateAdminProfile);
 router
   .route("/admin/users")
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllUser);
