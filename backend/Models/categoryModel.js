@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 const categorySchema = mongoose.Schema({
   categoryName: {
     type: String,
-    required: [true, "please Enter Your Name"],
-    maxLength: [30, "Name cannot exceed 30 characters "],
-    minLength: [4, "Name Should have more than 4 characters "],
+    required: [true, "please Enter Category name"],
+ 
   },
 
   categoryImage: {

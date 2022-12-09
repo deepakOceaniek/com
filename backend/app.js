@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
 const dotenv = require("dotenv");
 
 const cloudinary = require("cloudinary");
@@ -7,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middleware/error");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-
+app.use(morgan("dev"));
 app.use(express.json({ limit: "100mb" }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));

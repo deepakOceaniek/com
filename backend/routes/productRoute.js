@@ -15,10 +15,11 @@ const {
   getAllProductReviews,
   deleteReview,
   getAdminProducts,
-  addCategory,
   getAllCategory,
+  addCategory,
   updateCategory,
   deleteCategory,
+  getCategoryDetails,
 } = require("../controllers/productController");
 
 router.route("/products").get(getAllProduct);
@@ -39,13 +40,13 @@ router
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
 router
-  .route("admin/categories")
-  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllCategory);
+  .route("/admin/allcategory")
+  .get(getAllCategory);
 router
-  .route("admin/category/new")
+  .route("/admin/category/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addCategory);
 router
-  .route("/admin/category/:id")
+  .route("/admin/category/:id").get(isAuthenticatedAdmin,authorizeRoles("admin"),getCategoryDetails)
   .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateCategory)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteCategory);
 

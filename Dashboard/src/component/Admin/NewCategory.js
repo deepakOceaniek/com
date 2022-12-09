@@ -22,7 +22,6 @@ const NewCategory = () => {
   const { loading, error, success } = useSelector((state) => state.newCategory);
 
   const [categoryName, setCategoryName] = useState("");
-
   const [categoryImage, setCategoryImage] = useState();
   const [categoryPreview, setCategoryPreview] = useState("/Profile.png");
 
@@ -99,10 +98,10 @@ const NewCategory = () => {
             </div>
 
             <div id="updateProfileImage">
-              <img src={categoryPreview} alt="Avatar Preview" />
+              <img src={categoryPreview} alt="Category Preview" />
               <input
                 type="file"
-                name="avatar"
+                name="categoryImage"
                 accept="image/*"
                 onChange={createProductImagesChange}
               />

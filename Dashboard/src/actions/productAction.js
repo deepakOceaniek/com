@@ -195,10 +195,8 @@ export const deleteReviews = (reviewId, productId) => async (dispatch) => {
 export const getAdminCategory = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CATEGORY_REQUEST });
-    console.log("data");
 
-    const { data } = await axios.get("/api/v1/admin/categories");
-    console.log(data);
+    const { data } = await axios.get("/api/v1/admin/allcategory");
     dispatch({
       type: ADMIN_CATEGORY_SUCCESS,
       payload: data.category,
@@ -219,7 +217,6 @@ export const createCategory = (categoryData) => async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    console.log(categoryData);
     const { data } = await axios.post(
       `/api/v1/admin/category/new`,
       categoryData,
@@ -254,6 +251,7 @@ export const updateCategory = (id, categoryData) => async (dispatch) => {
       config
     );
 
+
     dispatch({
       type: UPDATE_CATEGORY_SUCCESS,
       payload: data.success,
@@ -270,8 +268,7 @@ export const updateCategory = (id, categoryData) => async (dispatch) => {
 export const deleteCategory = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CATEGORY_REQUEST });
-
-    const { data } = await axios.delete(`/api/v1/admin/product/${id}`);
+    const { data } = await axios.delete(`/api/v1/admin/category/${id}`);
 
     dispatch({
       type: DELETE_CATEGORY_SUCCESS,
@@ -291,7 +288,10 @@ export const getCategoryDetails = (id) => async (dispatch) => {
     dispatch({
       type: CATEGORY_DETAILS_REQUEST,
     });
+    console.log(id)
+
     const { data } = await axios.get(`/api/v1/admin/category/${id}`);
+    console.log(data)
     dispatch({
       type: CATEGORY_DETAILS_SUCCESS,
       payload: data,

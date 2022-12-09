@@ -79,7 +79,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const userExist = await User.findOne({ contact: contact });
 
   if (userExist) {
-    return next(new ErrorHandler("Successfully registered", 400));
+    return next(new ErrorHandler("Already registered", 400));
   } else {
     const user = await User.create({
       name,
@@ -95,11 +95,12 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ contact });
   if (!user) {
     return next(new ErrorHandler("Invalid Please Register ", 400));
-  }
+  }else{
   const admin = await Admin.findOne({ contact });
-  if (!user) {
+  if (!admin) {
     return next(new ErrorHandler("Invalid Please Register ", 400));
   }
+}
   const optreq = await client.verify
     .services(process.env.SERVICEID)
     .verifications.create({
@@ -113,20 +114,26 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
 
 //**  verify phonenumber and code**
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-  const verified = await client.verify
+
+  const contact = req.query.phonenumber;
+  const user = await User.findOne({ contact });
+  const admin = await Admin.findOne({ contact });
+  if (!user || !admin) {
+    return next(new ErrorHandler("Invalid Please Register ", 400));
+  }else{
+    const verified = await client.verify
     .services(process.env.SERVICEID)
     .verificationChecks.create({
       to: `+${req.query.phonenumber}`,
       code: req.query.code,
     });
-  if (verified) {
-    const loginUserExist = await User.findOne({
-      contact: `+${req.query.phonenumber}`,
-    });
-    sendToken(verified, 200, res);
+  if (verified.status ==="approved") {
+    sendToken(user || admin, 201, res);
   } else {
     return next(new ErrorHandler("Invalid Credentials", 400));
   }
+}
+ 
 });
 // //Login User
 // exports.loginUser = catchAsyncErrors(async (req, res, next) => {

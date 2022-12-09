@@ -230,27 +230,25 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 
 // All Category 
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
-  console.log("get")
-  // const category = await Category.find();
+  const category = await Category.find();
 
   res.status(200).json({
     success: true,
-    // category,
+    category,
   });
 });
 
 // Add Category ---admin 
 exports.addCategory = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.body)
   const myCloud = await cloudinary.v2.uploader.upload(req.body.categoryImage, {
     folder: "category",
     width: 150,
     crop: "scale",
   });
-  const { categroyName} = req.body;
-  console.log(categroyName);
+  const { categoryName} = req.body;
+  console.log(categoryName);
   const category = await Category.create({
-    categroyName,
+    categoryName,
     categoryImage: {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
@@ -261,16 +259,24 @@ exports.addCategory = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Get category details
+exports.getCategoryDetails = catchAsyncErrors(async (req, res, next) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+  res.status(200).json({ success: true, category });
+});
 
-//Update User Profile
+//Update Category 
 exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
   const newCategoryData = {
-    categroyName: req.body.categroyName,
+    categoryName: req.body.categoryName,
    
   };
   // Cloudinary
   if (req.body.categoryImage !== "") {
-    const category = await Category.findById(req.user.id);
+    const category = await Category.findById(req.params.id);
     const imageId = category.categoryImage.public_id;
 
     await cloudinary.v2.uploader.destroy(imageId);
@@ -286,12 +292,11 @@ exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
       url: myCloud.secure_url,
     };
   }
-  const category = await Category.findByIdAndUpdate(req.user.id, newCategoryData, {
+  const category = await Category.findByIdAndUpdate(req.params.id, newCategoryData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
-  console.log(category);
   res.status(200).json({ success: true, category});
 });
 
@@ -299,7 +304,7 @@ exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
 exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
   // We will remove cloudinary later
 
-  const category = await User.findById(req.params.id);
+  const category = await Category.findById(req.params.id);
   if (!category) {
     return next(
       new ErrorHandler(`Category Does Not Exist with Id: ${req.params.id}`, 400)

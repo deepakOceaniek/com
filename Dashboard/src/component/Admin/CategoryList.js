@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
   getAdminCategory,
-  deleteProduct,
+  deleteCategory,
 } from "../../actions/productAction";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -29,7 +29,7 @@ const CategoryList = () => {
   );
 
   const deleteProductHandler = (id) => {
-    dispatch(deleteProduct(id));
+    dispatch(deleteCategory(id));
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const CategoryList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Product Deleted Successfully");
+      alert.success("Category Deleted Successfully");
       Navigate("/admin/dashboard");
       dispatch({ type: DELETE_CATEGORY_RESET });
     }
@@ -61,12 +61,13 @@ const CategoryList = () => {
       minWidth: 350,
       flex: 1,
     },
-    {
-      field: "image",
-      headerName: "Image",
-      minWidth: 150,
-      flex: 0.3,
-    },
+    // {
+    //   field: "image",
+    //   headerName: "Image",
+    //   type:"img",
+    //   minWidth: 150,
+    //   flex: 0.3,
+    // },
 
     {
       field: "actions",
@@ -96,13 +97,12 @@ const CategoryList = () => {
   ];
 
   const rows = [];
-
   category &&
     category.forEach((item) => {
       rows.push({
         id: item._id,
-        name: item.name,
-        stock: item.stock,
+        name: item.categoryName,
+        // image:  <img src={item.categoryImage.url}  alt="category" />  ,
       });
     });
 
