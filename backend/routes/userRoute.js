@@ -17,7 +17,11 @@ const {
   registerAdmin,
   getAdminDetails,
   updateAdminProfile,
-  getAllCategory
+  getAllAddress,
+  getAddressDetails,
+  addUserAddress,
+  updateUserAddress,
+  deleteUserAddress,
 } = require("../controllers/userController");
 const {
   isAuthenticated,
@@ -37,8 +41,20 @@ router.route("/logout").get(logout);
 router.route("/me").get(isAuthenticated, getUserDetails);
 router.route("/me/update").put(isAuthenticated, updateProfile);
 // router.route("/password/update").put(isAuthenticated, updatePassword);
-router.route("/admin/me").get(isAuthenticatedAdmin, authorizeRoles("admin"), getAdminDetails);
-router.route("/admin/me/update").put(isAuthenticatedAdmin,  authorizeRoles("admin"), updateAdminProfile);
+router.route("/address").get(isAuthenticated, getAllAddress);
+router.route("/address").post(isAuthenticated, addUserAddress);
+router
+  .route("/address/:id")
+  .get(isAuthenticated, getAddressDetails)
+  .put(isAuthenticated, updateUserAddress)
+  .delete(isAuthenticated, deleteUserAddress);
+
+router
+  .route("/admin/me")
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAdminDetails);
+router
+  .route("/admin/me/update")
+  .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateAdminProfile);
 router
   .route("/admin/users")
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllUser);

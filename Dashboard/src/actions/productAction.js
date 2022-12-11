@@ -196,7 +196,7 @@ export const getAdminCategory = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CATEGORY_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/allcategory");
+    const { data } = await axios.get("/api/v1/allcategory");
     dispatch({
       type: ADMIN_CATEGORY_SUCCESS,
       payload: data.category,
@@ -251,7 +251,6 @@ export const updateCategory = (id, categoryData) => async (dispatch) => {
       config
     );
 
-
     dispatch({
       type: UPDATE_CATEGORY_SUCCESS,
       payload: data.success,
@@ -288,10 +287,10 @@ export const getCategoryDetails = (id) => async (dispatch) => {
     dispatch({
       type: CATEGORY_DETAILS_REQUEST,
     });
-    console.log(id)
+    console.log(id);
 
     const { data } = await axios.get(`/api/v1/admin/category/${id}`);
-    console.log(data)
+    console.log(data);
     dispatch({
       type: CATEGORY_DETAILS_SUCCESS,
       payload: data,

@@ -39,14 +39,13 @@ router
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllProductReviews)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
-router
-  .route("/admin/allcategory")
-  .get(getAllCategory);
+router.route("/allcategory").get(getAllCategory);
 router
   .route("/admin/category/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addCategory);
 router
-  .route("/admin/category/:id").get(isAuthenticatedAdmin,authorizeRoles("admin"),getCategoryDetails)
+  .route("/admin/category/:id")
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getCategoryDetails)
   .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateCategory)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteCategory);
 

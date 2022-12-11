@@ -93,47 +93,40 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 exports.optVerify = catchAsyncErrors(async (req, res, next) => {
   const contact = req.query.phonenumber;
   const user = await User.findOne({ contact });
-  if (!user) {
-    return next(new ErrorHandler("Invalid Please Register ", 400));
-  }else{
   const admin = await Admin.findOne({ contact });
-  if (!admin) {
+
+  if (user || admin) {
+    const optreq = await client.verify
+      .services(process.env.SERVICEID)
+      .verifications.create({
+        to: `+${req.query.phonenumber}`,
+        channel: req.query.channel,
+      });
+    if (optreq) {
+      res.status(200).send(optreq);
+    }
+  } else {
     return next(new ErrorHandler("Invalid Please Register ", 400));
-  }
-}
-  const optreq = await client.verify
-    .services(process.env.SERVICEID)
-    .verifications.create({
-      to: `+${req.query.phonenumber}`,
-      channel: req.query.channel,
-    });
-  if (optreq) {
-    res.status(200).send(optreq);
   }
 });
 
 //**  verify phonenumber and code**
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-
   const contact = req.query.phonenumber;
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
-  if (!user || !admin) {
-    return next(new ErrorHandler("Invalid Please Register ", 400));
-  }else{
-    const verified = await client.verify
+
+  const verified = await client.verify
     .services(process.env.SERVICEID)
     .verificationChecks.create({
       to: `+${req.query.phonenumber}`,
       code: req.query.code,
     });
-  if (verified.status ==="approved") {
+  if (verified.status === "approved") {
     sendToken(user || admin, 201, res);
   } else {
     return next(new ErrorHandler("Invalid Credentials", 400));
   }
-}
- 
 });
 // //Login User
 // exports.loginUser = catchAsyncErrors(async (req, res, next) => {
@@ -421,4 +414,105 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
 
   await user.remove();
   res.status(200).json({ success: true, message: "User deleted successfully" });
+});
+
+// Get all user Address
+exports.getAllAddress = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findOne({ _id: req.user.id });
+  userAddresses = user.userAddresses;
+  res.status(200).json({
+    success: true,
+    userAddresses,
+  });
+});
+
+// Add user Address
+exports.addUserAddress = catchAsyncErrors(async (req, res, next) => {
+  const { address, city, area, state, pinCode, contact } = req.body;
+  console.log(req.body);
+  if (!address || !city || !area || !state || !pinCode || !contact) {
+    res.json({ message: "please fill the Address details" });
+  }
+  const userDetails = await User.findOne({ _id: req.user.id });
+  console.log(userDetails);
+  if (userDetails) {
+    const userAddress = await userDetails.addMessage(
+      address,
+      city,
+      area,
+      state,
+      pinCode,
+      contact
+    );
+    console.log(userAddress);
+    await userDetails.save();
+    res.status(201).json({ message: "Address Added " });
+  }
+});
+
+// User Address Details
+exports.getAddressDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+  const address = user.userAddresses.filter((add) => {
+    return add._id.toString() !== req.params.id.toString();
+  });
+  res.status(200).json({
+    success: true,
+    address: address,
+  });
+});
+
+// Update user Address
+exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
+  const { address, city, area, state, pinCode, contact } = req.body;
+  const newUserData = {
+    address,
+    city,
+    area,
+    state,
+    pinCode,
+    contact,
+  };
+
+  const userdetails = await User.findById(req.user.id);
+
+  if (userdetails) {
+    userdetails.userAddresses.forEach((add) => {
+      if (add._id.toString() === req.params.id.toString())
+        add.address = address;
+      add.city = city;
+      add.area = area;
+      add.state = state;
+      add.pinCode = pinCode;
+      add.contact = contact;
+    });
+  }
+  await userdetails.save({ validateBeforeSave: false });
+  res.status(200).json({
+    success: true,
+    message: "Address Updated",
+  });
+});
+
+// Delete user Address
+exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
+  const userDetails = await User.findById(req.user.id);
+  if (!userDetails) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+  const userAddresses = userDetails.userAddresses.filter((add) => {
+    return add._id.toString() !== req.params.id.toString();
+  });
+
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { userAddresses },
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
+  res.status(200).json({
+    success: true,
+  });
 });
