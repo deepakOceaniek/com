@@ -11,6 +11,7 @@ const client = require("twilio")(process.env.ACCOUNTSID, process.env.AUTHTOKEN);
 //Register Admin
 exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body);
+  console.log(req.files);
   const profileMyCloud = await cloudinary.v2.uploader.upload(
     req.body.profileImage,
     {
@@ -72,8 +73,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
   const { name, contact } = req.body;
   console.log(name, contact);
-  if (!name || !contact) {
-    return next(new ErrorHandler("Please fill the all entries", 400));
+  if (!name || !contact || contact.toString().length !== 12) {
+    return next(new ErrorHandler("Please fill the all Entries Properly", 400));
   }
 
   const userExist = await User.findOne({ contact: contact });
@@ -123,7 +124,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
       code: req.query.code,
     });
   if (verified.status === "approved") {
-    sendToken(user || admin, 201, res);
+    sendToken(user || admin, 200, res);
   } else {
     return next(new ErrorHandler("Invalid Credentials", 400));
   }

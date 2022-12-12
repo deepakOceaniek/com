@@ -4,6 +4,21 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || "Internal Server Error";
 
+  //Wrong otp
+  if (
+    err.message ==
+    "The requested resource /Services/VAe81495752bf5a302aa2ba3acd82d9531/VerificationCheck was not found"
+  ) {
+    const message = `Invalid OTP`;
+    err = new ErrorHandler(message, 400);
+  }
+
+  //Wrong url Hit
+  if (err.message == "Invalid parameter: Channel") {
+    const message = ` Invalid URL`;
+    err = new ErrorHandler(message, 404);
+  }
+
   // Wrong  Mongodb Id error
   if (err.name === "CastError") {
     const message = `Resource not Found. Invalid :${err.path}`;
