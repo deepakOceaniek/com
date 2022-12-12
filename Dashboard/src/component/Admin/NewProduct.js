@@ -22,22 +22,27 @@ const NewProduct = () => {
   const { loading, error, success } = useSelector((state) => state.newProduct);
 
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [salt, setSalt] = useState("");
+  const [expired, setExpired] = useState("");
+  const [tabletPerStrip, setTabletPerStrip] = useState("");
+  const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
   const [Stock, setStock] = useState(0);
+  const [gst, setGst] = useState("");
+  const [batchCode, setBatchCode] = useState("");
+  const [hsnCode, setHsnCode] = useState("");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const categories = [
-    "laptop",
-    "footware",
-    "bottom",
-    "tops",
-    "attire",
-    "camera",
-    "smartPhone",
-    "fruit",
+    "Ayurveda",
+    "Vitamins & supplements",
+    "Healthcare devices",
+    "Pain Relief",
+    "Diabetes Care",
+    "Skin Care"
   ];
 
   useEffect(() => {
@@ -59,10 +64,17 @@ const NewProduct = () => {
     const myForm = new FormData();
 
     myForm.set("name", name);
-    myForm.set("price", price);
     myForm.set("description", description);
+    myForm.set("price", price);
+    myForm.set("salt", salt);
+    myForm.set("expired", expired);
+    myForm.set("tabletPerStrip", tabletPerStrip);
+    myForm.set("company", company);
     myForm.set("category", category);
     myForm.set("Stock", Stock);
+    myForm.set("gst", gst);
+    myForm.set("batchCode", batchCode);
+    myForm.set("hsnCode", hsnCode);
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -113,6 +125,18 @@ const NewProduct = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
+          
+            <div>
+              <DescriptionIcon />
+
+              <textarea
+                placeholder="Product Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                cols="30"
+                rows="1"
+              ></textarea>
+            </div>
             <div>
               <AttachMoneyIcon />
               <input
@@ -124,15 +148,42 @@ const NewProduct = () => {
             </div>
 
             <div>
-              <DescriptionIcon />
+              <AttachMoneyIcon />
+              <input
+                type="text"
+                placeholder="Salt"
+                required
+                onChange={(e) => setSalt(e.target.value)}
+              />
+            </div>
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="date"
+                placeholder="expired"
+                required
+                onChange={(e) => setExpired(e.target.value)}
+              />
+            </div>
+          
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="Number"
+                placeholder="tabletPerStrip"
+                required
+                onChange={(e) => setTabletPerStrip(e.target.value)}
+              />
+            </div>
 
-              <textarea
-                placeholder="Product Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="text"
+                placeholder="company"
+                required
+                onChange={(e) => setCompany(e.target.value)}
+              />
             </div>
 
             <div>
@@ -156,6 +207,36 @@ const NewProduct = () => {
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>
+            <div>
+              <StorageIcon />
+              <input
+                type="text"
+                placeholder="gst"
+                required
+                onChange={(e) => setGst(e.target.value)}
+              />
+            </div>
+            <div>
+              <StorageIcon />
+              <input
+                type="text"
+                placeholder="batchCode"
+                required
+                onChange={(e) => setBatchCode(e.target.value)}
+              />
+            </div>
+           
+            <div>
+              <StorageIcon />
+              <input
+                type="text"
+                placeholder=" hsnCode"
+                required
+                onChange={(e) => setHsnCode(e.target.value)}
+              />
+            </div>
+
+            
 
             <div id="createProductFormFile">
               <input

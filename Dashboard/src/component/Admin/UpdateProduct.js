@@ -24,7 +24,7 @@ const UpdateProduct = () => {
   const Navigate = useNavigate();
 
   const { error, product } = useSelector((state) => state.productDetails);
-
+console.log(product)
   const {
     loading,
     error: updateError,
@@ -32,23 +32,28 @@ const UpdateProduct = () => {
   } = useSelector((state) => state.product);
 
   const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [salt, setSalt] = useState("");
+  const [expired, setExpired] = useState("");
+  const [tabletPerStrip, setTabletPerStrip] = useState("");
+  const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
+  const [gst, setGst] = useState("");
+  const [batchCode, setBatchCode] = useState("");
+  const [hsnCode, setHsnCode] = useState("");
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const categories = [
-    "laptop",
-    "footware",
-    "bottom",
-    "tops",
-    "attire",
-    "camera",
-    "smartPhone",
-    "fruit",
+    "Ayurveda",
+    "Vitamins & supplements",
+    "Healthcare devices",
+    "Pain Relief",
+    "Diabetes Care",
+    "Skin Care"
   ];
 
   const productId = id;
@@ -60,8 +65,15 @@ const UpdateProduct = () => {
       setName(product.name);
       setDescription(product.description);
       setPrice(product.price);
+      setSalt(product.salt);
+      setExpired(product.expired);
+      setTabletPerStrip(product.tabletPerStrip);
+      setCompany(product.company);
       setCategory(product.category);
       setStock(product.stock);
+      setGst(product.gst);
+      setBatchCode(product.batchCode);
+      setHsnCode(product.hsnCode);
       setOldImages(product.images);
     }
     if (error) {
@@ -96,10 +108,18 @@ const UpdateProduct = () => {
     const myForm = new FormData();
 
     myForm.set("name", name);
-    myForm.set("price", price);
     myForm.set("description", description);
+    myForm.set("price", price);
+    myForm.set("salt", salt);
+    myForm.set("tabletPerStrip", tabletPerStrip);
+    myForm.set("expired", expired);
+    myForm.set("company", company);
     myForm.set("category", category);
     myForm.set("stock", stock);
+    myForm.set("gst", gst);
+    myForm.set("batchCode", batchCode);
+    myForm.set("hsnCode", hsnCode);
+
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -151,16 +171,7 @@ const UpdateProduct = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="number"
-                placeholder="Price"
-                required
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-              />
-            </div>
+       
 
             <div>
               <DescriptionIcon />
@@ -173,6 +184,59 @@ const UpdateProduct = () => {
                 rows="1"
               ></textarea>
             </div>
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="number"
+                placeholder="Price"
+                required
+                onChange={(e) => setPrice(e.target.value)}
+                value={price}
+              />
+            </div>
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="text"
+                placeholder="Salt"
+                required
+                value={price}
+                onChange={(e) => setSalt(e.target.value)}
+              />
+            </div>
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="date"
+                placeholder="expired"
+                required
+                value={expired}
+                onChange={(e) => setExpired(e.target.value)}
+              />
+            </div>
+          
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="Number"
+                placeholder="tabletPerStrip"
+                required
+                value={tabletPerStrip}
+                onChange={(e) => setTabletPerStrip(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <AttachMoneyIcon />
+              <input
+                type="text"
+                placeholder="company"
+                required
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
+            </div>
+
 
             <div>
               <AccountTreeIcon />
@@ -199,6 +263,38 @@ const UpdateProduct = () => {
                 value={stock}
               />
             </div>
+            <div>
+              <StorageIcon />
+              <input
+                type="text"
+                placeholder="gst"
+                required
+                value={gst}
+                onChange={(e) => setGst(e.target.value)}
+              />
+            </div>
+            <div>
+              <StorageIcon />
+              <input
+                type="text"
+                placeholder="batchCode"
+                value={batchCode}
+                required
+                onChange={(e) => setBatchCode(e.target.value)}
+              />
+            </div>
+           
+            <div>
+              <StorageIcon />
+              <input
+                type="text"
+                placeholder=" hsnCode"
+                value={hsnCode}
+                required
+                onChange={(e) => setHsnCode(e.target.value)}
+              />
+            </div>
+
 
             <div id="createProductFormFile">
               <input

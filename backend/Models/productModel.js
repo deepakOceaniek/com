@@ -19,6 +19,24 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  salt: {
+    type: String,
+    required: [true, "please Enter Product Salt"],
+  },
+  expired: {
+    type: Date,
+    required: [true, "please Enter Expiry date"],
+  },
+
+  tabletPerStrip: {
+    type: Number,
+    required: [true, "please Enter tablet per strip"],
+  },
+
+  company: {
+    type: String,
+    required: [true, "please Enter Company"],
+  },
   images: [
     {
       public_id: {
@@ -38,8 +56,6 @@ const productSchema = mongoose.Schema({
   },
   stock: {
     type: Number,
-    required: [true, "please Enter Product stock"],
-    maxLength: [4, "Stock can not exceed 4 character"],
     default: 1,
   },
   numOfReviews: {
@@ -67,6 +83,17 @@ const productSchema = mongoose.Schema({
       },
     },
   ],
+  gst: {
+    type: String,
+    required: [true, "please Enter GST"],
+  },
+
+  batchCode: {
+    type: String,
+    required: [true, "please Enter Batch Code"],
+  },
+
+  hsnCode: { type: String, required: [true, "please Enter HSN Code"] },
 
   user: {
     type: mongoose.Schema.ObjectId,

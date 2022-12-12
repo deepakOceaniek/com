@@ -56,6 +56,12 @@ const Sidebar = () => {
       <Link to="/admin/reviews">
         <p>
           <RateReviewIcon />
+          Prescription
+        </p>
+      </Link>
+      <Link to="/admin/reviews">
+        <p>
+          <RateReviewIcon />
           Reviews
         </p>
       </Link>
