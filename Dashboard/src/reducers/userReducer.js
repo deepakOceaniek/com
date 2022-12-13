@@ -3,6 +3,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
 
+  VERIFY_REQUEST,
+  VERIFY_SUCCESS,
+  VERIFY__FAIL,
+
   REGISTER_ADMIN_REQUEST,
   REGISTER_ADMIN_SUCCESS,
   REGISTER_ADMIN_FAIL,
@@ -45,6 +49,7 @@ export const userReducer = (state = { user: {} }, action) => {
     case LOGIN_REQUEST:
     case REGISTER_ADMIN_REQUEST:
       case LOAD_ADMIN_REQUEST:
+        case VERIFY_REQUEST:
       return {
         loading: true,
         isAuthenticated: false,
@@ -52,6 +57,7 @@ export const userReducer = (state = { user: {} }, action) => {
     case LOGIN_SUCCESS:
       case REGISTER_ADMIN_SUCCESS:
         case LOAD_ADMIN_SUCCESS:
+          case VERIFY_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -67,6 +73,7 @@ export const userReducer = (state = { user: {} }, action) => {
       };
     case LOGIN_FAIL:
       case REGISTER_ADMIN_FAIL:
+        case VERIFY__FAIL:
       
       return {
         ...state,

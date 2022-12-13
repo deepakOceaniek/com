@@ -56,8 +56,13 @@ exports.getAllProduct = catchAsyncErrors(async (req, res, next) => {
   let filteredProductsCount = products.length;
 
   apiFeatures.pagination(resultPerPage);
-
+  console.log(products)
+  console.log(products.length)
+  if(products.length >0){
   products = await apiFeatures.query.clone();
+  }else{
+    return next(new ErrorHandler("Product not found",400));
+  }
   // console.log(products);
   // console.log(filteredProductsCount);
 

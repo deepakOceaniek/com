@@ -100,6 +100,7 @@ const AdminLoginSignUp = () => {
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginContact));
+    Navigate("/otpverify")
   };
   const registerSubmit = (e) => {
     e.preventDefault();

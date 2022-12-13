@@ -6,7 +6,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { logout } from "../../../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
@@ -58,6 +58,7 @@ const UserOptions = ({ loading, user }) => {
   function logoutUser() {
     dispatch(logout());
     alert.success("Logout Successfully");
+    Navigate("/admin/login")
   }
   // console.log(user);
   // console.log(user.user.avatar.url);

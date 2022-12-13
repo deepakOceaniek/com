@@ -3,6 +3,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
 
+  VERIFY_REQUEST,
+  VERIFY_SUCCESS,
+  VERIFY__FAIL,
+
   REGISTER_ADMIN_REQUEST,
   REGISTER_ADMIN_SUCCESS,
   REGISTER_ADMIN_FAIL,
@@ -39,17 +43,26 @@ import {
 import axios from "axios";
 
 //Login
-export const login = (email, password) => async (dispatch) => {
+export const login = (contact) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
-    const config = { headers: { "Content-Type": "application/json" } };
+    // const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(
-      `/api/v1/login`,
-      { email, password },
-      config
-    );
-    dispatch({ type: LOGIN_SUCCESS, payload: data.success });
+    const { data } = await axios.get(`/api/v1/login?phonenumber=${contact}&channel=sms`);
+    dispatch({ type: LOGIN_SUCCESS, payload: data.message });
+  } catch (error) {
+    dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
+  }
+};
+
+//Login
+export const verify = (code) => async (dispatch) => {
+  try {
+    dispatch({ type: LOGIN_REQUEST });
+    // const config = { headers: { "Content-Type": "application/json" } };
+
+    const { data } = await axios.get(`api/v1/verify?phonenumber=917986614157&code=${code}`);
+    dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
   }

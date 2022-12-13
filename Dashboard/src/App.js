@@ -24,6 +24,7 @@ import AdminProfile from "./component/User/AdminProfile.js";
 import NewCategory from "./component/Admin/NewCategory.js";
 import CategoryList from "./component/Admin/CategoryList.js";
 import UpdateCategory from "./component/Admin/UpdateCategory.js";
+import OtpScreen from "./component/UserOtpScreen.js"
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
 // import AddMedicine from "./component/Register/AddMedicine";
@@ -60,6 +61,8 @@ function App() {
           )} */}
 
           <Route path="/admin/login" element={<AdminLoginSignUp />} />
+        <Route path="/otpverify" element={<OtpScreen />} />
+
 
           <Route
             path="/admin/dashboard"
@@ -117,6 +120,7 @@ function App() {
           {/* <Route path="/addMedicine" element={<AddMedicine />} /> */}
           {/* <Route path="/addTest" element={<AddTest />} /> */}
         </Routes>
+
         <Footer />
       </Router>
     </>
