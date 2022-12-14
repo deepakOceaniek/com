@@ -50,15 +50,15 @@ export const login = (contact) => async (dispatch) => {
 //verify
 export const verify = (code, contact) => async (dispatch) => {
   try {
-    dispatch({ type: LOGIN_REQUEST });
+    dispatch({ type: VERIFY_REQUEST });
     // const config = { headers: { "Content-Type": "application/json" } };
     console.log(code, contact);
     const { data } = await axios.get(
-      `api/v1/verify?phonenumber=${contact}&code=${code}`
+      `api/v1/verify?phonenumber=${917986614157}&code=${code}`
     );
-    dispatch({ type: LOGIN_SUCCESS, payload: data });
+    dispatch({ type: VERIFY_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
+    dispatch({ type: VERIFY__FAIL, payload: error.response.data.message });
   }
 };
 

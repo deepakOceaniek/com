@@ -4,6 +4,14 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || "Internal Server Error";
 
+
+
+    //request try
+    if (err.message == "Too many requests") {
+      const message = `Too Many Requests`;
+      err = new ErrorHandler(message, 429);
+    }
+
   //Wrong otp
   if (err.message == "Cannot read properties of null (reading 'role')") {
     const message = `You are not authorized to Access`;
@@ -15,9 +23,20 @@ module.exports = (err, req, res, next) => {
     err.message ==
     "The requested resource /Services/VAe81495752bf5a302aa2ba3acd82d9531/VerificationCheck was not found"
   ) {
-    const message = `Invalid OTP`;
-    err = new ErrorHandler(message, 400);
+    const message = `Verification Fail`;
+    err = new ErrorHandler(message, 403);
   }
+
+    //Wrong otp
+    if (
+      err.message ==
+      "The requested resource /Services/VA1c23f5318125b8cb847a9cad26027736/VerificationCheck was not found" //procccess.envServiceID
+    ) {
+      const message = `Verification Fail`;
+      err = new ErrorHandler(message, 403);
+    }
+
+  
 
   //Wrong url Hit
   if (err.message == "Invalid parameter: Channel") {

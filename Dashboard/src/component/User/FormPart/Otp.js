@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Otp.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { verify, clearErrors } from "../../../actions/userAction";
+import { useAlert } from "react-alert";
+
+
 
 const UserOtpScreen = ({ route }) => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { error, loading, isAuthenticated } = useSelector(
-    (state) => state.user
-  );
+  const alert = useAlert();
+
+
+    const { error, loading, isAuthenticated } = useSelector(
+      (state) => state.user
+    );
 
   // const [otp, setOtp] = useState(0);
   // console.log(otp);
-  console.log(isAuthenticated, loading);
+  // console.log(isAuthenticated, loading);
 
   const [otpData, setOtpData] = useState({
     otpInput1: "",
@@ -21,6 +27,22 @@ const UserOtpScreen = ({ route }) => {
     otpInput3: "",
     otpInput4: "",
   });
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    if (isAuthenticated) {
+      Navigate("/admin/dashboard");
+    }
+  }, [
+    dispatch,
+    alert,
+    error,
+    isAuthenticated,
+    Navigate,
+    // redirect
+  ]);
 
   let inputName, value;
   const loginInputHandler = (e) => {
@@ -36,11 +58,15 @@ const UserOtpScreen = ({ route }) => {
     otpData.otpInput3,
     otpData.otpInput4
   );
+  console.log(otp)
   const submitOtp = (e) => {
     e.preventDefault();
 
-    dispatch(verify(Number(otp), route.params.contact));
-    // if (isAuthenticated) Navigate("/admin/dashboard");
+    dispatch(verify(Number(otp), 
+    // route.params.contact
+    ));
+    // if (isAuthenticated) 
+    Navigate("/admin/dashboard");
   };
 
   return (

@@ -55,41 +55,34 @@ exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
 
 //Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //   folder: "avatars",
-  //   width: 150,
-  //   crop: "scale",
-  // });
-  // const { name, email, password } = req.body;
-  // console.log(name, email, password);
-  // const user = await User.create({
-  //   name,
-  //   email,
-  //   password,
-  //   avatar: {
-  //     public_id: myCloud.public_id,
-  //     url: myCloud.secure_url,
-  //   },
-  // });
-  // sendToken(user, 201, res);
+  // const contact  = req.params.phonenumber
+  // const name = req.params.name
+  // if (!name || !contact || contact.toString().length !== 12) {
+  //   return next(new ErrorHandler("Please fill the all Entries Properly", 400));
+  // }
 
-  const { name, contact } = req.body;
-  console.log(name, contact);
-  if (!name || !contact || contact.toString().length !== 12) {
-    return next(new ErrorHandler("Please fill the all Entries Properly", 400));
-  }
-
-  const userExist = await User.findOne({ contact: contact });
+  const userExist = await User.findOne({ contact: req.query.phonenumber });
 
   if (userExist) {
-    return next(new ErrorHandler("Already registered", 400));
+    return next(new ErrorHandler("Already registered", 403));
   } else {
-    const user = await User.create({
-      name,
-      contact,
+    const optreq = await client.verify
+    .services(process.env.SERVICEID)
+    .verifications.create({
+      to: `+${req.query.phonenumber}`,
+      channel: req.query.channel,
     });
-    // sendToken(user, 201, res);
-    res.status(201).json({ success: true, message: "Register Successful" });
+  if (optreq) {
+    res
+      .status(200)
+      .json({ status: optreq.status, statusCode: 200, message: "success" });
+  }
+    // const user = await User.create({
+    //   name,
+    //   contact,
+    // });
+    // // sendToken(user, 201, res);
+    // res.status(201).json({ success: true, message: "Register Successful" });
   }
 });
 
@@ -113,18 +106,21 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
         .status(200)
         .json({ status: optreq.status, statusCode: 200, message: "success" });
     }
-  } else {
-    return next(new ErrorHandler("Invalid Please Register ", 400));
+  }
+   else {
+    return next(new ErrorHandler("Please Register  First", 401));
   }
 });
 
 //**  verify phonenumber and code**
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-  const contact = req.query.phonenumber;
+  let contact = req.query.phonenumber;
+  let name = req.query.name
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
 
-  const verified = await client.verify
+   if(user || admin){
+    const verified = await client.verify
     .services(process.env.SERVICEID)
     .verificationChecks.create({
       to: `+${req.query.phonenumber}`,
@@ -132,27 +128,34 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     });
   if (verified.status === "approved") {
     sendToken(user || admin, 200, res);
-  } else {
+  }else{
+    return next(new ErrorHandler("Verification Fail", 401));
+  }
+
+   }else if (!user || !admin){
+    const verified = await client.verify
+    .services(process.env.SERVICEID)
+    .verificationChecks.create({
+      to: `+${req.query.phonenumber}`,
+      code: req.query.code,
+    });
+  if (verified.status === "approved") {
+    if(!name){
+      return next(new ErrorHandler("Unprocessable Entity", 406));
+    }else{
+      const user = await User.create({
+        name,
+        contact,
+      });
+    sendToken(user || admin, 201, res);
+    }
+  
+  }
+   }
+    else {
     return next(new ErrorHandler("Invalid Credentials", 400));
   }
 });
-// //Login User
-// exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-//   const { email, password } = req.body;
-//   //Checking if user has given password and email both
-//   if (!email || !password) {
-//     return next(new ErrorHandler("Please Enter Eamail and password ", 400));
-//   }
-//   const user = await User.findOne({ email }).select("+password");
-//   if (!user) {
-//     return next(new ErrorHandler("Invalid email or password ", 401));
-//   }
-//   const isPasswordMatched = await user.comparePassword(password);
-//   if (!isPasswordMatched) {
-//     return next(new ErrorHandler("Invalid email or password ", 401));
-//   }
-//   sendToken(user, 200, res);
-// });
 
 // Logout
 exports.logout = catchAsyncErrors(async (req, res, next) => {
@@ -166,76 +169,6 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// // Forgot password
-// exports.forgetPassword = catchAsyncErrors(async (req, res, next) => {
-//   const user = await User.findOne({ email: req.body.email });
-//   if (!user) {
-//     return next(new ErrorHandler("User not found", 404));
-//   }
-//   // Get ResetPassword Token
-//   const resetToken = user.getResetPasswordToken();
-//   await user.save({ validateBeforeSave: false });
-
-//   // const resetPasswordUrl = `${req.protocol}://${req.get(
-//   //   // set krne pe ye link aayega  user ko
-//   //   "host"
-//   // )}/api/v1/password/reset/${resetToken}`;
-//   //FRONTEND_URL="http://localhost:3000"
-
-//   const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
-
-//   const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\n If you have not requested this email than please report it`; // message vo hai jo hum email mai bhjenge
-
-//   try {
-//     await sendEmail({
-//       email: user.email,
-//       subject: "Bandor Password Recovery",
-//       message,
-//     });
-//     res.status(200).json({
-//       success: true,
-//       message: `Email sent to ${user.email} successfully`,
-//     });
-//   } catch (error) {
-//     user.resetPasswordToken = undefined;
-//     user.resetPasswordExpire = undefined;
-//     await user.save({ validateBeforeSave: false });
-//     return next(new ErrorHandler(error.message, 500));
-//   }
-// });
-
-// // Reset Password
-// exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
-//   //Creating token hash
-//   const resetPasswordToken = crypto
-//     .createHash("sha256")
-//     .update(req.params.token)
-//     .digest("hex");
-
-//   const user = await User.findOne({
-//     resetPasswordToken,
-//     resetPasswordExpire: { $gt: Date.now() },
-//   });
-
-//   if (!user) {
-//     return next(
-//       new ErrorHandler(
-//         "Reset Password Token is invalid or has been expired",
-//         400
-//       )
-//     );
-//   }
-//   if (req.body.password !== req.body.confirmPassword) {
-//     return next(new ErrorHandler("Password does not password", 400));
-//   }
-//   user.password = req.body.password;
-//   user.resetPasswordToken = undefined;
-//   user.resetPasswordExpire = undefined;
-//   await user.save();
-
-//   sendToken(user, 200, res);
-// });
-
 //Get User Details --User Own Details
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
@@ -248,22 +181,7 @@ exports.getAdminDetails = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({ success: true, user });
 });
 
-// //Update User Password
-// exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
-//   const user = await User.findById(req.user.id).select("+password");
 
-//   const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
-//   if (!isPasswordMatched) {
-//     return next(new ErrorHandler("Old password is incorrect ", 400));
-//   }
-//   if (req.body.newPassword !== req.body.confirmPassword) {
-//     return next(new ErrorHandler("Password Does Not Match", 400));
-//   }
-//   user.password = req.body.newPassword;
-//   await user.save();
-
-//   sendToken(user, 200, res);
-// });
 
 //Update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
@@ -555,3 +473,6 @@ exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
     .status(200)
     .json({ message: "Your Prescription was send to the nearest Pharmacy " });
 });
+
+// Prescription Details
+

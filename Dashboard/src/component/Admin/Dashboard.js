@@ -10,11 +10,17 @@ import { getAllOrders } from "../../actions/orderAction.js";
 import { getAllUsers } from "../../actions/userAction.js";
 import MetaData from "../layout/MetaData";
 import Chart from "chart.js/auto";
+import Loader from "../layout/Loader/Loader.js";
 const Dashboard = () => {
     const dispatch = useDispatch();
 
+    const { error, loading, isAuthenticated } = useSelector(
+      (state) => state.user
+    );
+
     const { products } = useSelector((state) => state.products);
     console.log(products)
+    console.log(isAuthenticated)
 
     const { orders } = useSelector((state) => state.allOrders);
 
@@ -73,49 +79,50 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard">
-      <MetaData title="Dashboard - Admin Panel" />
-      <Sidebar />
+ <> {loading ? <Loader /> : <> <div className="dashboard">
+ <MetaData title="Dashboard - Admin Panel" />
+ <Sidebar />
 
-      <div className="dashboardContainer">
-        <Typography component="h1">Dashboard</Typography>
+ <div className="dashboardContainer">
+   <Typography component="h1">Dashboard</Typography>
 
-        <div className="dashboardSummary">
-          <div>
-            <p>
-              Total Amount <br />
-              ₹{totalAmount}
-            </p>
-          </div>
-          <div className="dashboardSummaryBox2">
-            <Link to="/admin/products">
-              <p>Product</p>
-              <p>{products && products.length}</p>
-            </Link>
-            <Link to="/admin/orders">
-              <p>Orders</p>
-              <p>
-                {orders && orders.length}
-                </p>
-            </Link>
-            <Link to="/admin/users">
-              <p>Users</p>
-              <p>
-                {users && users.length}
-                </p>
-            </Link>
-          </div>
-        </div>
+   <div className="dashboardSummary">
+     <div>
+       <p>
+         Total Amount <br />
+         ₹{totalAmount}
+       </p>
+     </div>
+     <div className="dashboardSummaryBox2">
+       <Link to="/admin/products">
+         <p>Product</p>
+         <p>{products && products.length}</p>
+       </Link>
+       <Link to="/admin/orders">
+         <p>Orders</p>
+         <p>
+           {orders && orders.length}
+           </p>
+       </Link>
+       <Link to="/admin/users">
+         <p>Users</p>
+         <p>
+           {users && users.length}
+           </p>
+       </Link>
+     </div>
+   </div>
 
-        <div className="lineChart">
-          <Line data={lineState} />
-        </div>
+   <div className="lineChart">
+     <Line data={lineState} />
+   </div>
 
-        <div className="doughnutChart">
-          <Doughnut data={doughnutState} />
-        </div>
-      </div>
-    </div>
+   <div className="doughnutChart">
+     <Doughnut data={doughnutState} />
+   </div>
+ </div>
+</div></> }
+</> 
   );
 };
 

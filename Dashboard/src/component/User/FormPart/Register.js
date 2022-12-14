@@ -88,6 +88,7 @@ const Register = () => {
     myForm.append("certificateImage", certificateImage);
 
     dispatch(registerAdmin(myForm));
+    Navigate("/login")
   };
 
   return (

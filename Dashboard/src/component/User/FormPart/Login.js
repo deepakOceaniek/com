@@ -1,24 +1,40 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 // import Loader from "../layout/Loader/Loader";
 import "./Login.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../../actions/userAction";
+import { login,clearErrors } from "../../../actions/userAction";
+import { useAlert } from "react-alert";
+
 
 const Login = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
+  const alert = useAlert();
 
-  //   const { error, loading, isAuthenticated } = useSelector(
-  //     (state) => state.user
-  //   );
+
+    const { error, loading, isAuthenticated } = useSelector(
+      (state) => state.user
+    );
 
   const [loginContact, setLoginPassword] = useState("");
+
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    if (isAuthenticated) {
+      Navigate("/admin/dashboard");
+    }
+  }, [dispatch, alert, error, isAuthenticated, Navigate, 
+    // redirect
+  ]);
 
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginContact));
-    Navigate("/admin/otp", {
+    Navigate("/otp", {
       contact: loginContact,
     });
   };

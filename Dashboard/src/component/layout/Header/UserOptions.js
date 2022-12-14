@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { SpeedDial, SpeedDialAction } from "@material-ui/lab";
 import { Backdrop } from "@material-ui/core";
@@ -58,8 +58,9 @@ const UserOptions = ({ loading, user }) => {
   function logoutUser() {
     dispatch(logout());
     alert.success("Logout Successfully");
-    Navigate("/admin/login")
+    Navigate("/login")
   }
+  
   // console.log(user);
   // console.log(user.user.avatar.url);
   // console.log(user.loading);

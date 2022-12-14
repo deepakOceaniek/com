@@ -27,6 +27,7 @@ import UpdateCategory from "./component/Admin/UpdateCategory.js";
 import LoginScreen from "./component/User/LoginScreen";
 import RegisterScreen from "./component/User/RegisterScreen";
 import OtpScreen from "./component/User/OtpScreen";
+import Prescription from "./component/Admin/Prescription.js"
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -64,9 +65,9 @@ function App() {
           )} */}
 
           {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
-          <Route path="/admin/login" element={<LoginScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
           <Route path="/admin/register" element={<RegisterScreen />} />
-          <Route path="/admin/otp" element={<OtpScreen />} />
+          <Route path="/otp" element={<OtpScreen />} />
 
           <Route
             OtpScreen
@@ -117,6 +118,12 @@ function App() {
           {isAuthenticated && (
             <Route path="/admin/category/:id" element={<UpdateCategory />} />
           )}
+
+{isAuthenticated && (
+            <Route path="/admin/prescription" element={<Prescription />} />
+          )}
+
+
 
           {/* <Route path="/Registration" element={<Registration />} /> */}
           {/* <Route path="/admindashboard" element={<AdminDashborad />} /> */}
