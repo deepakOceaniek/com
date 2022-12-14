@@ -2,42 +2,32 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-
   VERIFY_REQUEST,
   VERIFY_SUCCESS,
   VERIFY__FAIL,
-
   REGISTER_ADMIN_REQUEST,
   REGISTER_ADMIN_SUCCESS,
   REGISTER_ADMIN_FAIL,
-
   LOAD_ADMIN_REQUEST,
   LOAD_ADMIN_SUCCESS,
   LOAD_ADMIN_FAIL,
-
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
-
   UPDATE_ADMIN_PROFILE_REQUEST,
   UPDATE_ADMIN_PROFILE_SUCCESS,
   UPDATE_ADMIN_PROFILE_FAIL,
-
   ALL_USERS_REQUEST,
   ALL_USERS_SUCCESS,
-  ALL_USERS_FAIL, 
-
+  ALL_USERS_FAIL,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
-
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
-
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
-
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 import axios from "axios";
@@ -48,34 +38,42 @@ export const login = (contact) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     // const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.get(`/api/v1/login?phonenumber=${contact}&channel=sms`);
+    const { data } = await axios.get(
+      `/api/v1/login?phonenumber=${contact}&channel=sms`
+    );
     dispatch({ type: LOGIN_SUCCESS, payload: data.message });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
   }
 };
 
-//Login
-export const verify = (code) => async (dispatch) => {
+//verify
+export const verify = (code, contact) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
     // const config = { headers: { "Content-Type": "application/json" } };
-
-    const { data } = await axios.get(`api/v1/verify?phonenumber=917986614157&code=${code}`);
+    console.log(code, contact);
+    const { data } = await axios.get(
+      `api/v1/verify?phonenumber=${contact}&code=${code}`
+    );
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
   }
 };
 
-// Register -- Admin 
+// Register -- Admin
 export const registerAdmin = (userData) => async (dispatch) => {
-  console.log(userData)
+  console.log(userData);
   try {
     dispatch({ type: REGISTER_ADMIN_REQUEST });
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await axios.post(`/api/v1/admin/register`, userData, config);
+    const { data } = await axios.post(
+      `/api/v1/admin/register`,
+      userData,
+      config
+    );
     console.log(data);
     dispatch({ type: REGISTER_ADMIN_SUCCESS, payload: data.user });
   } catch (error) {
@@ -94,7 +92,7 @@ export const loadadmin = () => async (dispatch) => {
     const { data } = await axios.get(`/api/v1/admin/me`);
     dispatch({ type: LOAD_ADMIN_SUCCESS, payload: data.user });
   } catch (error) {
-    dispatch({ type: LOAD_ADMIN_FAIL, payload: error.response.data.message  });
+    dispatch({ type: LOAD_ADMIN_FAIL, payload: error.response.data.message });
   }
 };
 
@@ -108,14 +106,18 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-// Update Profile --admin bnana hai 
+// Update Profile --admin bnana hai
 export const updateProfile = (userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ADMIN_PROFILE_REQUEST });
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
-    const { data } = await axios.put(`/api/v1//admin/me/update`, userData, config);
-    console.log(data)
+    const { data } = await axios.put(
+      `/api/v1//admin/me/update`,
+      userData,
+      config
+    );
+    console.log(data);
     dispatch({ type: UPDATE_ADMIN_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
     dispatch({

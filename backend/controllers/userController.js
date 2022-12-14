@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
-const Prescription =require("../Models/prescriptionModel")
+const Prescription = require("../Models/prescriptionModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
@@ -50,7 +50,7 @@ exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
     status,
   });
   // sendToken(admin, 201, res);
-  res.status(201).json({success :true , message : "Register Successful" })
+  res.status(201).json({ success: true, message: "Register Successful" });
 });
 
 //Register User
@@ -89,14 +89,15 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       contact,
     });
     // sendToken(user, 201, res);
-  res.status(201).json({success :true , message : "Register Successful" })
-
+    res.status(201).json({ success: true, message: "Register Successful" });
   }
 });
 
 //**  login phoneNumber and channel(sms/call) **
 exports.optVerify = catchAsyncErrors(async (req, res, next) => {
   const contact = req.query.phonenumber;
+  console.log(req.query.phonenumber);
+  console.log(req.query.channel);
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
 
@@ -108,7 +109,9 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
         channel: req.query.channel,
       });
     if (optreq) {
-      res.status(200).json({status :optreq.status , statusCode : 200 , message : "success"})
+      res
+        .status(200)
+        .json({ status: optreq.status, statusCode: 200, message: "success" });
     }
   } else {
     return next(new ErrorHandler("Invalid Please Register ", 400));
@@ -264,12 +267,11 @@ exports.getAdminDetails = catchAsyncErrors(async (req, res, next) => {
 
 //Update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
- 
   const newUserData = {
     name: req.body.name,
     contact: req.body.contact,
   };
- 
+
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
@@ -449,16 +451,16 @@ exports.getAddressDetails = catchAsyncErrors(async (req, res, next) => {
     return add._id.toString() === req.params.id.toString();
   });
 
-  if (address.length <= 0 ) {
+  if (address.length <= 0) {
     return next(new ErrorHandler("User address not found", 400));
-  }else{
+  } else {
     res.status(200).json({
       success: true,
       address: address,
     });
   }
 });
-// status   code message 
+// status   code message
 
 // Update user Address
 exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
@@ -475,21 +477,20 @@ exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
   const userdetails = await User.findById(req.user.id);
 
   if (userdetails) {
-    console.log(req.params.id.toString().length !== 24)
-    if(req.params.id.toString().length !==24){
-    return next(new ErrorHandler("Address not found", 400));
-
-    }else{
-    userdetails.userAddresses.forEach((add) => {
-      if (add._id.toString() === req.params.id.toString())
-        add.address = address;
-      add.city = city;
-      add.area = area;
-      add.state = state;
-      add.pinCode = pinCode;
-      add.contact = contact;
-    })
-  }
+    console.log(req.params.id.toString().length !== 24);
+    if (req.params.id.toString().length !== 24) {
+      return next(new ErrorHandler("Address not found", 400));
+    } else {
+      userdetails.userAddresses.forEach((add) => {
+        if (add._id.toString() === req.params.id.toString())
+          add.address = address;
+        add.city = city;
+        add.area = area;
+        add.state = state;
+        add.pinCode = pinCode;
+        add.contact = contact;
+      });
+    }
   }
   await userdetails.save({ validateBeforeSave: false });
   res.status(200).json({
@@ -500,18 +501,18 @@ exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
 
 // Delete user Address
 exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
-  let userAddresses
+  let userAddresses;
   const userDetails = await User.findById(req.user.id);
   if (!userDetails) {
     return next(new ErrorHandler("User not found", 401));
   }
 
-  if(req.params.id.toString().length !==24){
+  if (req.params.id.toString().length !== 24) {
     return next(new ErrorHandler("Address not found", 400));
-  }else{
-   userAddresses = userDetails.userAddresses.filter((add) => {
-    return add._id.toString() !== req.params.id.toString();
-  });
+  } else {
+    userAddresses = userDetails.userAddresses.filter((add) => {
+      return add._id.toString() !== req.params.id.toString();
+    });
   }
   const user = await User.findByIdAndUpdate(
     req.user.id,
@@ -520,16 +521,16 @@ exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
   );
   res.status(200).json({
     success: true,
-    message: "Address Deleted"
+    message: "Address Deleted",
   });
 });
 
-//Add prescription  
+//Add prescription
 exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body);
   console.log(req.files);
-  // Cloudinary  
-  if (req.files !== "") {  
+  // Cloudinary
+  if (req.files !== "") {
     const MyCloud = await cloudinary.v2.uploader.upload(
       req.body.prescriptionImage,
       {
@@ -538,15 +539,19 @@ exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
         crop: "scale",
       }
     );
-    console.log(MyCloud)
+    console.log(MyCloud);
     const prescription = await Prescription.create({
       prescriptionImage: {
         public_id: MyCloud.public_id,
         url: MyCloud.secure_url,
-      },    
+      },
     });
-  }else{
-    return next(new ErrorHandler("Please upload your prescription properly", 400));
+  } else {
+    return next(
+      new ErrorHandler("Please upload your prescription properly", 400)
+    );
   }
-  res.status(200).json({message : "Your Prescription was send to the nearest Pharmacy "})
+  res
+    .status(200)
+    .json({ message: "Your Prescription was send to the nearest Pharmacy " });
 });

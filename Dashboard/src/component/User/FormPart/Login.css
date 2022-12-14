@@ -1,0 +1,85 @@
+/*----------------- Login Css----------- */
+.Form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3em;
+}
+/* Form h4 {
+  margin-right: 12em;
+  margin-top: 1em;
+} */
+.Form-group > h1 {
+  margin: 1em 10em 1.5em 0em;
+}
+.input {
+  width: 25vw;
+  margin: 0em 0em 1em 0em;
+}
+
+input[type="submit"] {
+  font-size: 20px;
+}
+
+.subBtn {
+  height: 6vh;
+  border-radius: 8px;
+  background-color: #308c89;
+  width: 25vw;
+}
+
+Form > Span {
+  margin: 2em 0em 0em 1em;
+  font-size: 20px;
+}
+
+/* -----------------For Responsive-------------------  */
+@media screen and (max-width: 480px) {
+  .row {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+  .login-left p {
+    color: black;
+    font-size: 1em;
+  }
+  .login-left {
+    width: 100vw;
+  }
+  .login-left img {
+    width: 80vw;
+  }
+
+  Form h4 {
+    margin-right: 0em;
+  }
+  .form-part {
+    background-color: white;
+    width: 60vw;
+    height: 80vh;
+    border-radius: 50px;
+    margin: 0 0 0 6vw;
+  }
+  Form > Span {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .subBtn {
+    height: 6vh;
+    border-radius: 8px;
+    background-color: #308c89;
+    width: 45vw;
+  }
+  .input {
+    width: 45vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 1024px) {
+}

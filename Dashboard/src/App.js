@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./component/layout/Header/Header.js";
+// import Header from "./component/layout/Header/Header.js";
 import Footer from "./component/layout/Footer/Footer.js";
 import WebFont from "webfontloader";
 import Loader from "./component/layout/Loader/Loader.js";
@@ -24,7 +24,10 @@ import AdminProfile from "./component/User/AdminProfile.js";
 import NewCategory from "./component/Admin/NewCategory.js";
 import CategoryList from "./component/Admin/CategoryList.js";
 import UpdateCategory from "./component/Admin/UpdateCategory.js";
-import OtpScreen from "./component/UserOtpScreen.js"
+import LoginScreen from "./component/User/LoginScreen";
+import RegisterScreen from "./component/User/RegisterScreen";
+import OtpScreen from "./component/User/OtpScreen";
+
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
 // import AddMedicine from "./component/Register/AddMedicine";
@@ -49,7 +52,7 @@ function App() {
   return (
     <>
       <Router>
-        <Header />
+        {/* <Header /> */}
 
         {isAuthenticated && <UserOption user={{ loading, user }} />}
         <Routes>
@@ -60,11 +63,13 @@ function App() {
             <Route path="/me/update" element={<ProfileUpdate />} />
           )} */}
 
-          <Route path="/admin/login" element={<AdminLoginSignUp />} />
-        <Route path="/otpverify" element={<OtpScreen />} />
-
+          {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
+          <Route path="/admin/login" element={<LoginScreen />} />
+          <Route path="/admin/register" element={<RegisterScreen />} />
+          <Route path="/admin/otp" element={<OtpScreen />} />
 
           <Route
+            OtpScreen
             path="/admin/dashboard"
             element={
               // <ProtectedRoute isAdmin={true}>
@@ -121,7 +126,7 @@ function App() {
           {/* <Route path="/addTest" element={<AddTest />} /> */}
         </Routes>
 
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </>
   );
