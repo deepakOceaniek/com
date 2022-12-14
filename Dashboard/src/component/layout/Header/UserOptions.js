@@ -49,7 +49,7 @@ const UserOptions = ({ loading, user }) => {
     Naviagte("/orders");
   }
   function account() {
-    Naviagte("/account");
+    Naviagte("/admin/me");
   }
   // function cart() {
   //   Naviagte("/cart");
@@ -58,9 +58,9 @@ const UserOptions = ({ loading, user }) => {
   function logoutUser() {
     dispatch(logout());
     alert.success("Logout Successfully");
-    Navigate("/login")
+    Navigate("/login");
   }
-  
+
   // console.log(user);
   // console.log(user.user.avatar.url);
   // console.log(user.loading);

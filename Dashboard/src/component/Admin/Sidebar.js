@@ -11,9 +11,9 @@ import ListAltIcon from "@material-ui/icons/ListAlt";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import RateReviewIcon from "@material-ui/icons/RateReview";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
-import UsbIcon from '@material-ui/icons/Usb';
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
+import VerticalAlignTopIcon from "@material-ui/icons/VerticalAlignTop";
+import UsbIcon from "@material-ui/icons/Usb";
 
 const Sidebar = () => {
   return (
@@ -33,7 +33,11 @@ const Sidebar = () => {
         >
           <TreeItem nodeId="1" label="Products">
             <Link to="/admin/products">
-              <TreeItem nodeId="2" label="All" icon={<FormatListBulletedIcon />} />
+              <TreeItem
+                nodeId="2"
+                label="All"
+                icon={<FormatListBulletedIcon />}
+              />
             </Link>
 
             <Link to="/admin/product">
@@ -65,14 +69,23 @@ const Sidebar = () => {
           Reviews
         </p>
       </Link>
+      <Link to="/admin/addPrescription">
+        <p>
+          <PeopleIcon /> Add Prescription
+        </p>
+      </Link>
       <Link>
-      <TreeView
+        <TreeView
           defaultCollapseIcon={<VerticalAlignTopIcon />}
           defaultExpandIcon={<UsbIcon />}
         >
           <TreeItem nodeId="1" label="Category">
             <Link to="/admin/categories">
-              <TreeItem nodeId="2" label="All" icon={<FormatListBulletedIcon />} />
+              <TreeItem
+                nodeId="2"
+                label="All"
+                icon={<FormatListBulletedIcon />}
+              />
             </Link>
 
             <Link to="/admin/category">
@@ -80,7 +93,7 @@ const Sidebar = () => {
             </Link>
           </TreeItem>
         </TreeView>
-        </Link>
+      </Link>
     </div>
   );
 };

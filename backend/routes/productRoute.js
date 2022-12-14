@@ -20,6 +20,9 @@ const {
   updateCategory,
   deleteCategory,
   getCategoryDetails,
+  addPrescription,
+  getPrescriptionDetails,
+  getAllPrescription,
 } = require("../controllers/productController");
 
 router.route("/products").get(getAllProduct);
@@ -39,7 +42,15 @@ router
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllProductReviews)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
-router.route("/allcategory").get(getAllCategory);
+router.route("/allprescription").get();
+router
+  .route("/admin/prescription/new")
+  .post(isAuthenticatedAdmin, authorizeRoles("admin"), addPrescription); // change Auth to user later
+router
+  .route("/admin/prescription/:id")
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails);
+
+router.route("/allcategory").get(getAllPrescription);
 router
   .route("/admin/category/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addCategory);

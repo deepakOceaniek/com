@@ -5,32 +5,33 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const prescriptionSchema = mongoose.Schema({
-  
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true,
-      },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
 
-      prescriptionImage : {
-        public_id: {
-          type: String,
-          required: true,
-        },
-        url: {
-          type: String,
-          required: true,
-        },
-      },
+  prescriptionImage: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
+
+  status: {
+    type: String,
+    required: true,
+    default: "Processing",
+  },
 
   createdAt: {
     type: Date,
     default: Date.now,
   },
-
-
 });
-
-
 
 module.exports = mongoose.model("Prescription", prescriptionSchema);

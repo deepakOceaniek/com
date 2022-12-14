@@ -1,5 +1,6 @@
 const Product = require("../models/productModel");
 const Category =require("../Models/categoryModel")
+const Prescription = require("../Models/prescriptionModel")
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
@@ -328,4 +329,59 @@ exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
 
   await category.remove();
   res.status(200).json({ success: true, message: "Category deleted successfully" });
+});
+
+
+// All Prescription 
+exports.getAllPrescription = catchAsyncErrors(async (req, res, next) => {
+  const prescription = await Prescription.find();
+
+  res.status(200).json({
+    success: true,
+    prescription,
+  });
+});
+
+// Add Prescription ---user 
+exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
+  const myCloud = await cloudinary.v2.uploader.upload(req.body.prescriptionImage, {
+    folder: "category",
+    width: 150,
+    crop: "scale",
+  });
+  const prescription = await Prescription.create({
+    prescriptionImage: {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    },
+  });
+  res.status(201).json({
+    success: true,
+  });
+});
+
+// Get Prescription details
+exports.getPrescriptionDetails = catchAsyncErrors(async (req, res, next) => {
+  const prescription = await Prescription.findById(req.params.id);
+  if (!prescription) {
+    return next(new ErrorHandler("No Prescription found ", 404));
+  }
+  res.status(200).json({ success: true, prescription });
+});
+
+//Delete Prescription --admin
+exports.deletePrescription = catchAsyncErrors(async (req, res, next) => {
+
+  const prescription = await Prescription.findById(req.params.id);
+  if (!prescription) {
+    return next(
+      new ErrorHandler(`Category Does Not Exist with Id: ${req.params.id}`, 400)
+    );
+  }
+
+  const imageId = prescription.prescriptionImage.public_id;
+  await cloudinary.v2.uploader.destroy(imageId);
+
+  await prescription.remove();
+  res.status(200).json({ success: true, message: "Prescription deleted successfully" });
 });
