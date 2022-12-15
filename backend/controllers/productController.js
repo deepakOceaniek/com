@@ -249,12 +249,12 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   const category = await Category.find();
 
-    sendToken(category, 200, res);
+    // sendToken(category, 200, res);
 
-  // res.status(200).json({
-  //   success: true,
-  //   category,
-  // });
+  res.status(200).json({
+    success: true,
+    category,
+  });
 });
 
 // Add Category ---admin 

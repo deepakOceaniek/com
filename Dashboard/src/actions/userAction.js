@@ -41,7 +41,7 @@ export const login = (contact) => async (dispatch) => {
     const { data } = await axios.get(
       `/api/v1/login?phonenumber=${contact}&channel=sms`
     );
-    console.log(`loginData :${data.message}`)
+    console.log(`loginData :${data.message}`);
 
     dispatch({ type: LOGIN_SUCCESS, payload: data.message });
   } catch (error) {
@@ -58,8 +58,8 @@ export const verify = (code, contact) => async (dispatch) => {
     const { data } = await axios.get(
       `api/v1/verify?phonenumber=${917986614157}&code=${code}`
     );
-    console.log(`VerifyData :${data.toString()}`)
     dispatch({ type: VERIFY_SUCCESS, payload: data });
+    console.log(`VerifyData :${data}`);
   } catch (error) {
     dispatch({ type: VERIFY__FAIL, payload: error.response.data.message });
   }

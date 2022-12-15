@@ -28,7 +28,7 @@ const {
   deleteBanner,
 } = require("../controllers/productController");
 
-router.route("/products").get(getAllProduct);
+router.route("/products").get(isAuthenticated, getAllProduct);
 router.route("/admin/products").get(isAuthenticatedAdmin, getAdminProducts);
 router
   .route("/admin/product/new")
@@ -38,23 +38,21 @@ router
   .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteProduct);
 
-router.route("/product/:id").get(getProductDetails);
+router.route("/product/:id").get(isAuthenticated, getProductDetails);
 router.route("/review").put(isAuthenticated, createProductReview);
 router
   .route("/reviews")
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllProductReviews)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
-
-
-  router.route("/allbanner").get(getAllBanner);
-  router
+router.route("/allbanner").get(isAuthenticated, getAllBanner);
+router
   .route("/admin/banner/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addBanner);
 
-  router
+router
   .route("/admin/banner/:id")
-  .delete(isAuthenticatedAdmin, authorizeRoles("admin"),deleteBanner );
+  .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteBanner);
 
 router.route("/allprescription").get(getAllPrescription);
 router

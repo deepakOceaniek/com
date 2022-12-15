@@ -15,13 +15,16 @@ exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   // next();
 
   const token = req.headers.authorization.split(" ")[1];
-   if (!token) {
+  if (!token) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }
-  const decodedData = jwt.verify(token,  process.env.JWT_SECRET);
-    req.user = await User.findById(decodedData.id);
+  const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+  console.log(decodedData);
+
+  req.user = await User.findById(decodedData.id);
+  console.log(req.user);
+
   next();
-  
 });
 
 exports.isAuthenticatedAdmin = catchAsyncError(async (req, res, next) => {

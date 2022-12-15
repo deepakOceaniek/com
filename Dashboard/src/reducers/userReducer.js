@@ -2,45 +2,35 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-
   VERIFY_REQUEST,
   VERIFY_SUCCESS,
   VERIFY__FAIL,
-
   REGISTER_ADMIN_REQUEST,
   REGISTER_ADMIN_SUCCESS,
   REGISTER_ADMIN_FAIL,
-
   LOAD_ADMIN_REQUEST,
   LOAD_ADMIN_SUCCESS,
   LOAD_ADMIN_FAIL,
-
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
-
   UPDATE_ADMIN_PROFILE_REQUEST,
   UPDATE_ADMIN_PROFILE_SUCCESS,
   UPDATE_ADMIN_PROFILE_FAIL,
   UPDATE_ADMIN_PROFILE_RESET,
-
   ALL_USERS_REQUEST,
   ALL_USERS_SUCCESS,
   ALL_USERS_FAIL,
-
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
   DELETE_USER_RESET,
-
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
   UPDATE_USER_RESET,
-
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
-
   CLEAR_ERRORS,
 } from "../constants/userConstants";
 
@@ -48,28 +38,28 @@ export const userReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
     case REGISTER_ADMIN_REQUEST:
-      case LOAD_ADMIN_REQUEST:
-        case VERIFY_REQUEST:
+    case LOAD_ADMIN_REQUEST:
+    case VERIFY_REQUEST:
       return {
         loading: true,
         isAuthenticated: false,
       };
     case LOGIN_SUCCESS:
-      case REGISTER_ADMIN_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          isAuthenticated: false,
-          user: action.payload,
-        };
-
-        case LOAD_ADMIN_SUCCESS:
-        case VERIFY_SUCCESS:
+    case REGISTER_ADMIN_SUCCESS:
       return {
         ...state,
         loading: false,
+        isAuthenticated: false,
+        user: action.payload,
+      };
+
+    case LOAD_ADMIN_SUCCESS:
+    case VERIFY_SUCCESS:
+      return {
+        ...state,
+        loading: true,
         isAuthenticated: true,
-        user: action.payload.user,
+        // user: action.payload,
       };
 
     case LOGOUT_SUCCESS:
@@ -79,9 +69,8 @@ export const userReducer = (state = { user: {} }, action) => {
         isAuthenticated: false,
       };
     case LOGIN_FAIL:
-      case REGISTER_ADMIN_FAIL:
-        case VERIFY__FAIL:
-      
+    case REGISTER_ADMIN_FAIL:
+    case VERIFY__FAIL:
       return {
         ...state,
         loading: false,
@@ -90,7 +79,7 @@ export const userReducer = (state = { user: {} }, action) => {
         error: action.payload,
       };
 
-      case LOAD_ADMIN_FAIL:
+    case LOAD_ADMIN_FAIL:
       return {
         loading: false,
         isAuthenticated: false,
