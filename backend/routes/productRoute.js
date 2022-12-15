@@ -7,6 +7,7 @@ const {
 } = require("../middleware/auth");
 const {
   getAllProduct,
+  getAllCategory,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -15,7 +16,6 @@ const {
   getAllProductReviews,
   deleteReview,
   getAdminProducts,
-  getAllCategory,
   addCategory,
   updateCategory,
   deleteCategory,
@@ -23,6 +23,9 @@ const {
   addPrescription,
   getPrescriptionDetails,
   getAllPrescription,
+  getAllBanner,
+  addBanner,
+  deleteBanner,
 } = require("../controllers/productController");
 
 router.route("/products").get(getAllProduct);
@@ -42,7 +45,18 @@ router
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllProductReviews)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
-router.route("/allprescription").get();
+
+
+  router.route("/allbanner").get(getAllBanner);
+  router
+  .route("/admin/banner/new")
+  .post(isAuthenticatedAdmin, authorizeRoles("admin"), addBanner);
+
+  router
+  .route("/admin/banner/:id")
+  .delete(isAuthenticatedAdmin, authorizeRoles("admin"),deleteBanner );
+
+router.route("/allprescription").get(getAllPrescription);
 router
   .route("/admin/prescription/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addPrescription); // change Auth to user later
@@ -50,7 +64,7 @@ router
   .route("/admin/prescription/:id")
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails);
 
-router.route("/allcategory").get(getAllPrescription);
+router.route("/allcategory").get(isAuthenticated, getAllCategory);
 router
   .route("/admin/category/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addCategory);

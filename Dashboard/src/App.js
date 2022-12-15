@@ -29,6 +29,7 @@ import RegisterScreen from "./component/User/RegisterScreen";
 import OtpScreen from "./component/User/OtpScreen";
 import Prescription from "./component/Admin/Prescription.js";
 import AddPrescription from "./component/Admin/AddPrescription";
+import AddBanner from "./component/Admin/AddBanner.js"
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -56,7 +57,7 @@ function App() {
       <Router>
         {/* <Header /> */}
 
-        {isAuthenticated && <UserOption user={{ loading, user }} />}
+        {/* {isAuthenticated && <UserOption user={{ loading, user }} />} */}
         <Routes>
           <Route path="/loading" element={<Loader />} />
 
@@ -130,6 +131,15 @@ function App() {
               element={<AddPrescription />}
             />
           )}
+
+{isAuthenticated && (
+            <Route
+              path="/admin/addBanner"
+              element={<AddBanner />}
+            />
+          )}
+
+
 
           {/* <Route path="/Registration" element={<Registration />} /> */}
           {/* <Route path="/admindashboard" element={<AdminDashborad />} /> */}

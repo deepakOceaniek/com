@@ -1,6 +1,10 @@
 const Product = require("../models/productModel");
 const Category =require("../Models/categoryModel")
 const Prescription = require("../Models/prescriptionModel")
+const  Banner = require("../Models/bannerModel")
+const sendToken = require("../utils/jwtToken");
+
+
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
@@ -245,10 +249,12 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   const category = await Category.find();
 
-  res.status(200).json({
-    success: true,
-    category,
-  });
+    sendToken(category, 200, res);
+
+  // res.status(200).json({
+  //   success: true,
+  //   category,
+  // });
 });
 
 // Add Category ---admin 
@@ -385,3 +391,73 @@ exports.deletePrescription = catchAsyncErrors(async (req, res, next) => {
   await prescription.remove();
   res.status(200).json({ success: true, message: "Prescription deleted successfully" });
 });
+
+// All banner 
+exports.getAllBanner = catchAsyncErrors(async (req, res, next) => {
+  const banner = await Banner.find();
+
+  res.status(200).json({
+    success: true,
+    banner,
+  });
+});
+
+// Add banner --admin
+exports.addBanner = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.files);
+  // Cloudinary
+  if (req.files !== "") {
+    const MyCloud = await cloudinary.v2.uploader.upload(
+      req.body.bannerImage,
+      {
+        folder: "bannerImage",
+        width: 150,
+        crop: "scale",
+      }
+    );
+    console.log(MyCloud);
+    const banner = await Banner.create({
+      bannerImage: {
+        public_id: MyCloud.public_id,
+        url: MyCloud.secure_url,
+      },
+    });
+  } else {
+    return next(
+      new ErrorHandler("Fail to upload", 400)
+    );
+  }
+  res
+    .status(200)
+    .json({success :true , message: "Banner Added "});
+});
+
+
+// // Get single banner image
+// exports.getBannerDetails = catchAsyncErrors(async (req, res, next) => {
+//   const banner = await Banner.findById(req.params.id);
+//   if (!banner) {
+//     return next(new ErrorHandler("No banner found ", 404));
+//   }
+//   res.status(200).json({ success: true, banner });
+// });
+
+
+//Delete banner --admin
+exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
+
+  const banner = await Banner.findById(req.params.id);
+  if (!banner) {
+    return next(
+      new ErrorHandler(`Banner Image Not Exist with Id: ${req.params.id}`, 400)
+    );
+  }
+
+  const imageId = banner.prescriptionImage.public_id;
+  await cloudinary.v2.uploader.destroy(imageId);
+
+  await banner.remove();
+  res.status(200).json({ success: true, message: "Banner  deleted successfully" });
+});
+
+

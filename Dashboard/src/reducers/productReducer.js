@@ -42,6 +42,14 @@ import {
   CATEGORY_DETAILS_REQUEST,
   CATEGORY_DETAILS_SUCCESS,
   CATEGORY_DETAILS_FAIL,
+
+  BANNER_REQUEST,
+  BANNER_SUCCESS,
+  BANNER_FAIL,
+  NEW_BANNER_REQUEST,
+  NEW_BANNER_SUCCESS,
+  NEW_BANNER_FAIL,
+  NEW_BANNER_RESET,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -88,6 +96,34 @@ export const categoriesReducer = (state = { categories: [] }, action) => {
         category: action.payload,
       };
     case ADMIN_CATEGORY_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const bannersReducer = (state = { banners: [] }, action) => {
+  switch (action.type) {
+    case BANNER_REQUEST:
+      return {
+        loading: true,
+        products: [],
+      };
+    case BANNER_SUCCESS:
+      return {
+        loading: false,
+        category: action.payload,
+      };
+    case BANNER_FAIL:
       return {
         loading: false,
         error: action.payload,
@@ -159,6 +195,41 @@ export const newCategoryReducer = (state = { category: {} }, action) => {
         error: action.payload,
       };
     case NEW_CATEGORY_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const newBannerReducer = (state = { banner: {} }, action) => {
+  switch (action.type) {
+    case NEW_BANNER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case NEW_BANNER_SUCCESS:
+      return {
+        loading: false,
+        success: action.payload.success,
+        // banner: action.payload.banner,
+      };
+    case NEW_BANNER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case NEW_BANNER_RESET:
       return {
         ...state,
         success: false,

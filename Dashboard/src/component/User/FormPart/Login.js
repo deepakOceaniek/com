@@ -24,9 +24,9 @@ const Login = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    if (isAuthenticated) {
-      Navigate("/admin/dashboard");
-    }
+    // if (isAuthenticated ===true) {
+    //   Navigate("/admin/dashboard");
+    // }
   }, [dispatch, alert, error, isAuthenticated, Navigate, 
     // redirect
   ]);
@@ -34,9 +34,7 @@ const Login = () => {
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginContact));
-    Navigate("/otp", {
-      contact: loginContact,
-    });
+    Navigate("/otp");
   };
   return (
     <>

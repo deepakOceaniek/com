@@ -16,6 +16,7 @@ const UserOtpScreen = ({ route }) => {
     const { error, loading, isAuthenticated } = useSelector(
       (state) => state.user
     );
+    console.log(`authenticate ${isAuthenticated}`)
 
   // const [otp, setOtp] = useState(0);
   // console.log(otp);
@@ -65,8 +66,9 @@ const UserOtpScreen = ({ route }) => {
     dispatch(verify(Number(otp), 
     // route.params.contact
     ));
-    // if (isAuthenticated) 
-    Navigate("/admin/dashboard");
+    // if (isAuthenticated) {
+    //   Navigate("/admin/dashboard");
+    // }
   };
 
   return (

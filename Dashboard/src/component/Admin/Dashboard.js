@@ -63,10 +63,13 @@ const Dashboard = () => {
       },
     ],
   };
+  let doughnutState
 
-  const doughnutState = {
+if(products){
+   doughnutState = {
     labels: ["Out of Stock", "InStock"],
-    datasets: [
+
+  datasets: [
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
@@ -77,6 +80,9 @@ const Dashboard = () => {
       },
     ],
   };
+}
+
+
 
   return (
  <> {loading ? <Loader /> : <> <div className="dashboard">

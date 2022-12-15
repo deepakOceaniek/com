@@ -5,14 +5,23 @@ const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
 
 exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
-  const { token } = req.cookies;
-  //   console.log(token);
-  if (!token) {
+  // const { token } = req.cookies;
+  // //   console.log(token);
+  // if (!token) {
+  //   return next(new ErrorHandler("Please Login to access this resource", 401));
+  // }
+  // const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+  // req.user = await User.findById(decodedData.id); // jab Tak login rehga request mai  se hum kabhi user ka deta access kar  sakte hai
+  // next();
+
+  const token = req.headers.authorization.split(" ")[1];
+   if (!token) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }
-  const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-  req.user = await User.findById(decodedData.id); // jab Tak login rehga request mai  se hum kabhi user ka deta access kar  sakte hai
+  const decodedData = jwt.verify(token,  process.env.JWT_SECRET);
+    req.user = await User.findById(decodedData.id);
   next();
+  
 });
 
 exports.isAuthenticatedAdmin = catchAsyncError(async (req, res, next) => {

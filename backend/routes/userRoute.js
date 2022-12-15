@@ -51,7 +51,6 @@ router
   .put(isAuthenticated, updateUserAddress)
   .delete(isAuthenticated, deleteUserAddress);
 
-router.route("/prescription/add").post(isAuthenticated,addPrescription)
 
 router
   .route("/admin/me")

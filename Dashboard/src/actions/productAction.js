@@ -37,6 +37,24 @@ import {
   CATEGORY_DETAILS_REQUEST,
   CATEGORY_DETAILS_SUCCESS,
   CATEGORY_DETAILS_FAIL,
+
+  BANNER_REQUEST,
+  BANNER_SUCCESS,
+  BANNER_FAIL,
+  NEW_BANNER_REQUEST,
+  NEW_BANNER_SUCCESS,
+  NEW_BANNER_FAIL,
+  UPDATE_BANNER_REQUEST,
+  UPDATE_BANNER_SUCCESS,
+  UPDATE_BANNER_FAIL,
+  DELETE_BANNER_REQUEST,
+  DELETE_BANNER_SUCCESS,
+  DELETE_BANNER_FAIL,
+  BANNER_DETAILS_REQUEST,
+  BANNER_DETAILS_SUCCESS,
+  BANNER_DETAILS_FAIL,
+
+
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -302,6 +320,53 @@ export const getCategoryDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+
+// Get All Category For Admin
+export const getBanner = () => async (dispatch) => {
+  try {
+    dispatch({ type: BANNER_REQUEST });
+
+    const { data } = await axios.get("/api/v1/allbanner");
+    dispatch({
+      type: BANNER_SUCCESS,
+      payload: data.banner,
+    });
+  } catch (error) {
+    dispatch({
+      type: BANNER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Create Category --admin
+export const createBanner = (categoryData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_BANNER_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    const { data } = await axios.post(
+      `/api/v1/admin/banner/new`,
+      categoryData,
+      config
+    );
+    console.log(data);
+
+    dispatch({
+      type: NEW_BANNER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_BANNER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
 const Prescription = require("../Models/prescriptionModel");
+const  Banner = require("../Models/bannerModel")
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
@@ -64,7 +65,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const userExist = await User.findOne({ contact: req.query.phonenumber });
 
   if (userExist) {
-    return next(new ErrorHandler("Already registered", 403));
+    return next(new ErrorHandler("Already registered", 409));
   } else {
     const optreq = await client.verify
     .services(process.env.SERVICEID)
@@ -445,7 +446,6 @@ exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
 
 //Add prescription
 exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.body);
   console.log(req.files);
   // Cloudinary
   if (req.files !== "") {
@@ -474,5 +474,9 @@ exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
     .json({ message: "Your Prescription was send to the nearest Pharmacy " });
 });
 
-// Prescription Details
+
+
+
+
+
 
