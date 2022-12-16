@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { verify, clearErrors } from "../../../actions/userAction";
 import { useAlert } from "react-alert";
 
-const UserOtpScreen = ({ route }) => {
+const UserOtpScreen = (props) => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const alert = useAlert();
@@ -13,8 +13,8 @@ const UserOtpScreen = ({ route }) => {
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
   );
-  console.log(`loading ${loading}`);
-  console.log(`authenticate ${isAuthenticated}`);
+  console.log(`data----------${props.data[0] }`)
+  console.log(`data----------${props.data[1] }`)
 
   // const [otp, setOtp] = useState(0);
   // console.log(otp);
@@ -49,7 +49,6 @@ const UserOtpScreen = ({ route }) => {
     value = e.target.value;
     setOtpData({ ...otpData, [inputName]: value });
   };
-  console.log(otpData);
 
   const str = otpData.otpInput1;
   const otp = str.concat(
@@ -57,19 +56,20 @@ const UserOtpScreen = ({ route }) => {
     otpData.otpInput3,
     otpData.otpInput4
   );
-  console.log(otp);
+
+  console.log(`loading ${loading}`);
+  console.log(`authenticate ${isAuthenticated}`);
   const submitOtp = (e) => {
     e.preventDefault();
 
     dispatch(
-      verify(
-        Number(otp)
+      verify(otp,props.data[0],props.data[1]
         // route.params.contact
       )
     );
-    // if (isAuthenticated) {
-    //   Navigate("/admin/dashboard");
-    // }
+    if (isAuthenticated) {
+      Navigate("/admin/dashboard");
+    }
   };
 
   return (

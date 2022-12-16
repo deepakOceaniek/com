@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, registerAdmin } from "../../../actions/userAction";
 import Loader from "../../layout/Loader/Loader";
 
-const Register = () => {
+const Register = ({setRegisterData}) => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
@@ -88,7 +88,8 @@ const Register = () => {
     myForm.append("certificateImage", certificateImage);
 
     dispatch(registerAdmin(myForm));
-    Navigate("/login")
+    setRegisterData(myForm)
+    Navigate("/otp");
   };
 
   return (
@@ -235,7 +236,7 @@ const Register = () => {
                     </div>
                     <span>
                       Already have an account?{" "}
-                      <Link to="/admin/login">Login</Link>
+                      <Link to="/login">Login</Link>
                     </span>
                   </form>
                 </div>

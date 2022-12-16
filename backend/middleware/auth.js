@@ -14,7 +14,14 @@ exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   // req.user = await User.findById(decodedData.id); // jab Tak login rehga request mai  se hum kabhi user ka deta access kar  sakte hai
   // next();
 
-  const token = req.headers.authorization.split(" ")[1];
+  const reqtoken = req.headers.authorization
+  let token
+if(reqtoken){
+   token = reqtoken.split(" ")[1];
+}else{
+  return next(new ErrorHandler("Please Login to access this resource ", 401));
+}
+  // const token = req.headers.authorization;
   if (!token) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }

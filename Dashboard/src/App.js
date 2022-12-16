@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Header from "./component/layout/Header/Header.js";
@@ -38,7 +38,8 @@ import AddBanner from "./component/Admin/AddBanner.js"
 // import AdminDashborad from "./component/Register/AdminDashborad";
 function App() {
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
-
+const [contactData ,setContactData] = useState("")
+const [registerData, setRegisterData] = useState("")
   useEffect(() => {
     WebFont.load({
       google: {
@@ -48,7 +49,6 @@ function App() {
     store.dispatch(loadadmin());
     // store.dispatch(loadUser());
   }, []);
-
   // It will disable the rightclick so we can not inspect
   // window.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -67,9 +67,9 @@ function App() {
           )} */}
 
           {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/admin/register" element={<RegisterScreen />} />
-          <Route path="/otp" element={<OtpScreen />} />
+          <Route path="/login" element={<LoginScreen  setContactData ={ setContactData}/>} />
+          <Route path="/admin/register" element={<RegisterScreen  setRegisterData={setRegisterData} />} />
+          <Route path="/otp" element={<OtpScreen data={[contactData,registerData]}   />} />
 
           <Route
             OtpScreen

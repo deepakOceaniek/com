@@ -7,7 +7,7 @@ import { login,clearErrors } from "../../../actions/userAction";
 import { useAlert } from "react-alert";
 
 
-const Login = () => {
+const Login = ({setContactData}) => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const alert = useAlert();
@@ -33,6 +33,7 @@ const Login = () => {
 
   const loginSubmit = (e) => {
     e.preventDefault();
+    setContactData(loginContact)
     dispatch(login(loginContact));
     Navigate("/otp");
   };

@@ -50,16 +50,21 @@ export const login = (contact) => async (dispatch) => {
 };
 
 //verify
-export const verify = (code, contact) => async (dispatch) => {
+export const verify = (code, contactNum,formData) => async (dispatch) => {
+ let contact  = contactNum
+  if(formData !== ""){
+    contact = formData.get("contact")
+ }
+
   try {
     dispatch({ type: VERIFY_REQUEST });
     // const config = { headers: { "Content-Type": "application/json" } };
-    console.log(code, contact);
+    console.log(code, contact, formData);
     const { data } = await axios.get(
-      `api/v1/verify?phonenumber=${917986614157}&code=${code}`
+      `api/v1/verify?phonenumber=${contact}&code=${code}`
     );
     dispatch({ type: VERIFY_SUCCESS, payload: data });
-    console.log(`VerifyData :${data}`);
+    console.log(`VerifyData :${data.user}`);
   } catch (error) {
     dispatch({ type: VERIFY__FAIL, payload: error.response.data.message });
   }
@@ -67,13 +72,14 @@ export const verify = (code, contact) => async (dispatch) => {
 
 // Register -- Admin
 export const registerAdmin = (userData) => async (dispatch) => {
-  console.log(userData);
+  console.log(userData.get("contact"));
+  const contact = userData.get("contact")
   try {
     dispatch({ type: REGISTER_ADMIN_REQUEST });
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.post(
-      `/api/v1/admin/register`,
+      `/api/v1/admin/register?phonenumber=${contact}&channel=sms`,
       userData,
       config
     );
