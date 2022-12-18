@@ -5,28 +5,28 @@ const jwt = require("jsonwebtoken");
 // const crypto = require("crypto");
 
 const adminSchema = mongoose.Schema({
-    category: {
-        type: String,
-        required: true,
-      },
+  category: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: [true, "please Enter Your Name"],
     maxLength: [30, "Name cannot exceed 30 characters "],
     minLength: [4, "Name Should have more than 4 characters "],
   },
-  contact:{
-    type:Number,
+  contact: {
+    type: Number,
     required: [true, "please Enter Your Contact Number"],
   },
- 
+
   address: {
     type: String,
     required: [true, "please Enter Your Address"],
     maxLength: [50, "Address cannot exceed 30 characters "],
     minLength: [10, "Address Should have more than 4 characters "],
   },
-  profileImage : {
+  profileImage: {
     public_id: {
       type: String,
       required: true,
@@ -37,7 +37,7 @@ const adminSchema = mongoose.Schema({
     },
   },
 
-  certificateImage : {
+  certificateImage: {
     public_id: {
       type: String,
       required: true,
@@ -62,6 +62,10 @@ const adminSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  token: {
+    type: String,
+    // required: true,
+  },
 
   resetPasswordToken: String,
   resetPasswordExpire: Date,
@@ -75,13 +79,23 @@ const adminSchema = mongoose.Schema({
 // });
 
 // JWT TOKEN
+// adminSchema.methods.getJWTToken = function () {
+//   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+//     expiresIn: process.env.JWT_EXPIRE,
+//   });
+// };
+
 adminSchema.methods.getJWTToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+  let newGenrateToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
+  this.token = newGenrateToken;
+  this.save();
+  return newGenrateToken;
 };
+
 // // Compare Password
-// userSchema.methods.comparePassword = async function (enteredPassword) {
+// adminSchema.methods.comparePassword = async function (enteredPassword) {
 //   return await bcrypt.compare(enteredPassword, this.password);
 // };
 

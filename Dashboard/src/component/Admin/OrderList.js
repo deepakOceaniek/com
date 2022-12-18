@@ -51,13 +51,22 @@ const OrderList = () => {
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
+    {
+      field: "id",
+      headerName: "Order ID",
+      minWidth: 200,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
 
     {
       field: "status",
       headerName: "Status",
-      minWidth: 150,
+      minWidth: 100,
       flex: 0.5,
+      align: "center",
+      headerAlign: "center",
       cellClassName: (params) => {
         return params.getValue(params.id, "status") === "Delivered"
           ? "greenColor"
@@ -68,16 +77,20 @@ const OrderList = () => {
       field: "itemsQty",
       headerName: "Items Qty",
       type: "number",
-      minWidth: 150,
-      flex: 0.4,
+      minWidth: 100,
+      flex: 0.3,
+      headerAlign: "center",
+      align: "center",
     },
 
     {
       field: "amount",
       headerName: "Amount",
       type: "number",
-      minWidth: 270,
+      minWidth: 120,
       flex: 0.5,
+      headerAlign: "center",
+      align: "center",
     },
 
     {
@@ -86,6 +99,8 @@ const OrderList = () => {
       headerName: "Actions",
       minWidth: 150,
       type: "number",
+      headerAlign: "center",
+      align: "center",
       sortable: false,
       renderCell: (params) => {
         return (
@@ -114,6 +129,7 @@ const OrderList = () => {
       rows.push({
         id: item._id,
         itemsQty: item.orderItems.length,
+
         amount: item.totalPrice,
         status: item.orderStatus,
       });

@@ -35,6 +35,7 @@ router
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), createProduct);
 router
   .route("/admin/product/:id")
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getProductDetails)
   .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteProduct);
 

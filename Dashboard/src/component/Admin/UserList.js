@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -14,7 +14,7 @@ import { DELETE_USER_RESET } from "../../constants/userConstants";
 
 const UsersList = () => {
   const dispatch = useDispatch();
-const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const alert = useAlert();
 
   const { error, users } = useSelector((state) => state.allUsers);
@@ -50,19 +50,29 @@ const Navigate = useNavigate();
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted, message]);
 
   const columns = [
-    { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
+    {
+      field: "id",
+      headerName: "User ID",
+      minWidth: 150,
+      flex: 0.5,
+      hide: true,
+    },
 
     {
       field: "email",
       headerName: "Email",
-      minWidth: 200,
-      flex: 1,
+      minWidth: 100,
+      flex: 0.5,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "name",
       headerName: "Name",
-      minWidth: 150,
+      minWidth: 100,
       flex: 0.5,
+      headerAlign: "center",
+      align: "center",
     },
 
     {
@@ -71,6 +81,8 @@ const Navigate = useNavigate();
       type: "number",
       minWidth: 150,
       flex: 0.3,
+      headerAlign: "center",
+      align: "center",
       cellClassName: (params) => {
         return params.getValue(params.id, "role") === "admin"
           ? "greenColor"
@@ -84,6 +96,8 @@ const Navigate = useNavigate();
       headerName: "Actions",
       minWidth: 150,
       type: "number",
+      headerAlign: "center",
+      align: "center",
       sortable: false,
       renderCell: (params) => {
         return (

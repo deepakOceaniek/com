@@ -31,12 +31,12 @@ const {
   isAuthenticatedAdmin,
 } = require("../middleware/auth");
 
-router.route("/login").get(optVerify);
-router.route("/verify").get(loginUser);
+router.route("/login").get(loginUser);
+router.route("/verify").post(optVerify);
 
 // router.route("/login").post(loginUser);
 router.route("/register").get(registerUser);
-router.route("/admin/register").post(registerAdmin);
+router.route("/admin/register").get(registerAdmin);
 // router.route("/password/forgot").post(forgetPassword);
 // router.route("/password/reset/:token").put(resetPassword);
 router.route("/logout").get(logout);
@@ -50,7 +50,6 @@ router
   .get(isAuthenticated, getAddressDetails)
   .put(isAuthenticated, updateUserAddress)
   .delete(isAuthenticated, deleteUserAddress);
-
 
 router
   .route("/admin/me")

@@ -55,16 +55,11 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
 
- 
+  token: {
+    type: String,
+    // required: true,
+  },
 });
 
 // JWT TOKEN
@@ -75,13 +70,12 @@ const userSchema = mongoose.Schema({
 // };
 
 userSchema.methods.getJWTToken = function () {
-    let newGenrateToken =jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRE,
-    });
-    this.tokens = this.tokens.concat({ token: newGenrateToken });
-    this.save();
-    return newGenrateToken;
- 
+  let newGenrateToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+  this.token = newGenrateToken;
+  this.save();
+  return newGenrateToken;
 };
 
 // store address

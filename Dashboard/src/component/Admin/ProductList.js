@@ -45,7 +45,7 @@ const ProductList = () => {
 
     if (isDeleted) {
       alert.success("Product Deleted Successfully");
-      Navigate("/admin/dashboard");
+      Navigate("/admin/products");
       dispatch({ type: DELETE_PRODUCT_RESET });
     }
 
@@ -53,27 +53,62 @@ const ProductList = () => {
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
-    { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
+    {
+      field: "id",
+      headerName: "Product ID",
+      minWidth: 150,
+      flex: 0.5,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
+    },
 
     {
       field: "name",
       headerName: "Name",
-      minWidth: 350,
-      flex: 1,
+      minWidth: 100,
+      flex: 0.5,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "image",
+      headerName: "Image",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+
+      renderCell: (params) => {
+        return (
+          <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
+            {" "}
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={params.value}
+              alt="products"
+            />
+          </div>
+        );
+      },
+      // editable: true,
     },
     {
       field: "stock",
       headerName: "Stock",
       type: "number",
-      minWidth: 150,
+      minWidth: 50,
       flex: 0.3,
+      headerAlign: "center",
+      align: "center",
     },
 
     {
       field: "price",
       headerName: "Price",
       type: "number",
-      minWidth: 270,
+      minWidth: 60,
+      headerAlign: "center",
+      align: "center",
       flex: 0.5,
     },
 
@@ -82,6 +117,8 @@ const ProductList = () => {
       flex: 0.3,
       headerName: "Actions",
       minWidth: 150,
+      headerAlign: "center",
+      align: "center",
       type: "number",
       sortable: false,
       renderCell: (params) => {
@@ -110,6 +147,8 @@ const ProductList = () => {
     products.forEach((item) => {
       rows.push({
         id: item._id,
+        type: "image",
+        image: item.images[0].url,
         stock: item.stock,
         price: item.price,
         name: item.name,
@@ -131,7 +170,8 @@ const ProductList = () => {
             pageSize={10}
             disableSelectionOnClick
             className="productListTable"
-            autoHeight
+            rowHeight={100}
+            // checkboxSelection
           />
         </div>
       </div>

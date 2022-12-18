@@ -4,13 +4,11 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || "Internal Server Error";
 
-
-
-    //request try
-    if (err.message == "Too many requests") {
-      const message = `Too Many Requests`;
-      err = new ErrorHandler(message, 429);
-    }
+  //request try
+  if (err.message == "Too many requests") {
+    const message = `Too Many Requests`;
+    err = new ErrorHandler(message, 429);
+  }
 
   //Wrong otp
   if (err.message == "Cannot read properties of null (reading 'role')") {
@@ -27,16 +25,14 @@ module.exports = (err, req, res, next) => {
     err = new ErrorHandler(message, 403);
   }
 
-    //Wrong otp
-    if (
-      err.message ==
-      "The requested resource /Services/VA1c23f5318125b8cb847a9cad26027736/VerificationCheck was not found" //procccess.envServiceID
-    ) {
-      const message = `Verification Fail`;
-      err = new ErrorHandler(message, 403);
-    }
-
-  
+  //Wrong otp
+  if (
+    err.message ==
+    "The requested resource /Services/VA1c23f5318125b8cb847a9cad26027736/VerificationCheck was not found" //procccess.envServiceID
+  ) {
+    const message = `Verification Fail`;
+    err = new ErrorHandler(message, 403);
+  }
 
   //Wrong url Hit
   if (err.message == "Invalid parameter: Channel") {

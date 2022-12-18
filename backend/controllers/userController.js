@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
 const Prescription = require("../Models/prescriptionModel");
-const  Banner = require("../Models/bannerModel")
+const Banner = require("../Models/bannerModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
@@ -14,9 +14,9 @@ const client = require("twilio")(process.env.ACCOUNTSID, process.env.AUTHTOKEN);
 exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
   // console.log(req.body);
   // console.log(req.files);
-  
-  const { category, name, contact, address, fromTime, toTime, status } =
-    req.body;
+  const contact = req.query.phonenumber;
+  // const { category, name, contact, address, fromTime, toTime, status } =
+  // req.body;
 
   const adminExist = await Admin.findOne({ contact: contact });
 
@@ -24,59 +24,59 @@ exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Already registered", 409));
   } else {
     const optreq = await client.verify
-    .services(process.env.SERVICEID)
-    .verifications.create({
-      to: `+${contact}`,
-      channel: req.query.channel,
-    });
-  if (optreq) {
-    res
-      .status(200)
-      .json({ status: optreq.status, statusCode: 200, message: "success" });
+      .services(process.env.SERVICEID)
+      .verifications.create({
+        to: `+${contact}`,
+        channel: req.query.channel,
+      });
+    if (optreq) {
+      res
+        .status(200)
+        .json({ status: optreq.status, statusCode: 200, message: "success" });
+    }
+
+    // const profileMyCloud = await cloudinary.v2.uploader.upload(
+    //   req.body.profileImage,
+    //   {
+    //     folder: "profileImage",
+    //     width: 150,
+    //     crop: "scale",
+    //   }
+    // );
+    // const certificateMyCloud = await cloudinary.v2.uploader.upload(
+    //   req.body.certificateImage,
+    //   {
+    //     folder: "certificateImage",
+    //     width: 150,
+    //     crop: "scale",
+    //   }
+    // );
+
+    // const admin = await Admin.create({
+    //   category,
+    //   name,
+    //   contact,
+    //   address,
+    //   profileImage: {
+    //     public_id: profileMyCloud.public_id,
+    //     url: profileMyCloud.secure_url,
+    //   },
+    //   certificateImage: {
+    //     public_id: certificateMyCloud.public_id,
+    //     url: certificateMyCloud.secure_url,
+    //   },
+    //   fromTime,
+    //   toTime,
+    //   status,
+    // });
+    // // sendToken(admin, 201, res);
+    // res.status(201).json({ success: true, message: "Register Successful" });
   }
-
-  // const profileMyCloud = await cloudinary.v2.uploader.upload(
-  //   req.body.profileImage,
-  //   {
-  //     folder: "profileImage",
-  //     width: 150,
-  //     crop: "scale",
-  //   }
-  // );
-  // const certificateMyCloud = await cloudinary.v2.uploader.upload(
-  //   req.body.certificateImage,
-  //   {
-  //     folder: "certificateImage",
-  //     width: 150,
-  //     crop: "scale",
-  //   }
-  // );
-
-  // const admin = await Admin.create({
-  //   category,
-  //   name,
-  //   contact,
-  //   address,
-  //   profileImage: {
-  //     public_id: profileMyCloud.public_id,
-  //     url: profileMyCloud.secure_url,
-  //   },
-  //   certificateImage: {
-  //     public_id: certificateMyCloud.public_id,
-  //     url: certificateMyCloud.secure_url,
-  //   },
-  //   fromTime,
-  //   toTime,
-  //   status,
-  // });
-  // // sendToken(admin, 201, res);
-  // res.status(201).json({ success: true, message: "Register Successful" });
-}
 });
 
 //Register User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  // const contact  = req.params.phonenumber
+  // const contact = req.params.phonenumber;
   // const name = req.params.name
   // if (!name || !contact || contact.toString().length !== 12) {
   //   return next(new ErrorHandler("Please fill the all Entries Properly", 400));
@@ -88,16 +88,16 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Already registered", 409));
   } else {
     const optreq = await client.verify
-    .services(process.env.SERVICEID)
-    .verifications.create({
-      to: `+${req.query.phonenumber}`,
-      channel: req.query.channel,
-    });
-  if (optreq) {
-    res
-      .status(200)
-      .json({ status: optreq.status, statusCode: 200, message: "success" });
-  }
+      .services(process.env.SERVICEID)
+      .verifications.create({
+        to: `+${req.query.phonenumber}`,
+        channel: req.query.channel,
+      });
+    if (optreq) {
+      res
+        .status(200)
+        .json({ status: optreq.status, statusCode: 200, message: "success" });
+    }
     // const user = await User.create({
     //   name,
     //   contact,
@@ -108,7 +108,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 //**  login phoneNumber and channel(sms/call) **
-exports.optVerify = catchAsyncErrors(async (req, res, next) => {
+exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   const contact = req.query.phonenumber;
   console.log(req.query.phonenumber);
   console.log(req.query.channel);
@@ -127,57 +127,95 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
         .status(200)
         .json({ status: optreq.status, statusCode: 200, message: "success" });
     }
-  }
-   else {
-    return next(new ErrorHandler("Please Register  First", 401));
+  } else {
+    return next(new ErrorHandler("Please Register First", 401));
   }
 });
 
 //**  verify phonenumber and code**
-exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-  let contact = req.query.phonenumber;
-  let name = req.query.name
+exports.optVerify = catchAsyncErrors(async (req, res, next) => {
+  // req.body.map((item) => {
+  //   console.log(item);
+  // });
+  // console.log(`body ${req.body}`);
+  // console.log(req.files);
+
+  const { contact, code } = req.body;
+
+  // let contact = req.query.phonenumber;
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
-  
-  if(user || admin){
+  console.log(`User-----${user}`);
+  console.log(`Admin-----${admin}`);
+  if (user || admin) {
     const verified = await client.verify
-    .services(process.env.SERVICEID)
-    .verificationChecks.create({
-      to: `+${req.query.phonenumber}`,
-      code: req.query.code,
-    });
+      .services(process.env.SERVICEID)
+      .verificationChecks.create({
+        to: `+${contact}`,
+        code: code,
+      });
     if (verified.status === "approved") {
       sendToken(user || admin, 200, res);
-  }else{
-    return next(new ErrorHandler("Verification Fail", 401));
-  }
-
-   }else if (!user || !admin){
+    } else {
+      return next(new ErrorHandler("Verification Fail", 401));
+    }
+  } else if (!user || !admin) {
     const verified = await client.verify
-    .services(process.env.SERVICEID)
-    .verificationChecks.create({
-      to: `+${req.query.phonenumber}`,
-      code: req.query.code,
-    });
-  if (verified.status === "approved") {
-   
-    if(!name){
-      return next(new ErrorHandler("Unprocessable Entity", 406));
-    }else{
-      const user = await User.create({
-        name,
-        contact,
+      .services(process.env.SERVICEID)
+      .verificationChecks.create({
+        to: `+${contact}`,
+        code: code,
       });
-      sendToken(user || admin, 201, res);
-    } 
+    if (verified.status === "approved") {
+      const { name, category, address, fromTime, toTime, status } = req.body;
 
+      if (name && contact && category) {
+        const profileMyCloud = await cloudinary.v2.uploader.upload(
+          req.body.profileImage,
+          {
+            folder: "profileImage",
+            width: 150,
+            crop: "scale",
+          }
+        );
+        const certificateMyCloud = await cloudinary.v2.uploader.upload(
+          req.body.certificateImage,
+          {
+            folder: "certificateImage",
+            width: 150,
+            crop: "scale",
+          }
+        );
 
-    
-
-  }
-   }
-    else {
+        const admin = await Admin.create({
+          category,
+          name,
+          contact,
+          address,
+          profileImage: {
+            public_id: profileMyCloud.public_id,
+            url: profileMyCloud.secure_url,
+          },
+          certificateImage: {
+            public_id: certificateMyCloud.public_id,
+            url: certificateMyCloud.secure_url,
+          },
+          fromTime,
+          toTime,
+          status,
+        });
+        sendToken(admin, 201, res);
+      } else if (name && contact) {
+        const user = await User.create({
+          name,
+          contact,
+        });
+        sendToken(user || admin, 201, res);
+      } else {
+        return next(new ErrorHandler("Unprocessable Entity", 406));
+      }
+    }
+  } else {
     return next(new ErrorHandler("Invalid Credentials", 400));
   }
 });
@@ -205,8 +243,6 @@ exports.getAdminDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await Admin.findById(req.user.id);
   res.status(200).json({ success: true, user });
 });
-
-
 
 //Update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
@@ -497,10 +533,3 @@ exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
     .status(200)
     .json({ message: "Your Prescription was send to the nearest Pharmacy " });
 });
-
-
-
-
-
-
-

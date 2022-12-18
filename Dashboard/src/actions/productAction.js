@@ -37,7 +37,6 @@ import {
   CATEGORY_DETAILS_REQUEST,
   CATEGORY_DETAILS_SUCCESS,
   CATEGORY_DETAILS_FAIL,
-
   BANNER_REQUEST,
   BANNER_SUCCESS,
   BANNER_FAIL,
@@ -53,8 +52,6 @@ import {
   BANNER_DETAILS_REQUEST,
   BANNER_DETAILS_SUCCESS,
   BANNER_DETAILS_FAIL,
-
-
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -156,7 +153,8 @@ export const getProductDetails = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAILS_REQUEST,
     });
-    const { data } = await axios.get(`/api/v1/product/${id}`);
+    const { data } = await axios.get(`/api/v1/admin/product/${id}`);
+    console.log(data);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data,
@@ -321,7 +319,6 @@ export const getCategoryDetails = (id) => async (dispatch) => {
   }
 };
 
-
 // Get All Category For Admin
 export const getBanner = () => async (dispatch) => {
   try {
@@ -366,7 +363,6 @@ export const createBanner = (categoryData) => async (dispatch) => {
     });
   }
 };
-
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
