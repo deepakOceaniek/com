@@ -26,6 +26,7 @@ const {
   getAllBanner,
   addBanner,
   deleteBanner,
+  getAllAdminCategory
 } = require("../controllers/productController");
 
 router.route("/products").get(isAuthenticated, getAllProduct);
@@ -64,6 +65,7 @@ router
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails);
 
 router.route("/allcategory").get(isAuthenticated, getAllCategory);
+router.route("/admin/allcategory").get(isAuthenticatedAdmin , authorizeRoles("admin"), getAllAdminCategory);
 router
   .route("/admin/category/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addCategory);

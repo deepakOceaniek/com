@@ -39,7 +39,7 @@ export const login = (contact) => async (dispatch) => {
     // const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.get(
-      `/api/v1/login?phonenumber=${contact}&channel=sms`
+      `/api/v1/login?contact=${contact}&channel=sms`
     );
     console.log(`loginData :${data.message}`);
 
@@ -81,7 +81,7 @@ export const registerAdmin = (userData) => async (dispatch) => {
     // const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.get(
-      `/api/v1/admin/register?phonenumber=${contact}&channel=sms`
+      `/api/v1/admin/register?contact=${contact}&channel=sms`
       // userData,
       // config
     );

@@ -14,7 +14,7 @@ const client = require("twilio")(process.env.ACCOUNTSID, process.env.AUTHTOKEN);
 exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
   // console.log(req.body);
   // console.log(req.files);
-  const contact = req.query.phonenumber;
+  const contact = req.query.contact;
   // const { category, name, contact, address, fromTime, toTime, status } =
   // req.body;
 
@@ -82,7 +82,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   //   return next(new ErrorHandler("Please fill the all Entries Properly", 400));
   // }
 
-  const userExist = await User.findOne({ contact: req.query.phonenumber });
+  const userExist = await User.findOne({ contact: req.query.contact });
 
   if (userExist) {
     return next(new ErrorHandler("Already registered", 409));
@@ -90,7 +90,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     const optreq = await client.verify
       .services(process.env.SERVICEID)
       .verifications.create({
-        to: `+${req.query.phonenumber}`,
+        to: `+${req.query.contact}`,
         channel: req.query.channel,
       });
     if (optreq) {
@@ -109,8 +109,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 //**  login phoneNumber and channel(sms/call) **
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
-  const contact = req.query.phonenumber;
-  console.log(req.query.phonenumber);
+  const contact = req.query.contact;
+  console.log(req.query.contact);
   console.log(req.query.channel);
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
@@ -119,7 +119,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     const optreq = await client.verify
       .services(process.env.SERVICEID)
       .verifications.create({
-        to: `+${req.query.phonenumber}`,
+        to: `+${req.query.contact}`,
         channel: req.query.channel,
       });
     if (optreq) {

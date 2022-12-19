@@ -22,7 +22,7 @@ const CategoryList = () => {
 
   const alert = useAlert();
 
-  const { error, category } = useSelector((state) => state.categories);
+  const { error, categories } = useSelector((state) => state.categories);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -97,8 +97,8 @@ const CategoryList = () => {
   ];
 
   const rows = [];
-  category &&
-    category.forEach((item) => {
+  categories &&
+  categories.forEach((item) => {
       rows.push({
         id: item._id,
         name: item.categoryName,

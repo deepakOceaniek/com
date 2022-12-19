@@ -1,7 +1,8 @@
+/* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
 import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createProduct } from "../../actions/productAction";
+import { clearErrors, createProduct,getAdminCategory } from "../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -11,6 +12,7 @@ import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "./Sidebar";
+import Loader from "../layout/Loader/Loader";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
 
@@ -29,23 +31,30 @@ const NewProduct = () => {
   const [tabletPerStrip, setTabletPerStrip] = useState("");
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
-  const [Stock, setStock] = useState(0);
+  const [stock, setStock] = useState(0);
   const [gst, setGst] = useState("");
   const [batchCode, setBatchCode] = useState("");
   const [hsnCode, setHsnCode] = useState("");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Ayurveda",
-    "Vitamins & supplements",
-    "Healthcare devices",
-    "Pain Relief",
-    "Diabetes Care",
-    "Skin Care"
-  ];
+  // const categories = [
+  //   "Ayurveda",
+  //   "Vitamins & supplements",
+  //   "Healthcare devices",
+  //   "Pain Relief",
+  //   "Diabetes Care",
+  //   "Skin Care"
+  // ];
+
+
+  const {categories } = useSelector((state) => state.categories);
+
+
+
 
   useEffect(() => {
+    dispatch(getAdminCategory()) 
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -53,11 +62,16 @@ const NewProduct = () => {
 
     if (success) {
       alert.success("Product Created Successfully");
-      Navigate("/admin/dashboard");
+      Navigate("/admin/products");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
   }, [dispatch, alert, error, Navigate, success]);
 
+  // const data = categories &&  categories.map((category)=> console.log(category.categoryName))
+
+  // console.log(Object.values(categories))
+  // console.log(categories)
+  // console.log(data)
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -71,7 +85,7 @@ const NewProduct = () => {
     myForm.set("tabletPerStrip", tabletPerStrip);
     myForm.set("company", company);
     myForm.set("category", category);
-    myForm.set("Stock", Stock);
+    myForm.set("stock", stock);
     myForm.set("gst", gst);
     myForm.set("batchCode", batchCode);
     myForm.set("hsnCode", hsnCode);
@@ -102,13 +116,15 @@ const NewProduct = () => {
     });
   };
 
+
+
   return (
     <Fragment>
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-          <form
+         {loading ? <Loader /> :  <form
             className="createProductForm"
             encType="multipart/form-data"
             onSubmit={createProductSubmitHandler}
@@ -190,9 +206,9 @@ const NewProduct = () => {
               <AccountTreeIcon />
               <select onChange={(e) => setCategory(e.target.value)}>
                 <option value="">Choose Category</option>
-                {categories.map((cate) => (
-                  <option key={cate} value={cate}>
-                    {cate}
+                {categories && categories.map((cate) => (
+                  <option key={cate.categoryName} value={cate._id}>
+                    {cate.categoryName}
                   </option>
                 ))}
               </select>
@@ -202,7 +218,7 @@ const NewProduct = () => {
               <StorageIcon />
               <input
                 type="number"
-                placeholder="Stock"
+                placeholder="stock"
                 required
                 onChange={(e) => setStock(e.target.value)}
               />
@@ -261,7 +277,7 @@ const NewProduct = () => {
             >
               Create
             </Button>
-          </form>
+          </form>}
         </div>
       </div>
     </Fragment>

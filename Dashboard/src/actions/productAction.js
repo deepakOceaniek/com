@@ -212,11 +212,12 @@ export const getAdminCategory = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CATEGORY_REQUEST });
 
-    const { data } = await axios.get("/api/v1/allcategory");
+    const { data } = await axios.get("/api/v1/admin/allcategory");
     dispatch({
       type: ADMIN_CATEGORY_SUCCESS,
-      payload: data.category,
+      payload: data.categories
     });
+    console.log(data)
   } catch (error) {
     dispatch({
       type: ADMIN_CATEGORY_FAIL,

@@ -257,6 +257,18 @@ exports.getAllCategory = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// All Category  -- admin
+exports.getAllAdminCategory = catchAsyncErrors(async (req, res, next) => {
+  const categories = await Category.find();
+
+    // sendToken(category, 200, res);
+
+  res.status(200).json({
+    success: true,
+    categories,
+  });
+});
+
 // Add Category ---admin 
 exports.addCategory = catchAsyncErrors(async (req, res, next) => {
   const myCloud = await cloudinary.v2.uploader.upload(req.body.categoryImage, {
@@ -282,7 +294,7 @@ exports.addCategory = catchAsyncErrors(async (req, res, next) => {
 exports.getCategoryDetails = catchAsyncErrors(async (req, res, next) => {
   const category = await Category.findById(req.params.id);
   if (!category) {
-    return next(new ErrorHandler("Product not found", 404));
+    return next(new ErrorHandler("Category not found", 404));
   }
   res.status(200).json({ success: true, category });
 });

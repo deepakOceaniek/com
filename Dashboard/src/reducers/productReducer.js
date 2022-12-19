@@ -93,7 +93,7 @@ export const categoriesReducer = (state = { categories: [] }, action) => {
     case ADMIN_CATEGORY_SUCCESS:
       return {
         loading: false,
-        category: action.payload,
+        categories: action.payload,
       };
     case ADMIN_CATEGORY_FAIL:
       return {
