@@ -24,9 +24,9 @@ const Login = ({setContactData}) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    // if (isAuthenticated ===true) {
-    //   Navigate("/admin/dashboard");
-    // }
+    if (isAuthenticated ===true) {
+      Navigate("/admin/dashboard");
+    }
   }, [dispatch, alert, error, isAuthenticated, Navigate, 
     // redirect
   ]);

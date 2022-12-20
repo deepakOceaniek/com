@@ -18,6 +18,7 @@ const product = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const order = require("./routes/orderRoute");
 const payment = require("./routes/paymentRoute");
+const test =require("./routes/testRoute")
 
 
 
@@ -31,24 +32,11 @@ app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1", payment);
-const options = {
-	definition: {
-		openapi: "3.0.0",
-		info: {
-			title: "Medipros API",
-			version: "1.0.0",
-			description: "Medipros API Description ",
-		},
-		servers: [
-			{
-				url: "http://localhost:4000",
-			},
-		],
-	},
-	apis: ["./routes/*.js"],
-};
-const specs = swaggerJsDoc(options);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+app.use("/api/v1", test);
+
+app.get("/api/v1/getkey", (req, res) =>
+  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+);
 
 // Middleware For error
 app.use(errorMiddleware);

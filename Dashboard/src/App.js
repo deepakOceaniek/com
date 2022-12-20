@@ -31,6 +31,9 @@ import Prescription from "./component/Admin/Prescription.js";
 import AddPrescription from "./component/Admin/AddPrescription";
 import AddBanner from "./component/Admin/AddBanner.js"
 
+import Home from "./component/User/payment/Home.js"
+import PaymentSuccess from "./component/User/payment/PaymentSuccess.js"
+
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
 // import AddMedicine from "./component/Register/AddMedicine";
@@ -139,7 +142,8 @@ const [registerData, setRegisterData] = useState("")
             />
           )}
 
-
+<Route path="/" element={<Home />} />
+        <Route path="/paymentsuccess" element={<PaymentSuccess />} />
 
           {/* <Route path="/Registration" element={<Registration />} /> */}
           {/* <Route path="/admindashboard" element={<AdminDashborad />} /> */}

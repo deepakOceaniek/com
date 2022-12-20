@@ -18,7 +18,7 @@ const Profile = () => {
     if (isAuthenticated === false) {
       Navigate("/admin/login");
     }
-  }, [isAuthenticated, Navigate]);
+  }, [isAuthenticated,user,loading, Navigate]);
 
   return (
     <>
@@ -26,7 +26,7 @@ const Profile = () => {
         <Loader />
       ) : (
         <>
-          <MetaData title={`${user.name}'s Profile`} />
+          <MetaData title={` ${user.name}'s Profile`} />
           <div className="profileContainer">
             <div>
               <h1>My Profile</h1>
@@ -48,7 +48,6 @@ const Profile = () => {
               </div>
               <div>
                 <Link to="/orders">My Orders</Link>
-                <Link to="/password/update">Change Password</Link>
               </div>
             </div>
           </div>
