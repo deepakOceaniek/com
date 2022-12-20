@@ -1,5 +1,5 @@
 const app = require("./app");
-const Razorpay = require("razorpay")
+const Razorpay = require("razorpay");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
 const cloudinary = require("cloudinary");
@@ -22,12 +22,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-exports.instance = new Razorpay({
-  key_id: process.env.RAZORPAY_API_KEY,
-  key_secret: process.env.RAZORPAY_API_SECRET,
-});
-
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server is running on ${process.env.PORT}`);
 });
