@@ -94,6 +94,14 @@ exports.getTestDetails = catchAsyncErrors(async (req, res, next) => {
     }
     res.status(200).json({ success: true, test });
   });
+  // Get Test details --admin
+exports.getAdminTestDetails = catchAsyncErrors(async (req, res, next) => {
+  const test = await Test.findById(req.params.id);
+  if (!test) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+  res.status(200).json({ success: true, test });
+});
 
 //Update Test --Admin
 exports.updateTest = catchAsyncErrors(async (req, res, next) => {
@@ -267,6 +275,15 @@ exports.getPackageDetails = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({ success: true, package });
   });
 
+  // Get package details
+exports.getAdminPackageDetails = catchAsyncErrors(async (req, res, next) => {
+  const package = await Package.findById(req.params.id);
+  if (!package) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
+  res.status(200).json({ success: true, package });
+});
+
 
   //Update Package --Admin
 exports.updatePackage = catchAsyncErrors(async (req, res, next) => {
@@ -431,6 +448,16 @@ exports.getAllLabCategory = catchAsyncErrors(async (req, res, next) => {
       labCategory,
     });
   });
+    // All Lab Category  --admin
+exports.getAdminAllLabCategory = catchAsyncErrors(async (req, res, next) => {
+  const labCategories = await LabCategory.find();
+
+
+  res.status(200).json({
+    success: true,
+    labCategories,
+  });
+});
 
 
   // Add Lab Category ---admin 

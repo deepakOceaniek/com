@@ -33,6 +33,9 @@ import AddBanner from "./component/Admin/AddBanner.js"
 
 import Home from "./component/User/payment/Home.js"
 import PaymentSuccess from "./component/User/payment/PaymentSuccess.js"
+import NewlabCategory from "./component/Admin/NewlabCategory";
+import LabCategoryList from "./component/Admin/LabCategoryList";
+import UpdateLabCategory from "./component/Admin/UpdateLabCategory";
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -70,7 +73,7 @@ const [registerData, setRegisterData] = useState("")
           )} */}
 
           {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
-          <Route path="/login" element={<LoginScreen  setContactData ={ setContactData}/>} />
+          <Route path="/" element={<LoginScreen  setContactData ={ setContactData}/>} />
           <Route path="/admin/register" element={<RegisterScreen  setRegisterData={setRegisterData} />} />
           <Route path="/otp" element={<OtpScreen data={[contactData,registerData]}   />} />
 
@@ -142,8 +145,14 @@ const [registerData, setRegisterData] = useState("")
             />
           )}
 
-<Route path="/" element={<Home />} />
+<Route path="/payment" element={<Home />} />
         <Route path="/paymentsuccess" element={<PaymentSuccess />} />
+
+       
+            <Route path="/admin/labcategory" element={<NewlabCategory />} />
+            <Route path="/admin/labcategories" element={<LabCategoryList />} />
+            <Route path="/admin/labcategory/:id" element={<UpdateLabCategory />} />
+          
 
           {/* <Route path="/Registration" element={<Registration />} /> */}
           {/* <Route path="/admindashboard" element={<AdminDashborad />} /> */}

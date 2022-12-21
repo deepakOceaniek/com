@@ -26,7 +26,9 @@ const {
   getAllBanner,
   addBanner,
   deleteBanner,
-  getAllAdminCategory
+  getAllAdminCategory,
+  addToCart,
+  getCartItems
 } = require("../controllers/productController");
 
 router.route("/products").get(isAuthenticated, getAllProduct);
@@ -41,6 +43,9 @@ router
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteProduct);
 
 router.route("/product/:id").get(isAuthenticated, getProductDetails);
+router.route("/addtocart").post(isAuthenticated,addToCart)
+router.route("/getcaritems").get(isAuthenticated,getCartItems)
+
 router.route("/review").put(isAuthenticated, createProductReview);
 router
   .route("/reviews")

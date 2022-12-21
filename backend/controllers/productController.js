@@ -3,6 +3,8 @@ const Category =require("../Models/categoryModel")
 const Prescription = require("../Models/prescriptionModel")
 const  Banner = require("../Models/bannerModel")
 const sendToken = require("../utils/jwtToken");
+const Cart = require("../Models/CartModel")
+
 
 
 
@@ -470,6 +472,110 @@ exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
 
   await banner.remove();
   res.status(200).json({ success: true, message: "Banner  deleted successfully" });
+});
+
+
+// Add to cart 
+exports.addToCart = catchAsyncErrors(async (req, res, next) => {
+
+  const { productId, quantity, name, price } = req.body;
+ 
+  const userId = req.user.id; 
+
+  try {
+    let cart = await Cart.findOne({ userId });
+
+    if (cart) {
+      //cart exists for user
+      let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
+console.log(`Index Items ${itemIndex}`)
+      if (itemIndex > -1) {
+        //product exists in the cart, update the quantity
+        let productItem = cart.products[itemIndex];
+        productItem.quantity = quantity;
+        cart.products[itemIndex] = productItem;
+      } else {
+        //product does not exists in cart, add new item
+        cart.products.push({ productId, quantity, name, price });
+      }
+      cart = await cart.save();
+      return res.status(201).send(cart);
+    } else {
+      //no cart for user, create new cart
+      const newCart = await Cart.create({
+        user:userId,
+        products: [{ productId, quantity, name, price }]
+      });
+
+      return res.status(201).send(newCart);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
+
+});
+
+
+
+// Get card Details
+exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
+  
+  const userId = req.user.id; 
+   let cart = await Cart.findOne({ userId });
+   if(cart){
+     res.status(200).send(cart);
+   }else{
+     res.status(200).json({message:"Your Cart is Empty Add Some Product"});
+      
+   }
+});
+
+
+
+
+//Delete to item from cart 
+exports.addToCart = catchAsyncErrors(async (req, res, next) => {
+
+  const { productId, quantity, name, price } = req.body;
+ 
+  const userId = req.user.id; 
+
+  try {
+    let cart = await Cart.findOne({ userId });
+
+    if (cart) {
+      //cart exists for user
+      let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
+      if (itemIndex > -1) {
+        //product exists in the cart, update the quantity
+        let productItem = cart.products[itemIndex];
+        productItem.quantity = quantity;
+        if( productItem.quantity === 0){
+          // cart.products.   ({ productId, quantity, name, price });
+        }
+
+        cart.products[itemIndex] = productItem;
+      } else {
+        //product does not exists in cart, add new item
+        cart.products.push({ productId, quantity, name, price });
+      }
+      cart = await cart.save();
+      return res.status(201).send(cart);
+    } else {
+      //no cart for user, create new cart
+      const newCart = await Cart.create({
+        user:userId,
+        products: [{ productId, quantity, name, price }]
+      });
+
+      return res.status(201).send(newCart);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
+
 });
 
 

@@ -130,6 +130,27 @@ const Sidebar = () => {
         </TreeView>
       </Link>
 
+      <Link>
+        <TreeView
+          defaultCollapseIcon={<VerticalAlignTopIcon />}
+          defaultExpandIcon={<UsbIcon />}
+        >
+          <TreeItem nodeId="1" label="Lab Category">
+            <Link to="/admin/labcategories">
+              <TreeItem
+                nodeId="2"
+                label="All"
+                icon={<FormatListBulletedIcon />}
+              />
+            </Link>
+
+            <Link to="/admin/labcategory">
+              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+            </Link>
+          </TreeItem>
+        </TreeView>
+      </Link>
+
       <Link to="/admin/me">
         <p>
           <AccountCircleIcon /> Profile

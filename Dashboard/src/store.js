@@ -27,24 +27,41 @@ import {
   orderDetailsReducer,
   orderReducer,
 } from "./reducers/orderReducer";
+import { labCategoriesReducer, labCategoryDetailsReducer, newLabCategoryReducer, newPackageReducer, newTestReducer, PackageDetailsReducer, packageReducer, packageReviewsReducer, reviewPackageReducer, testDetailsReducer, testPackageReducer, testsReducer } from "./reducers/testReducer";
 
 const reducer = combineReducers({
-  products: productsReducer, // all product and category
+  products: productsReducer, 
   categories: categoriesReducer,
-  productDetails: productDetailsReducer, // product and category details
+  productDetails: productDetailsReducer,
   categoryDetails: categoryDetailsReducer,
   user: userReducer,
   profile: profileReducer,
   orderDetails: orderDetailsReducer,
-  newProduct: newProductReducer, //add product and category
+  newProduct: newProductReducer,
   newCategory: newCategoryReducer,
-  product: productReducer, // update and delete products and category
+  product: productReducer, 
   allOrders: allOrdersReducer,
   order: orderReducer,
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
   productReviews: productReviewsReducer,
   review: reviewReducer,
+
+  tests:testsReducer,
+  packages:packageReducer,
+  labCategories: labCategoriesReducer,
+  newTest :newTestReducer,
+  newPackage:newPackageReducer,
+  newLabCategory : newLabCategoryReducer,
+  testPackage : testPackageReducer,
+  testDetails: testDetailsReducer,
+  packageDetails: PackageDetailsReducer,
+  labCategoryDetails : labCategoryDetailsReducer,
+  packageReviews :packageReviewsReducer,
+  reviewPackage: reviewPackageReducer
+
+
+
 });
 
 let initialState = {
