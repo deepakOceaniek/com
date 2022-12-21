@@ -3,28 +3,27 @@ const mongoose = require("mongoose");
 const CartSchema = new mongoose.Schema(
   {
     user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true,
-      },
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: true,
+    },
     products: [
       {
-        productId:mongoose.Schema.ObjectId, 
-        quantity:{type:Number,
-        default: 1},
+        productId: mongoose.Schema.ObjectId,
+        quantity: { type: Number, default: 1 },
         name: String,
-        image:String,
+        image: String,
         price: Number,
-      }
+      },
     ],
     active: {
       type: Boolean,
-      default: true
+      default: true,
     },
     modifiedOn: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );

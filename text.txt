@@ -1,0 +1,14 @@
+http://localhost:4000/api/v1/deletefromcart?productId=6397015f8821d40dbc224e71 - Delete
+
+
+http://localhost:4000/api/v1/getcaritems - GET
+
+http://localhost:4000/api/v1/addtocart -POST
+
+{ 
+    "productId": "6397015f8821d40dbc224e73",
+    "quantity": 10,
+    "name": "paracetamol",
+    "image":"sample Image",
+    "price": 120
+}

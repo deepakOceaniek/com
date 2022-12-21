@@ -28,7 +28,8 @@ const {
   deleteBanner,
   getAllAdminCategory,
   addToCart,
-  getCartItems
+  getCartItems,
+  deleteFromCart,
 } = require("../controllers/productController");
 
 router.route("/products").get(isAuthenticated, getAllProduct);
@@ -43,8 +44,9 @@ router
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteProduct);
 
 router.route("/product/:id").get(isAuthenticated, getProductDetails);
-router.route("/addtocart").post(isAuthenticated,addToCart)
-router.route("/getcaritems").get(isAuthenticated,getCartItems)
+router.route("/addtocart").post(isAuthenticated, addToCart);
+router.route("/getcaritems").get(isAuthenticated, getCartItems);
+router.route("/deletefromcart").delete(isAuthenticated, deleteFromCart);
 
 router.route("/review").put(isAuthenticated, createProductReview);
 router
@@ -70,7 +72,9 @@ router
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails);
 
 router.route("/allcategory").get(isAuthenticated, getAllCategory);
-router.route("/admin/allcategory").get(isAuthenticatedAdmin , authorizeRoles("admin"), getAllAdminCategory);
+router
+  .route("/admin/allcategory")
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllAdminCategory);
 router
   .route("/admin/category/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addCategory);

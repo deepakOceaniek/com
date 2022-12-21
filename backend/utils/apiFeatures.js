@@ -25,13 +25,23 @@ class ApiFeatures {
     removeField.forEach((key) => delete queryCopy[key]);
     console.log(queryCopy); // { category: 'laptop' }
 
+    // switch (queryCopy.key){
+    //   case categoryId :
+    //     return{
+
+    //     }
+    //     case categoryName:
+    //       return{
+
+    //       }
+    // }
     //Filter for price
     console.log(queryCopy); //{ category: 'laptop', price: { gt: '1200', lt: '2000' }}
     let queryStr = JSON.stringify(queryCopy);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
 
     this.query = this.query.find(JSON.parse(queryStr));
-    console.log(queryStr); //{"category":"laptop","price":{"$gt":"1200","$lt":"2000"}}
+    // console.log(this.query); //{"category":"laptop","price":{"$gt":"1200","$lt":"2000"}}
     return this;
   }
 

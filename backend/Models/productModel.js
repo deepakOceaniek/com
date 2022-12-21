@@ -50,16 +50,16 @@ const productSchema = mongoose.Schema({
     },
   ],
 
-  category: {
-    type: String,
-    required: [true, "please Enter Product category"],
-  },
-
   // category: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Category",
-  //   required: true,
+  //   type: String,
+  //   required: [true, "please Enter Product category"],
   // },
+
+  category: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Category",
+    required: true,
+  },
   stock: {
     type: Number,
     default: 1,

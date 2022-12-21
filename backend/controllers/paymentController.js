@@ -23,6 +23,11 @@ exports.checkout = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// webhookCapture
+exports.webhookCapture = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.body);
+});
+
 exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
