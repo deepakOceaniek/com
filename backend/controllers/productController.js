@@ -476,9 +476,12 @@ exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
 // Add to cart 
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   const { productId, quantity, name, price } = req.body;
-  const userId = req.user.id; 
+  console.log(req.body)
+  console.log(req.user.id)
+  const user = req.user.id; 
+  console.log(user)
   try {
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ user });
     if (cart) {
       //cart exists for user
       let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
@@ -493,7 +496,8 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
     } else {
       //no cart for user, create new cart
       const newCart = await Cart.create({
-        user:userId,
+
+        user,
         products: [{ productId, quantity, name, price }]
       });
       return res.status(201).send(newCart);

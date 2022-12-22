@@ -36,6 +36,12 @@ import PaymentSuccess from "./component/User/payment/PaymentSuccess.js"
 import NewlabCategory from "./component/Admin/NewlabCategory";
 import LabCategoryList from "./component/Admin/LabCategoryList";
 import UpdateLabCategory from "./component/Admin/UpdateLabCategory";
+import NewTest from "./component/Admin/NewTest.js"
+import TestList from "./component/Admin/TestList.js"
+import UpdateTest from "./component/Admin/UpdateTest.js"
+import NewPackage from "./component/Admin/NewPackage.js"
+import PackageList from "./component/Admin/PackageList.js"
+import UpdatePackage from "./component/Admin/UpdatePackage.js"
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -152,6 +158,14 @@ const [registerData, setRegisterData] = useState("")
             <Route path="/admin/labcategory" element={<NewlabCategory />} />
             <Route path="/admin/labcategories" element={<LabCategoryList />} />
             <Route path="/admin/labcategory/:id" element={<UpdateLabCategory />} />
+
+            <Route path="/admin/test" element={<NewTest />} />
+            <Route path="/admin/tests" element={<TestList />} />
+            <Route path="/admin/test/:id" element={<UpdateTest />} />
+
+            <Route path="/admin/package" element={<NewPackage />} />
+            <Route path="/admin/packages" element={<PackageList />} />
+            <Route path="/admin/package/:id" element={<UpdatePackage />} />
           
 
           {/* <Route path="/Registration" element={<Registration />} /> */}

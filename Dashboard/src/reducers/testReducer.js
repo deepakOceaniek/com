@@ -141,7 +141,7 @@ import {
     }
   };
   
-  export const labCategoriesReducer = (state = { labcategories: [] }, action) => {
+  export const labCategoriesReducer = (state = { labCategories: [] }, action) => {
     switch (action.type) {
       case ADMIN_LABCATEGORY_REQUEST:
         return {
@@ -398,7 +398,7 @@ import {
     }
   };
 
-  export const labCategoryDetailsReducer = (state = { labcategory: {} }, action) => {
+  export const labCategoryDetailsReducer = (state = { labCategory: {} }, action) => {
     switch (action.type) {
       case LABCATEGORY_DETAILS_REQUEST:
         return {

@@ -62,14 +62,14 @@ const packageTestSchema = mongoose.Schema({
     required: true,
   },
 
-  samples: [
-    {
-      sample: {
-        type: String,
-        required: [true, "please Enter Saample"],
-      },
-    },
-  ],
+
+  samples: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Sample",
+    required: true,
+  },
+
+
 
   report: {
     type: Number,

@@ -51,7 +51,8 @@ console.log(labCategory)
   useEffect(() => {
     if (labCategory && labCategory._id !== labCategoryId) {
       dispatch(getLabCategoryDetails(labCategoryId));
-    } else {
+    } 
+    else {
         setCategoryName(labCategory.categoryName);
       setOldImages(labCategory.images);
     }
@@ -67,7 +68,7 @@ console.log(labCategory)
 
     if (isUpdated) {
       alert.success("Product Updated Successfully");
-      Navigate("/admin/categories");
+      Navigate("/admin/labcategories");
       dispatch({ type: UPDATE_LABCATEGORY_RESET });
     }
   }, [
@@ -124,7 +125,7 @@ console.log(labCategory)
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Create Product</h1>
+            <h1>Update lab categroy</h1>
 
             <div>
               <SpellcheckIcon />
@@ -164,7 +165,7 @@ console.log(labCategory)
               type="submit"
               disabled={loading ? true : false}
             >
-              Create
+              Update
             </Button>
           </form>
         </div>

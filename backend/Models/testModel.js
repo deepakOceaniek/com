@@ -40,6 +40,14 @@ const testSchema = mongoose.Schema({
     ref: "Package",
     required: true,
   },
+  samples: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Sample",
+    required: true,
+  },
+
+  
+
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
