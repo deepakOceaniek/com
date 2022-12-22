@@ -24,22 +24,27 @@ const packageTestSchema = mongoose.Schema({
     required: true,
   },
 
-  tests: [
-    {
-      test: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Test",
-        required: true,
-      },
-    },
-  ],
+  // tests: [
+  //   {
+  //     test: {
+  //       type: mongoose.Schema.ObjectId,
+  //       ref: "Test",
+  //       required: true,
+  //     },
+  //   },
+  // ],
+
+  tests: {
+    type: String,
+    required: true,
+  },
 
   numOfTest: {
     type: Number,
     default: 0,
   },
 
-  TestTiming: {
+  testTiming: {
     type: String,
     required: [true, "please Enter  Test Timing"],
   },
@@ -62,17 +67,19 @@ const packageTestSchema = mongoose.Schema({
     required: true,
   },
 
+  // samples: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "Sample",
+  //   required: true,
+  // },
 
-  samples: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Sample",
-    required: true,
+  sample: {
+    type: String,
+    required: [true, "please Enter Sample description"],
   },
 
-
-
   report: {
-    type: Number,
+    type: String,
     default: 1,
   },
   numOfReviews: {

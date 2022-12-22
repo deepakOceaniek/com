@@ -12,7 +12,7 @@ const {
   getTestDetails,
   updateTest,
   deleteTest,
-  createPakage,
+  createPackage,
   getAllPackage,
   getAdminPackage,
   getPackageDetails,
@@ -53,7 +53,7 @@ router.route("/package/:id").get(isAuthenticated, getPackageDetails);
 //Package --admin
 router
   .route("/admin/package/new")
-  .post(isAuthenticatedAdmin, authorizeRoles("admin"), createPakage);
+  .post(isAuthenticatedAdmin, authorizeRoles("admin"), createPackage);
 router
   .route("/admin/package")
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAdminPackage);

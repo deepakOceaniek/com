@@ -1,7 +1,7 @@
 import React from "react";
 import "./sidebar.css";
 // import logo from "./images/Group";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TreeView, TreeItem } from "@material-ui/lab";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PostAddIcon from "@material-ui/icons/PostAdd";
@@ -14,20 +14,20 @@ import RateReviewIcon from "@material-ui/icons/RateReview";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import VerticalAlignTopIcon from "@material-ui/icons/VerticalAlignTop";
 import UsbIcon from "@material-ui/icons/Usb";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useDispatch } from "react-redux";
-import {logout } from "../../actions/userAction"
+import { logout } from "../../actions/userAction";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
-  const  logoutUser =()=> {
+  const logoutUser = () => {
     dispatch(logout());
     alert.success("Logout Successfully");
     Navigate("/login");
-  }
+  };
   return (
     <div className="sidebar">
       <Link to="/">
@@ -86,7 +86,7 @@ const Sidebar = () => {
           <PeopleIcon /> Add Prescription
         </p>
       </Link>
-     
+
       <Link>
         <TreeView
           defaultCollapseIcon={<VerticalAlignTopIcon />}
@@ -94,7 +94,7 @@ const Sidebar = () => {
         >
           <TreeItem nodeId="1" label="Banner">
             {/* using UserView */}
-            <Link to="/banner">  
+            <Link to="/banner">
               <TreeItem
                 nodeId="2"
                 label="All"
@@ -172,9 +172,26 @@ const Sidebar = () => {
         </TreeView>
       </Link>
 
+      <Link>
+        <TreeView
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ImportExportIcon />}
+        >
+          <TreeItem nodeId="1" label="Package">
+            <Link to="/admin/packages">
+              <TreeItem
+                nodeId="2"
+                label="All"
+                icon={<FormatListBulletedIcon />}
+              />
+            </Link>
 
-
-
+            <Link to="/admin/package">
+              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+            </Link>
+          </TreeItem>
+        </TreeView>
+      </Link>
 
       <Link to="/admin/me">
         <p>

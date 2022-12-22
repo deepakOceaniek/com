@@ -29,19 +29,19 @@ import RegisterScreen from "./component/User/RegisterScreen";
 import OtpScreen from "./component/User/OtpScreen";
 import Prescription from "./component/Admin/Prescription.js";
 import AddPrescription from "./component/Admin/AddPrescription";
-import AddBanner from "./component/Admin/AddBanner.js"
+import AddBanner from "./component/Admin/AddBanner.js";
 
-import Home from "./component/User/payment/Home.js"
-import PaymentSuccess from "./component/User/payment/PaymentSuccess.js"
+import Home from "./component/User/payment/Home.js";
+import PaymentSuccess from "./component/User/payment/PaymentSuccess.js";
 import NewlabCategory from "./component/Admin/NewlabCategory";
 import LabCategoryList from "./component/Admin/LabCategoryList";
 import UpdateLabCategory from "./component/Admin/UpdateLabCategory";
-import NewTest from "./component/Admin/NewTest.js"
-import TestList from "./component/Admin/TestList.js"
-import UpdateTest from "./component/Admin/UpdateTest.js"
-import NewPackage from "./component/Admin/NewPackage.js"
-import PackageList from "./component/Admin/PackageList.js"
-import UpdatePackage from "./component/Admin/UpdatePackage.js"
+import NewTest from "./component/Admin/NewTest.js";
+import TestList from "./component/Admin/TestList.js";
+import UpdateTest from "./component/Admin/UpdateTest.js";
+import NewPackage from "./component/Admin/NewPackage.js";
+import PackageList from "./component/Admin/PackageList.js";
+import UpdatePackage from "./component/Admin/UpdatePackage.js";
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -50,8 +50,8 @@ import UpdatePackage from "./component/Admin/UpdatePackage.js"
 // import AdminDashborad from "./component/Register/AdminDashborad";
 function App() {
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
-const [contactData ,setContactData] = useState("")
-const [registerData, setRegisterData] = useState("")
+  const [contactData, setContactData] = useState("");
+  const [registerData, setRegisterData] = useState("");
   useEffect(() => {
     WebFont.load({
       google: {
@@ -79,9 +79,18 @@ const [registerData, setRegisterData] = useState("")
           )} */}
 
           {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
-          <Route path="/" element={<LoginScreen  setContactData ={ setContactData}/>} />
-          <Route path="/admin/register" element={<RegisterScreen  setRegisterData={setRegisterData} />} />
-          <Route path="/otp" element={<OtpScreen data={[contactData,registerData]}   />} />
+          <Route
+            path="/"
+            element={<LoginScreen setContactData={setContactData} />}
+          />
+          <Route
+            path="/admin/register"
+            element={<RegisterScreen setRegisterData={setRegisterData} />}
+          />
+          <Route
+            path="/otp"
+            element={<OtpScreen data={[contactData, registerData]} />}
+          />
 
           <Route
             OtpScreen
@@ -144,29 +153,27 @@ const [registerData, setRegisterData] = useState("")
             />
           )}
 
-{isAuthenticated && (
-            <Route
-              path="/admin/addBanner"
-              element={<AddBanner />}
-            />
+          {isAuthenticated && (
+            <Route path="/admin/addBanner" element={<AddBanner />} />
           )}
 
-<Route path="/payment" element={<Home />} />
-        <Route path="/paymentsuccess" element={<PaymentSuccess />} />
+          <Route path="/payment" element={<Home />} />
+          <Route path="/paymentsuccess" element={<PaymentSuccess />} />
 
-       
-            <Route path="/admin/labcategory" element={<NewlabCategory />} />
-            <Route path="/admin/labcategories" element={<LabCategoryList />} />
-            <Route path="/admin/labcategory/:id" element={<UpdateLabCategory />} />
+          <Route path="/admin/labcategory" element={<NewlabCategory />} />
+          <Route path="/admin/labcategories" element={<LabCategoryList />} />
+          <Route
+            path="/admin/labcategory/:id"
+            element={<UpdateLabCategory />}
+          />
 
-            <Route path="/admin/test" element={<NewTest />} />
-            <Route path="/admin/tests" element={<TestList />} />
-            <Route path="/admin/test/:id" element={<UpdateTest />} />
+          <Route path="/admin/test" element={<NewTest />} />
+          <Route path="/admin/tests" element={<TestList />} />
+          <Route path="/admin/test/:id" element={<UpdateTest />} />
 
-            <Route path="/admin/package" element={<NewPackage />} />
-            <Route path="/admin/packages" element={<PackageList />} />
-            <Route path="/admin/package/:id" element={<UpdatePackage />} />
-          
+          <Route path="/admin/package" element={<NewPackage />} />
+          <Route path="/admin/packages" element={<PackageList />} />
+          <Route path="/admin/package/:id" element={<UpdatePackage />} />
 
           {/* <Route path="/Registration" element={<Registration />} /> */}
           {/* <Route path="/admindashboard" element={<AdminDashborad />} /> */}

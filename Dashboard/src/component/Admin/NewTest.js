@@ -2,7 +2,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createTest,getAdminLabCategory } from "../../actions/testAction";
+import {
+  clearErrors,
+  createTest,
+  getAdminLabCategory,
+  getAdminPackage,
+} from "../../actions/testAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../layout/MetaData";
@@ -30,9 +35,6 @@ const NewTest = () => {
   const [category, setCategory] = useState("");
   const [packageTest, setPackageTest] = useState("");
 
-
-
-
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
@@ -45,14 +47,14 @@ const NewTest = () => {
   //   "Skin Care"
   // ];
 
+  const { labCategories } = useSelector((state) => state.labCategories);
+  const { packages } = useSelector((state) => state.packages);
 
-  const {labCategories } = useSelector((state) => state.labCategories);
-
-
-
-
+  console.log(packages);
+  console.log(labCategories);
   useEffect(() => {
-    dispatch(getAdminLabCategory()) 
+    dispatch(getAdminLabCategory());
+    dispatch(getAdminPackage());
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -70,7 +72,7 @@ const NewTest = () => {
   // console.log(Object.values(categories))
   // console.log(categories)
   // console.log(data)
-  
+
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -82,7 +84,6 @@ const NewTest = () => {
     myForm.set("sample", sample);
     myForm.set("packageTest", packageTest);
     myForm.set("category", category);
-  
 
     images.forEach((image) => {
       myForm.append("images", image);
@@ -110,108 +111,114 @@ const NewTest = () => {
     });
   };
 
-
-
   return (
     <Fragment>
       <MetaData title="Create Test" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-         {loading ? <Loader /> :  <form
-            className="createProductForm"
-            encType="multipart/form-data"
-            onSubmit={createProductSubmitHandler}
-          >
-            <h1>Create Test</h1>
-
-            <div>
-              <SpellcheckIcon />
-              <input
-                type="text"
-                placeholder="Test Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-          
-            <div>
-              <DescriptionIcon />
-
-              <textarea
-                placeholder="Test Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="number"
-                placeholder="Price"
-                required
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="sample"
-                required
-                onChange={(e) => setSample(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="package"
-                required
-                onChange={(e) => setPackageTest(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AccountTreeIcon />
-              <select onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Choose Category</option>
-                {labCategories && labCategories.map((cate) => (
-                  <option key={cate.categoryName} value={cate._id}>
-                    {cate.categoryName}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={createProductImagesChange}
-                multiple
-              />
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
-            </div>
-
-            <Button
-              id="createProductBtn"
-              type="submit"
-              disabled={loading ? true : false}
+          {loading ? (
+            <Loader />
+          ) : (
+            <form
+              className="createProductForm"
+              encType="multipart/form-data"
+              onSubmit={createProductSubmitHandler}
             >
-              Create
-            </Button>
-          </form>}
+              <h1>Create Test</h1>
+
+              <div>
+                <SpellcheckIcon />
+                <input
+                  type="text"
+                  placeholder="Test Name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <DescriptionIcon />
+
+                <textarea
+                  placeholder="Test Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  cols="30"
+                  rows="1"
+                ></textarea>
+              </div>
+              <div>
+                <AttachMoneyIcon />
+                <input
+                  type="number"
+                  placeholder="Price"
+                  required
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+              <div>
+                <AttachMoneyIcon />
+                <input
+                  type="text"
+                  placeholder="sample"
+                  required
+                  onChange={(e) => setSample(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <AccountTreeIcon />
+                <select onChange={(e) => setPackageTest(e.target.value)}>
+                  <option value="">Choose Package</option>
+                  {packages &&
+                    packages.map((cate) => (
+                      <option key={cate.name} value={cate._id}>
+                        {cate.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div>
+                <AccountTreeIcon />
+                <select onChange={(e) => setCategory(e.target.value)}>
+                  <option value="">Choose Category</option>
+                  {labCategories &&
+                    labCategories.map((cate) => (
+                      <option key={cate.categoryName} value={cate._id}>
+                        {cate.categoryName}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div id="createProductFormFile">
+                <input
+                  type="file"
+                  name="avatar"
+                  accept="image/*"
+                  onChange={createProductImagesChange}
+                  multiple
+                />
+              </div>
+
+              <div id="createProductFormImage">
+                {imagesPreview.map((image, index) => (
+                  <img key={index} src={image} alt="Product Preview" />
+                ))}
+              </div>
+
+              <Button
+                id="createProductBtn"
+                type="submit"
+                disabled={loading ? true : false}
+              >
+                Create
+              </Button>
+            </form>
+          )}
         </div>
       </div>
     </Fragment>

@@ -15,7 +15,7 @@ const testSchema = mongoose.Schema({
     required: [true, "please Enter Product Price"],
     maxLength: [8, "Price can not exceed 8 character"],
   },
- 
+
   images: [
     {
       public_id: {
@@ -35,18 +35,21 @@ const testSchema = mongoose.Schema({
     required: true,
   },
 
-  pakage: {
+  packageTest: {
     type: mongoose.Schema.ObjectId,
     ref: "Package",
     required: true,
   },
-  samples: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Sample",
-    required: true,
-  },
+  // samples: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "Sample",
+  //   required: true,
+  // },
 
-  
+  sample: {
+    type: String,
+    required: [true, "please Enter Sample description"],
+  },
 
   user: {
     type: mongoose.Schema.ObjectId,

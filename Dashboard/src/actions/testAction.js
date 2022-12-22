@@ -1,85 +1,67 @@
 import axios from "axios";
 
 import {
-    ADMIN_TEST_REQUEST,
-    ADMIN_TEST_SUCCESS,
-    ADMIN_TEST_FAIL,
-
-    NEW_TEST_REQUEST,
-    NEW_TEST_SUCCESS,
-    NEW_TEST_FAIL,
-    NEW_TEST_RESET,
-
-    UPDATE_TEST_REQUEST,
-    UPDATE_TEST_SUCCESS,
-    UPDATE_TEST_FAIL,
-    UPDATE_TEST_RESET,
-
-    DELETE_TEST_REQUEST,
-    DELETE_TEST_SUCCESS,
-    DELETE_TEST_FAIL,
-    DELETE_TEST_RESET,
-
-    TEST_DETAILS_REQUEST,
-    TEST_DETAILS_SUCCESS,
-    TEST_DETAILS_FAIL,
-
-    ADMIN_PACKAGE_REQUEST,
-    ADMIN_PACKAGE_SUCCESS,
-    ADMIN_PACKAGE_FAIL,
-
-    NEW_PACKAGE_REQUEST,
-    NEW_PACKAGE_SUCCESS,
-    NEW_PACKAGE_FAIL,
-    NEW_PACKAGE_RESET,
-
-    UPDATE_PACKAGE_REQUEST,
-    UPDATE_PACKAGE_SUCCESS,
-    UPDATE_PACKAGE_FAIL,
-    UPDATE_PACKAGE_RESET,
-
-
-    DELETE_PACKAGE_REQUEST,
-    DELETE_PACKAGE_SUCCESS,
-    DELETE_PACKAGE_FAIL,
-    DELETE_PACKAGE_RESET,
-
-    PACKAGE_DETAILS_REQUEST,
-    PACKAGE_DETAILS_SUCCESS,
-    PACKAGE_DETAILS_FAIL,
-
-    ALL_PACKAGE_REVIEW_REQUEST,
-    ALL_PACKAGE_REVIEW_SUCCESS,
-    ALL_PACKAGE_REVIEW_FAIL,
-
-    DELETE_PACKAGE_REVIEW_REQUEST,
-    DELETE_PACKAGE_REVIEW_SUCCESS,
-    DELETE_PACKAGE_REVIEW_FAIL,
-    DELETE_PACKAGE_REVIEW_RESET,
-
-    ADMIN_LABCATEGORY_REQUEST,
-    ADMIN_LABCATEGORY_SUCCESS,
-    ADMIN_LABCATEGORY_FAIL,
-
-    NEW_LABCATEGORY_REQUEST,
-    NEW_LABCATEGORY_SUCCESS,
-    NEW_LABCATEGORY_FAIL,
-    NEW_LABCATEGORY_RESET,
-
-    UPDATE_LABCATEGORY_REQUEST,
-    UPDATE_LABCATEGORY_SUCCESS,
-    UPDATE_LABCATEGORY_FAIL,
-    UPDATE_LABCATEGORY_RESET,
-
-    DELETE_LABCATEGORY_REQUEST,
-    DELETE_LABCATEGORY_SUCCESS,
-    DELETE_LABCATEGORY_FAIL,
-    DELETE_LABCATEGORY_RESET,
-
-    LABCATEGORY_DETAILS_REQUEST,
-    LABCATEGORY_DETAILS_SUCCESS,
-    LABCATEGORY_DETAILS_FAIL,
-
+  ADMIN_TEST_REQUEST,
+  ADMIN_TEST_SUCCESS,
+  ADMIN_TEST_FAIL,
+  NEW_TEST_REQUEST,
+  NEW_TEST_SUCCESS,
+  NEW_TEST_FAIL,
+  NEW_TEST_RESET,
+  UPDATE_TEST_REQUEST,
+  UPDATE_TEST_SUCCESS,
+  UPDATE_TEST_FAIL,
+  UPDATE_TEST_RESET,
+  DELETE_TEST_REQUEST,
+  DELETE_TEST_SUCCESS,
+  DELETE_TEST_FAIL,
+  DELETE_TEST_RESET,
+  TEST_DETAILS_REQUEST,
+  TEST_DETAILS_SUCCESS,
+  TEST_DETAILS_FAIL,
+  ADMIN_PACKAGE_REQUEST,
+  ADMIN_PACKAGE_SUCCESS,
+  ADMIN_PACKAGE_FAIL,
+  NEW_PACKAGE_REQUEST,
+  NEW_PACKAGE_SUCCESS,
+  NEW_PACKAGE_FAIL,
+  NEW_PACKAGE_RESET,
+  UPDATE_PACKAGE_REQUEST,
+  UPDATE_PACKAGE_SUCCESS,
+  UPDATE_PACKAGE_FAIL,
+  UPDATE_PACKAGE_RESET,
+  DELETE_PACKAGE_REQUEST,
+  DELETE_PACKAGE_SUCCESS,
+  DELETE_PACKAGE_FAIL,
+  DELETE_PACKAGE_RESET,
+  PACKAGE_DETAILS_REQUEST,
+  PACKAGE_DETAILS_SUCCESS,
+  PACKAGE_DETAILS_FAIL,
+  ALL_PACKAGE_REVIEW_REQUEST,
+  ALL_PACKAGE_REVIEW_SUCCESS,
+  ALL_PACKAGE_REVIEW_FAIL,
+  DELETE_PACKAGE_REVIEW_REQUEST,
+  DELETE_PACKAGE_REVIEW_SUCCESS,
+  DELETE_PACKAGE_REVIEW_FAIL,
+  DELETE_PACKAGE_REVIEW_RESET,
+  ADMIN_LABCATEGORY_REQUEST,
+  ADMIN_LABCATEGORY_SUCCESS,
+  ADMIN_LABCATEGORY_FAIL,
+  NEW_LABCATEGORY_REQUEST,
+  NEW_LABCATEGORY_SUCCESS,
+  NEW_LABCATEGORY_FAIL,
+  NEW_LABCATEGORY_RESET,
+  UPDATE_LABCATEGORY_REQUEST,
+  UPDATE_LABCATEGORY_SUCCESS,
+  UPDATE_LABCATEGORY_FAIL,
+  UPDATE_LABCATEGORY_RESET,
+  DELETE_LABCATEGORY_REQUEST,
+  DELETE_LABCATEGORY_SUCCESS,
+  DELETE_LABCATEGORY_FAIL,
+  DELETE_LABCATEGORY_RESET,
+  LABCATEGORY_DETAILS_REQUEST,
+  LABCATEGORY_DETAILS_SUCCESS,
+  LABCATEGORY_DETAILS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/testConstants";
 
@@ -92,7 +74,7 @@ export const getAdminTest = () => async (dispatch) => {
 
     dispatch({
       type: ADMIN_TEST_SUCCESS,
-      payload: data.products,
+      payload: data.tests,
     });
   } catch (error) {
     dispatch({
@@ -195,122 +177,116 @@ export const getTestDetails = (id) => async (dispatch) => {
   }
 };
 
-
-
 // Get All Package For Admin
 export const getAdminPackage = () => async (dispatch) => {
-    try {
-      dispatch({ type: ADMIN_PACKAGE_REQUEST });
-  
-      const { data } = await axios.get("/api/v1/admin/package");
-  
-      dispatch({
-        type: ADMIN_PACKAGE_SUCCESS,
-        payload: data.products,
-      });
-    } catch (error) {
-      dispatch({
-        type: ADMIN_PACKAGE_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
-  
-  // Create Package --admin
-  export const createPackage = (packageData) => async (dispatch) => {
-    try {
-      dispatch({ type: NEW_PACKAGE_REQUEST });
-  
-      const config = {
-        headers: { "Content-Type": "application/json" },
-      };
-  
-      const { data } = await axios.post(
-        `/api/v1/admin/package/new`,
-        packageData,
-        config
-      );
-  
-      dispatch({
-        type: NEW_PACKAGE_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: NEW_PACKAGE_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
-  
-  // Update package - admin
-  export const updatePackage = (id, packageData) => async (dispatch) => {
-    try {
-      dispatch({ type: UPDATE_PACKAGE_REQUEST });
-  
-      const config = {
-        headers: { "Content-Type": "application/json" },
-      };
-  
-      const { data } = await axios.put(
-        `/api/v1/admin/package/${id}`,
-        packageData,
-        config
-      );
-  
-      dispatch({
-        type: UPDATE_PACKAGE_SUCCESS,
-        payload: data.success,
-      });
-    } catch (error) {
-      dispatch({
-        type: UPDATE_PACKAGE_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
-  
-  // Delete package -admin
-  export const deletePackage = (id) => async (dispatch) => {
-    try {
-      dispatch({ type: DELETE_PACKAGE_REQUEST });
-  
-      const { data } = await axios.delete(`/api/v1/admin/package/${id}`);
-  
-      dispatch({
-        type: DELETE_PACKAGE_SUCCESS,
-        payload: data.success,
-      });
-    } catch (error) {
-      dispatch({
-        type: DELETE_PACKAGE_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
-  
-  // Get Package Details admin
-  export const getPackageDetails = (id) => async (dispatch) => {
-    try {
-      dispatch({
-        type: PACKAGE_DETAILS_REQUEST,
-      });
-      const { data } = await axios.get(`/api/v1/admin/package/${id}`);
-      console.log(data);
-      dispatch({
-        type: PACKAGE_DETAILS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: PACKAGE_DETAILS_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
+  try {
+    dispatch({ type: ADMIN_PACKAGE_REQUEST });
 
+    const { data } = await axios.get("/api/v1/admin/package");
 
+    dispatch({
+      type: ADMIN_PACKAGE_SUCCESS,
+      payload: data.packages,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_PACKAGE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
+// Create Package --admin
+export const createPackage = (packageData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_PACKAGE_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    const { data } = await axios.post(
+      `/api/v1/admin/package/new`,
+      packageData,
+      config
+    );
+
+    dispatch({
+      type: NEW_PACKAGE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_PACKAGE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update package - admin
+export const updatePackage = (id, packageData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PACKAGE_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const { data } = await axios.put(
+      `/api/v1/admin/package/${id}`,
+      packageData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_PACKAGE_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PACKAGE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Delete package -admin
+export const deletePackage = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_PACKAGE_REQUEST });
+
+    const { data } = await axios.delete(`/api/v1/admin/package/${id}`);
+
+    dispatch({
+      type: DELETE_PACKAGE_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_PACKAGE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get Package Details admin
+export const getPackageDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: PACKAGE_DETAILS_REQUEST,
+    });
+    const { data } = await axios.get(`/api/v1/admin/package/${id}`);
+    console.log(data);
+    dispatch({
+      type: PACKAGE_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PACKAGE_DETAILS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Get All  Reviews of a Package
 export const getAllPackageReviews = (id) => async (dispatch) => {
@@ -332,25 +308,26 @@ export const getAllPackageReviews = (id) => async (dispatch) => {
 };
 
 // Delete package Review of a Product
-export const deletePackageReviews = (reviewId, packageId) => async (dispatch) => {
-  try {
-    dispatch({ type: DELETE_PACKAGE_REVIEW_REQUEST });
+export const deletePackageReviews =
+  (reviewId, packageId) => async (dispatch) => {
+    try {
+      dispatch({ type: DELETE_PACKAGE_REVIEW_REQUEST });
 
-    const { data } = await axios.delete(
-      `/api/v1/testreviews?id=${reviewId}&packageId =${packageId}`
-    );
+      const { data } = await axios.delete(
+        `/api/v1/testreviews?id=${reviewId}&packageId =${packageId}`
+      );
 
-    dispatch({
-      type: DELETE_PACKAGE_REVIEW_SUCCESS,
-      payload: data.success,
-    });
-  } catch (error) {
-    dispatch({
-      type: DELETE_PACKAGE_REVIEW_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: DELETE_PACKAGE_REVIEW_SUCCESS,
+        payload: data.success,
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_PACKAGE_REVIEW_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Get All labCategory For Admin
 export const getAdminLabCategory = () => async (dispatch) => {
@@ -360,9 +337,9 @@ export const getAdminLabCategory = () => async (dispatch) => {
     const { data } = await axios.get("/api/v1/admin/labcategory");
     dispatch({
       type: ADMIN_LABCATEGORY_SUCCESS,
-      payload: data.labCategories
+      payload: data.labCategories,
     });
-    console.log(data)
+    console.log(data);
   } catch (error) {
     dispatch({
       type: ADMIN_LABCATEGORY_FAIL,
