@@ -1,35 +1,35 @@
 import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import "./productList.css";
+import "../Product/productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  getAdminProduct,
-  deleteProduct,
-} from "../../actions/productAction";
+  getAdminBanner,
+  deleteBannner,
+} from "../../../actions/productAction";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import SideBar from "./Sidebar";
-import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
+import SideBar from "../Sidebar";
+import { DELETE_BANNER_RESET  } from "../../../constants/productConstants";
 
-const ProductList = () => {
+const BannerList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, products } = useSelector((state) => state.products);
+  const { error, banners } = useSelector((state) => state.banners);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
   );
 
   const deleteProductHandler = (id) => {
-    dispatch(deleteProduct(id));
+    dispatch(deleteBannner(id));
   };
 
   useEffect(() => {
@@ -44,18 +44,18 @@ const ProductList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Product Deleted Successfully");
-      Navigate("/admin/products");
-      dispatch({ type: DELETE_PRODUCT_RESET });
+      alert.success("Banner Deleted Successfully");
+      Navigate("/admin/banner");
+      dispatch({ type: DELETE_BANNER_RESET });
     }
 
-    dispatch(getAdminProduct());
+    dispatch(getAdminBanner());
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
     {
       field: "id",
-      headerName: "Product ID",
+      headerName: "Banner ID",
       minWidth: 150,
       flex: 0.5,
       headerAlign: "center",
@@ -63,58 +63,32 @@ const ProductList = () => {
       hide: true,
     },
 
-    {
-      field: "name",
-      headerName: "Name",
-      minWidth: 100,
-      flex: 0.5,
-      headerAlign: "center",
-      align: "center",
-    },
+   
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      width: 900,
+      flex: 0.8,
       headerAlign: "center",
       align: "center",
 
       renderCell: (params) => {
         return (
           <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
-            {" "}
             <img
               style={{ height: "100%", width: "100%" }}
               src={params.value}
-              alt="products"
+              alt="banner"
             />
           </div>
         );
       },
       // editable: true,
     },
-    {
-      field: "stock",
-      headerName: "Stock",
-      type: "number",
-      minWidth: 50,
-      flex: 0.3,
-      headerAlign: "center",
-      align: "center",
-    },
-
-    {
-      field: "price",
-      headerName: "Price",
-      type: "number",
-      minWidth: 60,
-      headerAlign: "center",
-      align: "center",
-      flex: 0.5,
-    },
-
+  
     {
       field: "actions",
-      flex: 0.3,
+      flex: 0.5,
       headerName: "Actions",
       minWidth: 150,
       headerAlign: "center",
@@ -124,7 +98,7 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/product/${params.getValue(params.id, "id")}`}>
+            <Link to={`/admin/banner/${params.getValue(params.id, "id")}`}>
               <EditIcon />
             </Link>
 
@@ -143,26 +117,24 @@ const ProductList = () => {
 
   const rows = [];
 
-  products &&
-    products.forEach((item) => {
+  banners &&
+  banners.forEach((item) => {
       rows.push({
         id: item._id,
         type: "image",
         image: item.images[0].url,
-        stock: item.stock,
-        price: item.price,
-        name: item.name,
+       
       });
     });
 
   return (
     <Fragment>
-      <MetaData title={`ALL PRODUCTS - Admin`} />
+      <MetaData title={`Banners - Admin`} />
 
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL PRODUCTS</h1>
+          <h1 id="productListHeading">ALL Banners</h1>
 
           <DataGrid
             rows={rows}
@@ -179,4 +151,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default BannerList;

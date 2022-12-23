@@ -94,7 +94,7 @@ const Sidebar = () => {
         >
           <TreeItem nodeId="1" label="Banner">
             {/* using UserView */}
-            <Link to="/banner">
+            <Link to="/admin/banner">
               <TreeItem
                 nodeId="2"
                 label="All"
@@ -102,7 +102,7 @@ const Sidebar = () => {
               />
             </Link>
 
-            <Link to="/admin/addBanner">
+            <Link to="/admin/addbanner">
               <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
             </Link>
           </TreeItem>

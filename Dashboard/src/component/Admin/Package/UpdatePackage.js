@@ -2,19 +2,19 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  updateProduct,
-  getProductDetails,
-} from "../../actions/productAction";
+  updatePackage,
+  getPackageDetails,
+} from "../../../actions/testAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import SideBar from "./Sidebar";
-import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
+import SideBar from "../Sidebar";
+import { UPDATE_PACKAGE_RESET } from "../../../constants/testConstants";
 import { useParams, useNavigate } from "react-router-dom";
 
 const UpdatePackage = () => {
@@ -23,8 +23,8 @@ const UpdatePackage = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
 
-  const { error, product } = useSelector((state) => state.productDetails);
-  console.log(product);
+  const { error, testPackage } = useSelector((state) => state.packageDetails);
+  console.log(testPackage);
   const {
     loading,
     error: updateError,
@@ -34,15 +34,15 @@ const UpdatePackage = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [salt, setSalt] = useState("");
-  const [expired, setExpired] = useState("");
-  const [tabletPerStrip, setTabletPerStrip] = useState("");
-  const [company, setCompany] = useState("");
+
+  const [verify, setVerify] = useState("");
+  const [test, setTest] = useState("");
+  const [numOfTest, setNumOfTest] = useState("");
+  const [testTiming, setTestTiming] = useState("");
   const [category, setCategory] = useState("");
-  const [stock, setStock] = useState(0);
-  const [gst, setGst] = useState("");
-  const [batchCode, setBatchCode] = useState("");
-  const [hsnCode, setHsnCode] = useState("");
+  const [sample, setSample] = useState(0);
+  const [report, setReport] = useState("");
+
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -56,25 +56,31 @@ const UpdatePackage = () => {
     "Skin Care",
   ];
 
-  const productId = id;
+
+  const samples = [
+    "Pain Relief",
+    "Diabetes Care",
+    "Skin Care",
+  ];
+
+  const testPackageId = id;
 
   useEffect(() => {
-    if (product && product._id !== productId) {
-      dispatch(getProductDetails(productId));
+    if (testPackage && testPackage._id !== testPackageId) {
+      dispatch(getPackageDetails(testPackageId));
     } else {
-      setName(product.name);
-      setDescription(product.description);
-      setPrice(product.price);
-      setSalt(product.salt);
-      setExpired(product.expired);
-      setTabletPerStrip(product.tabletPerStrip);
-      setCompany(product.company);
-      setCategory(product.category);
-      setStock(product.stock);
-      setGst(product.gst);
-      setBatchCode(product.batchCode);
-      setHsnCode(product.hsnCode);
-      setOldImages(product.images);
+      setName(testPackage.name);
+      setDescription(testPackage.description);
+      setPrice(testPackage.price);
+      setVerify(testPackage.verify);
+      setTest(testPackage.tests);
+      setNumOfTest(testPackage.numOfTest);
+      setTestTiming(testPackage.testTiming);
+      setCategory(testPackage.category);
+      setSample(testPackage.sample);
+      setReport(testPackage.report);
+      setOldImages(testPackage.images);
+ 
     }
     if (error) {
       alert.error(error);
@@ -89,7 +95,7 @@ const UpdatePackage = () => {
     if (isUpdated) {
       alert.success("Product Updated Successfully");
       Navigate("/admin/products");
-      dispatch({ type: UPDATE_PRODUCT_RESET });
+      dispatch({ type: UPDATE_PACKAGE_RESET });
     }
   }, [
     dispatch,
@@ -97,8 +103,8 @@ const UpdatePackage = () => {
     error,
     Navigate,
     isUpdated,
-    productId,
-    product,
+    testPackageId,
+    testPackage,
     updateError,
   ]);
 
@@ -110,20 +116,18 @@ const UpdatePackage = () => {
     myForm.set("name", name);
     myForm.set("description", description);
     myForm.set("price", price);
-    myForm.set("salt", salt);
-    myForm.set("tabletPerStrip", tabletPerStrip);
-    myForm.set("expired", expired);
-    myForm.set("company", company);
+    myForm.set("verify", verify);
+    myForm.set("test", test);
+    myForm.set("numOfTest", numOfTest);
+    myForm.set("testTiming", testTiming);
     myForm.set("category", category);
-    myForm.set("stock", stock);
-    myForm.set("gst", gst);
-    myForm.set("batchCode", batchCode);
-    myForm.set("hsnCode", hsnCode);
+    myForm.set("sample", sample);
+    myForm.set("report", report);
 
     images.forEach((image) => {
       myForm.append("images", image);
     });
-    dispatch(updateProduct(productId, myForm));
+    dispatch(updatePackage(testPackageId, myForm));
   };
 
   const updateProductImagesChange = (e) => {
@@ -149,7 +153,7 @@ const UpdatePackage = () => {
 
   return (
     <Fragment>
-      <MetaData title="Create Product" />
+      <MetaData title="Update Package" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
@@ -158,13 +162,13 @@ const UpdatePackage = () => {
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Create Product</h1>
+            <h1>Update Package</h1>
 
             <div>
               <SpellcheckIcon />
               <input
                 type="text"
-                placeholder="Product Name"
+                placeholder="Package Name"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -175,7 +179,7 @@ const UpdatePackage = () => {
               <DescriptionIcon />
 
               <textarea
-                placeholder="Product Description"
+                placeholder="Package Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 cols="30"
@@ -196,20 +200,20 @@ const UpdatePackage = () => {
               <AttachMoneyIcon />
               <input
                 type="text"
-                placeholder="Salt"
+                placeholder="Verify"
                 required
-                value={price}
-                onChange={(e) => setSalt(e.target.value)}
+                value={verify}
+                onChange={(e) => setVerify(e.target.value)}
               />
             </div>
             <div>
               <AttachMoneyIcon />
               <input
-                type="date"
-                placeholder="expired"
+                type="text"
+                placeholder="Test"
                 required
-                value={expired}
-                onChange={(e) => setExpired(e.target.value)}
+                value={test}
+                onChange={(e) => setTest(e.target.value)}
               />
             </div>
 
@@ -219,21 +223,12 @@ const UpdatePackage = () => {
                 type="Number"
                 placeholder="tabletPerStrip"
                 required
-                value={tabletPerStrip}
-                onChange={(e) => setTabletPerStrip(e.target.value)}
+                value={numOfTest}
+                onChange={(e) => setNumOfTest(e.target.value)}
               />
             </div>
 
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="company"
-                required
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-              />
-            </div>
+    
 
             <div>
               <AccountTreeIcon />
@@ -250,47 +245,37 @@ const UpdatePackage = () => {
               </select>
             </div>
 
+            
             <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="stock"
-                required
-                onChange={(e) => setStock(e.target.value)}
-                value={stock}
-              />
+              <AccountTreeIcon />
+              <select
+                value={sample}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="">Choose Sample</option>
+                {samples.map((cate) => (
+                  <option key={cate} value={cate}>
+                    {cate}
+                  </option>
+                ))}
+              </select>
             </div>
+
+        
+     
             <div>
               <StorageIcon />
               <input
                 type="text"
-                placeholder="gst"
+                placeholder="Report"
+                valuereport
+                value={report}
                 required
-                value={gst}
-                onChange={(e) => setGst(e.target.value)}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="batchCode"
-                value={batchCode}
-                required
-                onChange={(e) => setBatchCode(e.target.value)}
+                onChange={(e) => setReport(e.target.value)}
               />
             </div>
 
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder=" hsnCode"
-                value={hsnCode}
-                required
-                onChange={(e) => setHsnCode(e.target.value)}
-              />
-            </div>
+       
 
             <div id="createProductFormFile">
               <input

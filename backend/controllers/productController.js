@@ -406,42 +406,48 @@ exports.deletePrescription = catchAsyncErrors(async (req, res, next) => {
 
 // All banner 
 exports.getAllBanner = catchAsyncErrors(async (req, res, next) => {
-  const banner = await Banner.find();
+  const banners = await Banner.find();
 
   res.status(200).json({
     success: true,
-    banner,
+    banners,
   });
 });
 
 // Add banner --admin
 exports.addBanner = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.files);
-  // Cloudinary
-  if (req.files !== "") {
-    const MyCloud = await cloudinary.v2.uploader.upload(
-      req.body.bannerImage,
-      {
-        folder: "bannerImage",
-        width: 150,
-        crop: "scale",
-      }
-    );
-    console.log(MyCloud);
-    const banner = await Banner.create({
-      bannerImage: {
-        public_id: MyCloud.public_id,
-        url: MyCloud.secure_url,
-      },
-    });
+
+
+  let images = [];
+
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
   } else {
-    return next(
-      new ErrorHandler("Fail to upload", 400)
-    );
+    images = req.body.images;
   }
-  res
-    .status(200)
-    .json({success :true , message: "Banner Added "});
+
+  const imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "bannerImage",
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
+
+  const banner = await Banner.create(req.body);
+
+  res.status(201).json({
+    success: true,
+    banner,
+  });
+
 });
 
 
@@ -460,16 +466,18 @@ exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
 
   const banner = await Banner.findById(req.params.id);
   if (!banner) {
-    return next(
-      new ErrorHandler(`Banner Image Not Exist with Id: ${req.params.id}`, 400)
-    );
+    return next(new ErrorHandler("Banner not found", 404));
   }
 
-  const imageId = banner.prescriptionImage.public_id;
-  await cloudinary.v2.uploader.destroy(imageId);
+  //Deleting Images from Cloudinary
+  for(let i=0 ;i< banner.images.length;i++){
+     await cloudinary.v2.uploader.destroy(banner.images[i].public_id)
+  }
 
   await banner.remove();
-  res.status(200).json({ success: true, message: "Banner  deleted successfully" });
+  res
+    .status(200)
+    .json({ success: true, message: "Banner deleted Successfully" });
 });
 
 

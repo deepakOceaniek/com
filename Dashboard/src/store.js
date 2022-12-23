@@ -15,6 +15,8 @@ import {
   categoriesReducer,
   newCategoryReducer,
   categoryDetailsReducer,
+  bannersReducer,
+  newBannerReducer,
 } from "./reducers/productReducer";
 import {
   userReducer,
@@ -46,6 +48,10 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   productReviews: productReviewsReducer,
   review: reviewReducer,
+
+
+  banners : bannersReducer,
+  newBanner:newBannerReducer,
 
   tests:testsReducer,
   packages:packageReducer,

@@ -1,27 +1,35 @@
-/* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
-import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createProduct,getAdminCategory } from "../../actions/productAction";
+import {
+  clearErrors,
+  updateProduct,
+  getProductDetails,
+} from "../../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import SideBar from "./Sidebar";
-import Loader from "../layout/Loader/Loader";
-import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
-import { useNavigate } from "react-router-dom";
+import SideBar from "../Sidebar";
+import { UPDATE_PRODUCT_RESET } from "../../../constants/productConstants";
+import { useParams, useNavigate } from "react-router-dom";
 
-const NewProduct = () => {
+const UpdateProduct = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+  const { id } = useParams();
   const Navigate = useNavigate();
 
-  const { loading, error, success } = useSelector((state) => state.newProduct);
+  const { error, product } = useSelector((state) => state.productDetails);
+console.log(product)
+  const {
+    loading,
+    error: updateError,
+    isUpdated,
+  } = useSelector((state) => state.product);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -36,43 +44,65 @@ const NewProduct = () => {
   const [batchCode, setBatchCode] = useState("");
   const [hsnCode, setHsnCode] = useState("");
   const [images, setImages] = useState([]);
+  const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  // const categories = [
-  //   "Ayurveda",
-  //   "Vitamins & supplements",
-  //   "Healthcare devices",
-  //   "Pain Relief",
-  //   "Diabetes Care",
-  //   "Skin Care"
-  // ];
+  const categories = [
+    "Ayurveda",
+    "Vitamins & supplements",
+    "Healthcare devices",
+    "Pain Relief",
+    "Diabetes Care",
+    "Skin Care"
+  ];
 
-
-  const {categories } = useSelector((state) => state.categories);
-
-
-
+  const productId = id;
 
   useEffect(() => {
-    dispatch(getAdminCategory()) 
+    if (product && product._id !== productId) {
+      dispatch(getProductDetails(productId));
+    } else {
+      setName(product.name);
+      setDescription(product.description);
+      setPrice(product.price);
+      setSalt(product.salt);
+      setExpired(product.expired);
+      setTabletPerStrip(product.tabletPerStrip);
+      setCompany(product.company);
+      setCategory(product.category);
+      setStock(product.stock);
+      setGst(product.gst);
+      setBatchCode(product.batchCode);
+      setHsnCode(product.hsnCode);
+      setOldImages(product.images);
+    }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
-    if (success) {
-      alert.success("Product Created Successfully");
-      Navigate("/admin/products");
-      dispatch({ type: NEW_PRODUCT_RESET });
+    if (updateError) {
+      alert.error(updateError);
+      dispatch(clearErrors());
     }
-  }, [dispatch, alert, error, Navigate, success]);
 
-  // const data = categories &&  categories.map((category)=> console.log(category.categoryName))
+    if (isUpdated) {
+      alert.success("Product Updated Successfully");
+      Navigate("/admin/products");
+      dispatch({ type: UPDATE_PRODUCT_RESET });
+    }
+  }, [
+    dispatch,
+    alert,
+    error,
+    Navigate,
+    isUpdated,
+    productId,
+    product,
+    updateError,
+  ]);
 
-  // console.log(Object.values(categories))
-  // console.log(categories)
-  // console.log(data)
-  const createProductSubmitHandler = (e) => {
+  const updateProductSubmitHandler = (e) => {
     e.preventDefault();
 
     const myForm = new FormData();
@@ -81,8 +111,8 @@ const NewProduct = () => {
     myForm.set("description", description);
     myForm.set("price", price);
     myForm.set("salt", salt);
-    myForm.set("expired", expired);
     myForm.set("tabletPerStrip", tabletPerStrip);
+    myForm.set("expired", expired);
     myForm.set("company", company);
     myForm.set("category", category);
     myForm.set("stock", stock);
@@ -90,17 +120,19 @@ const NewProduct = () => {
     myForm.set("batchCode", batchCode);
     myForm.set("hsnCode", hsnCode);
 
+
     images.forEach((image) => {
       myForm.append("images", image);
     });
-    dispatch(createProduct(myForm));
+    dispatch(updateProduct(productId, myForm));
   };
 
-  const createProductImagesChange = (e) => {
+  const updateProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
 
     setImages([]);
     setImagesPreview([]);
+    setOldImages([]);
 
     files.forEach((file) => {
       const reader = new FileReader();
@@ -116,18 +148,16 @@ const NewProduct = () => {
     });
   };
 
-
-
   return (
     <Fragment>
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-         {loading ? <Loader /> :  <form
+          <form
             className="createProductForm"
             encType="multipart/form-data"
-            onSubmit={createProductSubmitHandler}
+            onSubmit={updateProductSubmitHandler}
           >
             <h1>Create Product</h1>
 
@@ -141,7 +171,8 @@ const NewProduct = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-          
+       
+
             <div>
               <DescriptionIcon />
 
@@ -160,15 +191,16 @@ const NewProduct = () => {
                 placeholder="Price"
                 required
                 onChange={(e) => setPrice(e.target.value)}
+                value={price}
               />
             </div>
-
             <div>
               <AttachMoneyIcon />
               <input
                 type="text"
                 placeholder="Salt"
                 required
+                value={price}
                 onChange={(e) => setSalt(e.target.value)}
               />
             </div>
@@ -178,6 +210,7 @@ const NewProduct = () => {
                 type="date"
                 placeholder="expired"
                 required
+                value={expired}
                 onChange={(e) => setExpired(e.target.value)}
               />
             </div>
@@ -188,6 +221,7 @@ const NewProduct = () => {
                 type="Number"
                 placeholder="tabletPerStrip"
                 required
+                value={tabletPerStrip}
                 onChange={(e) => setTabletPerStrip(e.target.value)}
               />
             </div>
@@ -198,17 +232,22 @@ const NewProduct = () => {
                 type="text"
                 placeholder="company"
                 required
+                value={company}
                 onChange={(e) => setCompany(e.target.value)}
               />
             </div>
 
+
             <div>
               <AccountTreeIcon />
-              <select onChange={(e) => setCategory(e.target.value)}>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
                 <option value="">Choose Category</option>
-                {categories && categories.map((cate) => (
-                  <option key={cate.categoryName} value={cate._id}>
-                    {cate.categoryName}
+                {categories.map((cate) => (
+                  <option key={cate} value={cate}>
+                    {cate}
                   </option>
                 ))}
               </select>
@@ -221,6 +260,7 @@ const NewProduct = () => {
                 placeholder="stock"
                 required
                 onChange={(e) => setStock(e.target.value)}
+                value={stock}
               />
             </div>
             <div>
@@ -229,6 +269,7 @@ const NewProduct = () => {
                 type="text"
                 placeholder="gst"
                 required
+                value={gst}
                 onChange={(e) => setGst(e.target.value)}
               />
             </div>
@@ -237,6 +278,7 @@ const NewProduct = () => {
               <input
                 type="text"
                 placeholder="batchCode"
+                value={batchCode}
                 required
                 onChange={(e) => setBatchCode(e.target.value)}
               />
@@ -247,21 +289,28 @@ const NewProduct = () => {
               <input
                 type="text"
                 placeholder=" hsnCode"
+                value={hsnCode}
                 required
                 onChange={(e) => setHsnCode(e.target.value)}
               />
             </div>
 
-            
 
             <div id="createProductFormFile">
               <input
                 type="file"
                 name="avatar"
                 accept="image/*"
-                onChange={createProductImagesChange}
+                onChange={updateProductImagesChange}
                 multiple
               />
+            </div>
+
+            <div id="createProductFormImage">
+              {oldImages &&
+                oldImages.map((image, index) => (
+                  <img key={index} src={image.url} alt="Old Product Preview" />
+                ))}
             </div>
 
             <div id="createProductFormImage">
@@ -277,11 +326,11 @@ const NewProduct = () => {
             >
               Create
             </Button>
-          </form>}
+          </form>
         </div>
       </div>
     </Fragment>
   );
 };
 
-export default NewProduct;
+export default UpdateProduct;

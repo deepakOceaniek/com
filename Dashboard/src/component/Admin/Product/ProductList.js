@@ -4,32 +4,32 @@ import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  getAdminTest,
-  deleteTest,
-} from "../../actions/testAction";
+  getAdminProduct,
+  deleteProduct,
+} from "../../../actions/productAction";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import SideBar from "./Sidebar";
-import { DELETE_TEST_RESET } from "../../constants/testConstants";
+import SideBar from "../Sidebar";
+import { DELETE_PRODUCT_RESET } from "../../../constants/productConstants";
 
-const TestList = () => {
+const ProductList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, tests } = useSelector((state) => state.tests);
+  const { error, products } = useSelector((state) => state.products);
 
   const { error: deleteError, isDeleted } = useSelector(
-    (state) => state.testPackage
+    (state) => state.product
   );
 
   const deleteProductHandler = (id) => {
-    dispatch(deleteTest(id));
+    dispatch(deleteProduct(id));
   };
 
   useEffect(() => {
@@ -44,18 +44,18 @@ const TestList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Test Deleted Successfully");
-      Navigate("/admin/tests");
-      dispatch({ type: DELETE_TEST_RESET });
+      alert.success("Product Deleted Successfully");
+      Navigate("/admin/products");
+      dispatch({ type: DELETE_PRODUCT_RESET });
     }
 
-    dispatch(getAdminTest());
+    dispatch(getAdminProduct());
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
     {
       field: "id",
-      headerName: "Test ID",
+      headerName: "Product ID",
       minWidth: 150,
       flex: 0.5,
       headerAlign: "center",
@@ -85,7 +85,7 @@ const TestList = () => {
             <img
               style={{ height: "100%", width: "100%" }}
               src={params.value}
-              alt="package"
+              alt="products"
             />
           </div>
         );
@@ -93,16 +93,9 @@ const TestList = () => {
       // editable: true,
     },
     {
-      field: "category",
-      headerName: "Category",
-      minWidth: 50,
-      flex: 0.3,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "description",
-      headerName: "Description",
+      field: "stock",
+      headerName: "Stock",
+      type: "number",
       minWidth: 50,
       flex: 0.3,
       headerAlign: "center",
@@ -131,7 +124,7 @@ const TestList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/test/${params.getValue(params.id, "id")}`}>
+            <Link to={`/admin/product/${params.getValue(params.id, "id")}`}>
               <EditIcon />
             </Link>
 
@@ -149,28 +142,27 @@ const TestList = () => {
   ];
 
   const rows = [];
-  console.log(tests);
-  tests &&
-    tests.forEach((item) => {
+
+  products &&
+    products.forEach((item) => {
       rows.push({
         id: item._id,
         type: "image",
         image: item.images[0].url,
+        stock: item.stock,
         price: item.price,
-        category: item.category,
-        description: item.description,
         name: item.name,
       });
     });
 
   return (
     <Fragment>
-      <MetaData title={`ALL TEST - Admin`} />
+      <MetaData title={`ALL PRODUCTS - Admin`} />
 
       <div className="dashboard">
         <SideBar />
-        <div className="prodackagetContainer">
-          <h1 id="productListHeading">ALL Test</h1>
+        <div className="productListContainer">
+          <h1 id="productListHeading">ALL PRODUCTS</h1>
 
           <DataGrid
             rows={rows}
@@ -187,4 +179,4 @@ const TestList = () => {
   );
 };
 
-export default TestList;
+export default ProductList;

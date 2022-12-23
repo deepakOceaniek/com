@@ -2,47 +2,41 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  updateProduct,
-  getProductDetails,
-} from "../../actions/productAction";
+  updateTest,
+  getTestDetails,
+} from "../../../actions/testAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import SideBar from "./Sidebar";
-import { UPDATE_PRODUCT_RESET } from "../../constants/productConstants";
+import SideBar from "../Sidebar";
+import { UPDATE_TEST_RESET } from "../../../constants/testConstants";
 import { useParams, useNavigate } from "react-router-dom";
 
-const UpdateProduct = () => {
+const UpdateTest = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
   const Navigate = useNavigate();
 
-  const { error, product } = useSelector((state) => state.productDetails);
-console.log(product)
+  const { error, test } = useSelector((state) => state.testDetails);
+console.log(test)
   const {
     loading,
     error: updateError,
     isUpdated,
-  } = useSelector((state) => state.product);
+  } = useSelector((state) => state.testPackage);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [salt, setSalt] = useState("");
-  const [expired, setExpired] = useState("");
-  const [tabletPerStrip, setTabletPerStrip] = useState("");
-  const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
-  const [stock, setStock] = useState(0);
-  const [gst, setGst] = useState("");
-  const [batchCode, setBatchCode] = useState("");
-  const [hsnCode, setHsnCode] = useState("");
+  const [packageTest, setPackageTest] = useState("");
+  const [sample, setSample] = useState("");
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -55,26 +49,30 @@ console.log(product)
     "Diabetes Care",
     "Skin Care"
   ];
+  const packages = [
+    "Full Body Check up",
+    "Vitamins Check up",
+    "Healthcare devices",
+    "Diabetes Care",
+  ];
+  const samples = [
+    "Blood",
+    "Urine",
+  ];
 
-  const productId = id;
+  const testId = id;
 
   useEffect(() => {
-    if (product && product._id !== productId) {
-      dispatch(getProductDetails(productId));
+    if (test && test._id !== testId) {
+      dispatch(getTestDetails(testId));
     } else {
-      setName(product.name);
-      setDescription(product.description);
-      setPrice(product.price);
-      setSalt(product.salt);
-      setExpired(product.expired);
-      setTabletPerStrip(product.tabletPerStrip);
-      setCompany(product.company);
-      setCategory(product.category);
-      setStock(product.stock);
-      setGst(product.gst);
-      setBatchCode(product.batchCode);
-      setHsnCode(product.hsnCode);
-      setOldImages(product.images);
+      setName(test.name);
+      setDescription(test.description);
+      setPrice(test.price);
+      setPackageTest(test.packageTest);
+      setCategory(test.category);
+      setSample(test.sample);
+      setOldImages(test.images);
     }
     if (error) {
       alert.error(error);
@@ -87,9 +85,9 @@ console.log(product)
     }
 
     if (isUpdated) {
-      alert.success("Product Updated Successfully");
-      Navigate("/admin/products");
-      dispatch({ type: UPDATE_PRODUCT_RESET });
+      alert.success("Test Updated Successfully");
+      Navigate("/admin/test");
+      dispatch({ type: UPDATE_TEST_RESET });
     }
   }, [
     dispatch,
@@ -97,8 +95,8 @@ console.log(product)
     error,
     Navigate,
     isUpdated,
-    productId,
-    product,
+    testId,
+    test,
     updateError,
   ]);
 
@@ -110,21 +108,13 @@ console.log(product)
     myForm.set("name", name);
     myForm.set("description", description);
     myForm.set("price", price);
-    myForm.set("salt", salt);
-    myForm.set("tabletPerStrip", tabletPerStrip);
-    myForm.set("expired", expired);
-    myForm.set("company", company);
+    myForm.set("packageTest", packageTest);
     myForm.set("category", category);
-    myForm.set("stock", stock);
-    myForm.set("gst", gst);
-    myForm.set("batchCode", batchCode);
-    myForm.set("hsnCode", hsnCode);
-
-
+    myForm.set("sample", sample);
     images.forEach((image) => {
       myForm.append("images", image);
     });
-    dispatch(updateProduct(productId, myForm));
+    dispatch(updateTest(testId, myForm));
   };
 
   const updateProductImagesChange = (e) => {
@@ -150,7 +140,7 @@ console.log(product)
 
   return (
     <Fragment>
-      <MetaData title="Create Product" />
+      <MetaData title="Update Test" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
@@ -159,13 +149,13 @@ console.log(product)
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Create Product</h1>
+            <h1>Update Test</h1>
 
             <div>
               <SpellcheckIcon />
               <input
                 type="text"
-                placeholder="Product Name"
+                placeholder="Test Name"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -177,7 +167,7 @@ console.log(product)
               <DescriptionIcon />
 
               <textarea
-                placeholder="Product Description"
+                placeholder="Test Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 cols="30"
@@ -194,57 +184,15 @@ console.log(product)
                 value={price}
               />
             </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="Salt"
-                required
-                value={price}
-                onChange={(e) => setSalt(e.target.value)}
-              />
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="date"
-                placeholder="expired"
-                required
-                value={expired}
-                onChange={(e) => setExpired(e.target.value)}
-              />
-            </div>
-          
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="Number"
-                placeholder="tabletPerStrip"
-                required
-                value={tabletPerStrip}
-                onChange={(e) => setTabletPerStrip(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="company"
-                required
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-              />
-            </div>
-
-
+        
+         
             <div>
               <AccountTreeIcon />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="">Choose Category</option>
+                <option value="">Choose Lab Category</option>
                 {categories.map((cate) => (
                   <option key={cate} value={cate}>
                     {cate}
@@ -254,47 +202,39 @@ console.log(product)
             </div>
 
             <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="stock"
-                required
-                onChange={(e) => setStock(e.target.value)}
-                value={stock}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="gst"
-                required
-                value={gst}
-                onChange={(e) => setGst(e.target.value)}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="batchCode"
-                value={batchCode}
-                required
-                onChange={(e) => setBatchCode(e.target.value)}
-              />
-            </div>
-           
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder=" hsnCode"
-                value={hsnCode}
-                required
-                onChange={(e) => setHsnCode(e.target.value)}
-              />
+              <AccountTreeIcon />
+              <select
+                value={packageTest}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="">Choose Package</option>
+                {packages.map((cate) => (
+                  <option key={cate} value={cate}>
+                    {cate}
+                  </option>
+                ))}
+              </select>
             </div>
 
+            <div>
+              <AccountTreeIcon />
+              <select
+                value={sample}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="">Choose Sample</option>
+                {samples.map((cate) => (
+                  <option key={cate} value={cate}>
+                    {cate}
+                  </option>
+                ))}
+              </select>
+            </div>
+        
+
+
+
+   
 
             <div id="createProductFormFile">
               <input
@@ -324,7 +264,7 @@ console.log(product)
               type="submit"
               disabled={loading ? true : false}
             >
-              Create
+              Update
             </Button>
           </form>
         </div>
@@ -333,4 +273,4 @@ console.log(product)
   );
 };
 
-export default UpdateProduct;
+export default UpdateTest;

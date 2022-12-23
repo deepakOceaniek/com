@@ -320,15 +320,15 @@ export const getCategoryDetails = (id) => async (dispatch) => {
   }
 };
 
-// Get All Category For Admin
-export const getBanner = () => async (dispatch) => {
+// Get All Banner -- Admin
+export const getAdminBanner = () => async (dispatch) => {
   try {
     dispatch({ type: BANNER_REQUEST });
 
-    const { data } = await axios.get("/api/v1/allbanner");
+    const { data } = await axios.get("/api/v1/admin/banner");
     dispatch({
       type: BANNER_SUCCESS,
-      payload: data.banner,
+      payload: data.banners,
     });
   } catch (error) {
     dispatch({
@@ -338,7 +338,7 @@ export const getBanner = () => async (dispatch) => {
   }
 };
 
-// Create Category --admin
+// Create banner --admin
 export const createBanner = (categoryData) => async (dispatch) => {
   try {
     dispatch({ type: NEW_BANNER_REQUEST });
@@ -364,6 +364,28 @@ export const createBanner = (categoryData) => async (dispatch) => {
     });
   }
 };
+
+
+// Delete banner -admin
+export const deleteBannner = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_BANNER_REQUEST });
+
+    const { data } = await axios.delete(`/api/v1/admin/banner/${id}`);
+
+    dispatch({
+      type: DELETE_BANNER_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_BANNER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

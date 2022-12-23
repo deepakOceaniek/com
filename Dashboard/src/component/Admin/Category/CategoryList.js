@@ -1,35 +1,35 @@
 import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import "./productList.css";
+import "../Product/productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  getAdminPackage,
-  deletePackage,
-} from "../../actions/testAction";
+  getAdminCategory,
+  deleteCategory,
+} from "../../../actions/productAction";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import SideBar from "./Sidebar";
-import { DELETE_PACKAGE_RESET } from "../../constants/testConstants";
+import SideBar from "../Sidebar";
+import { DELETE_CATEGORY_RESET } from "../../../constants/productConstants";
 
-const PackageList = () => {
+const CategoryList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, packages } = useSelector((state) => state.packages);
-
+  const { error, categories } = useSelector((state) => state.categories);
+console.log(categories)
   const { error: deleteError, isDeleted } = useSelector(
-    (state) => state.testPackage
+    (state) => state.product
   );
 
   const deleteProductHandler = (id) => {
-    dispatch(deletePackage(id));
+    dispatch(deleteCategory(id));
   };
 
   useEffect(() => {
@@ -44,71 +44,47 @@ const PackageList = () => {
     }
 
     if (isDeleted) {
-      alert.success("Package Deleted Successfully");
-      Navigate("/admin/packages");
-      dispatch({ type: DELETE_PACKAGE_RESET });
+      alert.success("Category Deleted Successfully");
+      Navigate("/admin/dashboard");
+      dispatch({ type: DELETE_CATEGORY_RESET });
     }
 
-    dispatch(getAdminPackage());
+    dispatch(getAdminCategory());
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
-    {
-      field: "id",
-      headerName: "Package ID",
-      minWidth: 150,
-      flex: 0.5,
-      headerAlign: "center",
-      align: "center",
-      hide: true,
-    },
+    { field: "id", headerName: "Category ID", minWidth: 100, flex: 0.4 ,headerAlign: "center",
+    align: "center",},
 
     {
       field: "name",
       headerName: "Name",
       minWidth: 100,
-      flex: 0.5,
+      flex: 0.4,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      width: 300,
+      flex: 0.4,
+
       headerAlign: "center",
       align: "center",
 
       renderCell: (params) => {
         return (
           <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
-            {" "}
+          
             <img
               style={{ height: "100%", width: "100%" }}
               src={params.value}
-              alt="package"
+              alt="Category"
             />
           </div>
         );
       },
-      // editable: true,
-    },
-    {
-      field: "sample",
-      headerName: "Sample",
-      minWidth: 50,
-      flex: 0.3,
-      headerAlign: "center",
-      align: "center",
-    },
-
-    {
-      field: "price",
-      headerName: "Price",
-      type: "number",
-      minWidth: 60,
-      headerAlign: "center",
-      align: "center",
-      flex: 0.5,
     },
 
     {
@@ -116,14 +92,14 @@ const PackageList = () => {
       flex: 0.3,
       headerName: "Actions",
       minWidth: 150,
-      headerAlign: "center",
-      align: "center",
       type: "number",
       sortable: false,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/package/${params.getValue(params.id, "id")}`}>
+            <Link to={`/admin/category/${params.getValue(params.id, "id")}`}>
               <EditIcon />
             </Link>
 
@@ -141,28 +117,24 @@ const PackageList = () => {
   ];
 
   const rows = [];
-  console.log(packages);
-  packages &&
-    packages.forEach((item) => {
+  categories &&
+  categories.forEach((item) => {
       rows.push({
         id: item._id,
-        type: "image",
-        image: item.images[0].url,
-        price: item.price,
-        report: item.report,
-        sample: item.sample,
-        name: item.name,
+        name: item.categoryName,
+        image: item.categoryImage.url,
+        // image:  <img src={item.categoryImage.url}  alt="category" />  ,
       });
     });
 
   return (
     <Fragment>
-      <MetaData title={`ALL PACKAGE - Admin`} />
+      <MetaData title={`ALL CATEGORY - Admin`} />
 
       <div className="dashboard">
         <SideBar />
-        <div className="prodackagetContainer">
-          <h1 id="productListHeading">ALL PACKAGE</h1>
+        <div className="productListContainer">
+          <h1 id="productListHeading">ALL CATEGORY</h1>
 
           <DataGrid
             rows={rows}
@@ -171,7 +143,6 @@ const PackageList = () => {
             disableSelectionOnClick
             className="productListTable"
             rowHeight={100}
-            // checkboxSelection
           />
         </div>
       </div>
@@ -179,4 +150,4 @@ const PackageList = () => {
   );
 };
 
-export default PackageList;
+export default CategoryList;

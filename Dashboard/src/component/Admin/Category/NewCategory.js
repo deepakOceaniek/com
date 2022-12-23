@@ -1,48 +1,54 @@
-/* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
-import "./newProduct.css";
+import "../Product/newProduct.css";
+
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createLabCategory,getAdminCategory } from "../../actions/testAction";
+import { clearErrors, createCategory } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import DescriptionIcon from "@material-ui/icons/Description";
+import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import SideBar from "./Sidebar";
-import Loader from "../layout/Loader/Loader";
-import { NEW_LABCATEGORY_RESET } from "../../constants/testConstants";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import SideBar from "../Sidebar";
+import { NEW_CATEGORY_RESET } from "../../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
 
-const NewlabCategory = () => {
+const NewCategory = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const Navigate = useNavigate();
 
-  const { loading, error, success } = useSelector((state) => state.newLabCategory);
+  const { loading, error, success } = useSelector((state) => state.newCategory);
 
   const [categoryName, setCategoryName] = useState("");
- 
-  const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [categoryImage, setCategoryImage] = useState();
+  const [categoryPreview, setCategoryPreview] = useState("/Profile.png");
 
+  // const categories = [
+  //   "laptop",
+  //   "footware",
+  //   "bottom",
+  //   "tops",
+  //   "attire",
+  //   "camera",
+  //   "smartPhone",
+  //   "fruit",
+  // ];
 
   useEffect(() => {
-    // dispatch(getAdminCategory()) 
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
     if (success) {
-      alert.success("Lab Category Added Successfully");
-      Navigate("/admin/labcategory");
-      dispatch({ type: NEW_LABCATEGORY_RESET });
-      setCategoryName("")
-      setImages([])
-      setImagesPreview([])
-      
+      alert.success("Category Created Successfully");
+      Navigate("/admin/dashboard");
+      dispatch({ type: NEW_CATEGORY_RESET });
     }
   }, [dispatch, alert, error, Navigate, success]);
-
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
@@ -50,47 +56,36 @@ const NewlabCategory = () => {
     const myForm = new FormData();
 
     myForm.set("categoryName", categoryName);
+    myForm.set("categoryImage", categoryImage);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
-    dispatch(createLabCategory(myForm));
+    dispatch(createCategory(myForm));
   };
 
   const createProductImagesChange = (e) => {
-    const files = Array.from(e.target.files);
+    const reader = new FileReader();
 
-    setImages([]);
-    setImagesPreview([]);
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setCategoryPreview(reader.result);
+        setCategoryImage(reader.result);
+      }
+    };
 
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
+    reader.readAsDataURL(e.target.files[0]);
   };
-
-
 
   return (
     <Fragment>
-      <MetaData title="Create Lab Category" />
+      <MetaData title="Create Category" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-         {loading ? <Loader /> :  <form
+          <form
             className="createProductForm"
             encType="multipart/form-data"
             onSubmit={createProductSubmitHandler}
           >
-            <h1>Create Lab Category</h1>
+            <h1>Create Category</h1>
 
             <div>
               <SpellcheckIcon />
@@ -102,22 +97,18 @@ const NewlabCategory = () => {
                 onChange={(e) => setCategoryName(e.target.value)}
               />
             </div>
-        
 
-            <div id="createProductFormFile">
+            <div id="updateProfileImage">
               <input
                 type="file"
-                name="avatar"
+                name="categoryImage"
                 accept="image/*"
                 onChange={createProductImagesChange}
-                multiple
               />
             </div>
+            <div className="categoryDiv">
+            <img src={categoryPreview} id="Category" style={{height:"100%",width:"100%"}} alt="Category Preview" />
 
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
             </div>
 
             <Button
@@ -127,11 +118,11 @@ const NewlabCategory = () => {
             >
               Create
             </Button>
-          </form>}
+          </form>
         </div>
       </div>
     </Fragment>
   );
 };
 
-export default NewlabCategory;
+export default NewCategory;

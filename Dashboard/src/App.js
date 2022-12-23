@@ -10,38 +10,39 @@ import { loadadmin } from "./actions/userAction";
 import UserOption from "./component/layout/Header/UserOptions.js";
 import { useSelector } from "react-redux";
 import Dashboard from "./component/Admin/Dashboard.js";
-import ProductList from "./component/Admin/ProductList.js";
-import NewProduct from "./component/Admin/NewProduct.js";
-import UpdateProduct from "./component/Admin/UpdateProduct.js";
-import OrderList from "./component/Admin/OrderList.js";
-import ProcessOrder from "./component/Admin/ProcessOrder.js";
-import UserList from "./component/Admin/UserList.js";
-import UpdateUser from "./component/Admin/UpdateUser.js";
-import ProductReviews from "./component/Admin/ProductReviews.js";
+import ProductList from "./component/Admin/Product/ProductList.js";
+import NewProduct from "./component/Admin/Product/NewProduct.js";
+import UpdateProduct from "./component/Admin/Product/UpdateProduct.js";
+import OrderList from "./component/Admin/Order/OrderList.js";
+import ProcessOrder from "./component/Admin/Order/ProcessOrder.js";
+import UserList from "./component/Admin/User/UserList.js";
+import UpdateUser from "./component/Admin/User/UpdateUser.js";
+import ProductReviews from "./component/Admin/Product/ProductReviews.js";
 import ErrorPage from "./component/layout/NotFound/ErrorPage.js";
 import AdminLoginSignUp from "./component/User/AdminLoginSignUp";
 import AdminProfile from "./component/User/AdminProfile.js";
-import NewCategory from "./component/Admin/NewCategory.js";
-import CategoryList from "./component/Admin/CategoryList.js";
-import UpdateCategory from "./component/Admin/UpdateCategory.js";
+import NewCategory from "./component/Admin/Category/NewCategory.js";
+import CategoryList from "./component/Admin/Category/CategoryList.js";
+import UpdateCategory from "./component/Admin/Category/UpdateCategory.js";
 import LoginScreen from "./component/User/LoginScreen";
 import RegisterScreen from "./component/User/RegisterScreen";
 import OtpScreen from "./component/User/OtpScreen";
-import Prescription from "./component/Admin/Prescription.js";
-import AddPrescription from "./component/Admin/AddPrescription";
-import AddBanner from "./component/Admin/AddBanner.js";
+import PrescriptionList from "./component/Admin/Prescription/PrescriptionList.js";
+import AddPrescription from "./component/Admin/Prescription/AddPrescription";
+import BannerList from "./component/Admin/Banner/BannerList.js"
+import NewBanner from "./component/Admin/Banner/NewBanner.js";
 
 import Home from "./component/User/payment/Home.js";
 import PaymentSuccess from "./component/User/payment/PaymentSuccess.js";
-import NewlabCategory from "./component/Admin/NewlabCategory";
-import LabCategoryList from "./component/Admin/LabCategoryList";
-import UpdateLabCategory from "./component/Admin/UpdateLabCategory";
-import NewTest from "./component/Admin/NewTest.js";
-import TestList from "./component/Admin/TestList.js";
-import UpdateTest from "./component/Admin/UpdateTest.js";
-import NewPackage from "./component/Admin/NewPackage.js";
-import PackageList from "./component/Admin/PackageList.js";
-import UpdatePackage from "./component/Admin/UpdatePackage.js";
+import NewlabCategory from "./component/Admin/LabCategory/NewlabCategory";
+import LabCategoryList from "./component/Admin/LabCategory/LabCategoryList";
+import UpdateLabCategory from "./component/Admin/LabCategory/UpdateLabCategory";
+import NewTest from "./component/Admin/Test/NewTest.js";
+import TestList from "./component/Admin/Test/TestList.js";
+import UpdateTest from "./component/Admin/Test/UpdateTest.js";
+import NewPackage from "./component/Admin/Package/NewPackage.js";
+import PackageList from "./component/Admin/Package/PackageList.js";
+import UpdatePackage from "./component/Admin/Package/UpdatePackage.js";
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -143,7 +144,7 @@ function App() {
           )}
 
           {isAuthenticated && (
-            <Route path="/admin/prescription" element={<Prescription />} />
+            <Route path="/admin/prescription" element={<PrescriptionList />} />
           )}
 
           {isAuthenticated && (
@@ -153,8 +154,10 @@ function App() {
             />
           )}
 
+            <Route path="/admin/banner" element={<BannerList />} />
+
           {isAuthenticated && (
-            <Route path="/admin/addBanner" element={<AddBanner />} />
+            <Route path="/admin/addbanner" element={<NewBanner />} />
           )}
 
           <Route path="/payment" element={<Home />} />

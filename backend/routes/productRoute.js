@@ -54,7 +54,8 @@ router
   .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllProductReviews)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
-router.route("/allbanner").get(isAuthenticated, getAllBanner);
+router.route("/banner").get(isAuthenticated, getAllBanner);
+router.route("/admin/banner").get(isAuthenticatedAdmin,authorizeRoles("admin"),getAllBanner)
 router
   .route("/admin/banner/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addBanner);

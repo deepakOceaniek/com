@@ -1,32 +1,36 @@
 import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import "./productList.css";
+import "../Product/productList.css";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  clearErrors,
+  getAdminLabCategory,
+  deleteLabCategory,
+} from "../../../actions/testAction";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import SideBar from "./Sidebar";
-import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction";
-import { DELETE_USER_RESET } from "../../constants/userConstants";
+import SideBar from "../Sidebar";
+import { DELETE_LABCATEGORY_RESET } from "../../../constants/testConstants";
 
-const UsersList = () => {
+const LabCategoryList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
+
   const alert = useAlert();
 
-  const { error, users } = useSelector((state) => state.allUsers);
+  const { error, labCategories } = useSelector((state) => state.labCategories);
 
-  const {
-    error: deleteError,
-    isDeleted,
-    message,
-  } = useSelector((state) => state.profile);
+  const { error: deleteError, isDeleted } = useSelector(
+    (state) => state.testPackage
+  );
+  console.log(labCategories)
 
-  const deleteUserHandler = (id) => {
-    dispatch(deleteUser(id));
+  const deleteProductHandler = (id) => {
+    dispatch(deleteLabCategory(id));
   };
 
   useEffect(() => {
@@ -41,74 +45,74 @@ const UsersList = () => {
     }
 
     if (isDeleted) {
-      alert.success(message);
-      Navigate("/admin/users");
-      dispatch({ type: DELETE_USER_RESET });
+      alert.success("Category Deleted Successfully");
+      Navigate("/admin/labcategories");
+      dispatch({ type: DELETE_LABCATEGORY_RESET });
     }
 
-    dispatch(getAllUsers());
-  }, [dispatch, alert, error, deleteError, Navigate, isDeleted, message]);
+    dispatch(getAdminLabCategory());
+  }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
     {
       field: "id",
-      headerName: "User ID",
+      headerName: "Category ID",
       minWidth: 150,
       flex: 0.5,
+      headerAlign: "center",
+      align: "center",
       hide: true,
     },
 
     {
-      field: "email",
-      headerName: "Email",
-      minWidth: 100,
-      flex: 0.5,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
       field: "name",
       headerName: "Name",
       minWidth: 100,
-      flex: 0.5,
-      headerAlign: "center",
-      align: "center",
-    },
-
-    {
-      field: "role",
-      headerName: "Role",
-      type: "number",
-      minWidth: 150,
       flex: 0.3,
       headerAlign: "center",
       align: "center",
-      cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
-          : "redColor";
-      },
     },
+    {
+      field: "image",
+      headerName: "Image",
+      width: 300,
+      headerAlign: "center",
+      align: "center",
 
+      renderCell: (params) => {
+        return (
+          <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
+            {" "}
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={params.value}
+              alt="labCategories"
+            />
+          </div>
+        );
+      },
+      // editable: true,
+    },
+   
     {
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
       minWidth: 150,
-      type: "number",
       headerAlign: "center",
       align: "center",
+      type: "number",
       sortable: false,
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
+            <Link to={`/admin/labcategory/${params.getValue(params.id, "id")}`}>
               <EditIcon />
             </Link>
 
             <Button
               onClick={() =>
-                deleteUserHandler(params.getValue(params.id, "id"))
+                deleteProductHandler(params.getValue(params.id, "id"))
               }
             >
               <DeleteIcon />
@@ -121,24 +125,24 @@ const UsersList = () => {
 
   const rows = [];
 
-  users &&
-    users.forEach((item) => {
+  labCategories &&
+  labCategories.forEach((item) => {
       rows.push({
         id: item._id,
-        role: item.role,
-        email: item.email,
-        name: item.name,
+        type: "image",
+        image: item.categoryImage[0].url,
+        name: item.categoryName,
       });
     });
 
   return (
     <Fragment>
-      <MetaData title={`ALL USERS - Admin`} />
+      <MetaData title={`ALL Lab Categories - Admin`} />
 
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL USERS</h1>
+          <h1 id="productListHeading">All Lab Categories</h1>
 
           <DataGrid
             rows={rows}
@@ -146,7 +150,8 @@ const UsersList = () => {
             pageSize={10}
             disableSelectionOnClick
             className="productListTable"
-            autoHeight
+            rowHeight={95}
+            // checkboxSelection
           />
         </div>
       </div>
@@ -154,4 +159,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default LabCategoryList;

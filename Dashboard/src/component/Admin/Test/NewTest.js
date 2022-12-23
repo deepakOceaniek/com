@@ -1,24 +1,25 @@
 /* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
-import "./newProduct.css";
+import "../Product/newProduct.css";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
   createTest,
   getAdminLabCategory,
   getAdminPackage,
-} from "../../actions/testAction";
+} from "../../../actions/testAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
+import MetaData from "../../layout/MetaData";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import DescriptionIcon from "@material-ui/icons/Description";
 import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import SideBar from "./Sidebar";
-import Loader from "../layout/Loader/Loader";
-import { NEW_TEST_RESET } from "../../constants/testConstants";
+import SideBar from "../Sidebar";
+import Loader from "../../layout/Loader/Loader";
+import { NEW_TEST_RESET } from "../../../constants/testConstants";
 import { useNavigate } from "react-router-dom";
 
 const NewTest = () => {

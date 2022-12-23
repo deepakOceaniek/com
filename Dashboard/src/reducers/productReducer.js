@@ -50,6 +50,17 @@ import {
   NEW_BANNER_SUCCESS,
   NEW_BANNER_FAIL,
   NEW_BANNER_RESET,
+
+  UPDATE_BANNER_REQUEST,
+  UPDATE_BANNER_SUCCESS,
+  UPDATE_BANNER_FAIL,
+  UPDATE_BANNER_RESET,
+
+  DELETE_BANNER_REQUEST,
+  DELETE_BANNER_SUCCESS,
+  DELETE_BANNER_FAIL,
+  DELETE_BANNER_RESET,
+
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -116,12 +127,12 @@ export const bannersReducer = (state = { banners: [] }, action) => {
     case BANNER_REQUEST:
       return {
         loading: true,
-        products: [],
+        banners: [],
       };
     case BANNER_SUCCESS:
       return {
         loading: false,
-        category: action.payload,
+        banners: action.payload,
       };
     case BANNER_FAIL:
       return {
@@ -221,7 +232,7 @@ export const newBannerReducer = (state = { banner: {} }, action) => {
       return {
         loading: false,
         success: action.payload.success,
-        // banner: action.payload.banner,
+        banner: action.payload.banner,
       };
     case NEW_BANNER_FAIL:
       return {
@@ -250,12 +261,14 @@ export const productReducer = (state = {}, action) => {
     case UPDATE_PRODUCT_REQUEST:
     case DELETE_CATEGORY_REQUEST:
     case UPDATE_CATEGORY_REQUEST:
+      case DELETE_BANNER_REQUEST:
       return {
         ...state,
         loading: true,
       };
     case DELETE_PRODUCT_SUCCESS:
     case DELETE_CATEGORY_SUCCESS:
+      case DELETE_BANNER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -273,6 +286,7 @@ export const productReducer = (state = {}, action) => {
     case UPDATE_PRODUCT_FAIL:
     case DELETE_CATEGORY_FAIL:
     case UPDATE_CATEGORY_FAIL:
+    case DELETE_BANNER_FAIL:
       return {
         ...state,
         loading: false,
@@ -280,6 +294,7 @@ export const productReducer = (state = {}, action) => {
       };
     case DELETE_PRODUCT_RESET:
     case DELETE_CATEGORY_RESET:
+      case DELETE_BANNER_RESET:
       return {
         ...state,
         isDeleted: false,

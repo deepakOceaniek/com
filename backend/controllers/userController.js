@@ -210,7 +210,7 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
           name,
           contact,
         });
-        sendToken(user || admin, 201, res);
+        sendToken(user, 201, res);
       } else {
         return next(new ErrorHandler("Unprocessable Entity", 406));
       }

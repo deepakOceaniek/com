@@ -370,7 +370,7 @@ import {
     }
   };
 
-  export const PackageDetailsReducer = (state = { package: {} }, action) => {
+  export const PackageDetailsReducer = (state = { testPackage: {} }, action) => {
     switch (action.type) {
       case PACKAGE_DETAILS_REQUEST:
         return {
@@ -380,7 +380,7 @@ import {
       case PACKAGE_DETAILS_SUCCESS:
         return {
           loading: false,
-          package: action.payload.package,
+          testPackage: action.payload.package,
         };
       case PACKAGE_DETAILS_FAIL:
         return {
