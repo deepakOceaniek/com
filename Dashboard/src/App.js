@@ -31,6 +31,8 @@ import PrescriptionList from "./component/Admin/Prescription/PrescriptionList.js
 import AddPrescription from "./component/Admin/Prescription/AddPrescription";
 import BannerList from "./component/Admin/Banner/BannerList.js"
 import NewBanner from "./component/Admin/Banner/NewBanner.js";
+import UpdateBanner from "./component/Admin/Banner/UpdateBanner"
+import ProfileUpdate from "./component/User/ProfileUpdate"
 
 import Home from "./component/User/payment/Home.js";
 import PaymentSuccess from "./component/User/payment/PaymentSuccess.js";
@@ -75,9 +77,9 @@ function App() {
           <Route path="/loading" element={<Loader />} />
 
           {/* <Route path="/search" element={<Search />} /> */}
-          {/* {isAuthenticated && (
-            <Route path="/me/update" element={<ProfileUpdate />} />
-          )} */}
+          {isAuthenticated && (
+            <Route path="/admin/me/update" element={<ProfileUpdate />} />
+          )}
 
           {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
           <Route
@@ -158,6 +160,9 @@ function App() {
 
           {isAuthenticated && (
             <Route path="/admin/addbanner" element={<NewBanner />} />
+          )}
+            {isAuthenticated && (
+            <Route path="/admin/banner/:id" element={<UpdateBanner />} />
           )}
 
           <Route path="/payment" element={<Home />} />

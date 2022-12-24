@@ -1,60 +1,47 @@
+
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  updateLabCategory,
-  getLabCategoryDetails,
-} from "../../../actions/testAction";
+  updateBanner,
+  getBannerDetails,
+} from "../../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
-import { UPDATE_LABCATEGORY_RESET } from "../../../constants/testConstants";
+import { UPDATE_BANNER_RESET } from "../../../constants/productConstants";
 import { useParams, useNavigate } from "react-router-dom";
 
-const UpdateLabCategory = () => {
+const UpdateBanner = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { id } = useParams();
   const Navigate = useNavigate();
 
-  const { error, labCategory } = useSelector((state) => state.labCategoryDetails);
-console.log(labCategory)
+  const { error, banner } = useSelector((state) => state.bannerDetails);
+console.log(banner)
   const {
     loading,
     error: updateError,
     isUpdated,
-  } = useSelector((state) => state.testPackage);
+  } = useSelector((state) => state.product);
 
-  const [categoryName, setCategoryName] = useState("");
 
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Ayurveda",
-    "Vitamins & supplements",
-    "Healthcare devices",
-    "Pain Relief",
-    "Diabetes Care",
-    "Skin Care"
-  ];
 
-  const labCategoryId = id;
+
+  const bannerId = id;
 
   useEffect(() => {
-    if (labCategory && labCategory._id !== labCategoryId) {
-      dispatch(getLabCategoryDetails(labCategoryId));
+    if (banner && banner._id !== bannerId) {
+      dispatch(getBannerDetails(bannerId));
     } 
     else {
-        setCategoryName(labCategory.categoryName);
-      setOldImages(labCategory.images);
+      setOldImages(banner.images);
     }
     if (error) {
       alert.error(error);
@@ -67,9 +54,9 @@ console.log(labCategory)
     }
 
     if (isUpdated) {
-      alert.success("Product Updated Successfully");
-      Navigate("/admin/labcategories");
-      dispatch({ type: UPDATE_LABCATEGORY_RESET });
+      alert.success("Banner Updated  Successfully");
+      Navigate("/admin/banner");
+      dispatch({ type: UPDATE_BANNER_RESET });
     }
   }, [
     dispatch,
@@ -77,8 +64,8 @@ console.log(labCategory)
     error,
     Navigate,
     isUpdated,
-    labCategoryId,
-    labCategory,
+    bannerId,
+    banner,
     updateError,
   ]);
 
@@ -86,11 +73,10 @@ console.log(labCategory)
     e.preventDefault();
 
     const myForm = new FormData();
-    myForm.set("categoryName", categoryName);
     images.forEach((image) => {
       myForm.append("images", image);
     });
-    dispatch(updateLabCategory(labCategoryId, myForm));
+    dispatch(updateBanner(bannerId, myForm));
   };
 
   const updateProductImagesChange = (e) => {
@@ -116,7 +102,7 @@ console.log(labCategory)
 
   return (
     <Fragment>
-      <MetaData title="Update Lab Category" />
+      <MetaData title="Update Banner" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
@@ -125,18 +111,9 @@ console.log(labCategory)
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Update lab categroy</h1>
+            <h1>Update Banner</h1>
 
-            <div>
-              <SpellcheckIcon />
-              <input
-                type="text"
-                placeholder="Lab Category Name"
-                required
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-              />
-            </div>
+        
             <div id="createProductFormFile">
               <input
                 type="file"
@@ -174,4 +151,4 @@ console.log(labCategory)
   );
 };
 
-export default UpdateLabCategory;
+export default UpdateBanner;

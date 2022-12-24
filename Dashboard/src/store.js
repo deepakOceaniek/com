@@ -17,6 +17,7 @@ import {
   categoryDetailsReducer,
   bannersReducer,
   newBannerReducer,
+  bannerDetailsReducer,
 } from "./reducers/productReducer";
 import {
   userReducer,
@@ -52,6 +53,7 @@ const reducer = combineReducers({
 
   banners : bannersReducer,
   newBanner:newBannerReducer,
+  bannerDetails : bannerDetailsReducer,
 
   tests:testsReducer,
   packages:packageReducer,

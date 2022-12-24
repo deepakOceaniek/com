@@ -12,7 +12,7 @@ const CartSchema = new mongoose.Schema(
         productId: mongoose.Schema.ObjectId,
         quantity: { type: Number, default: 1 },
         name: String,
-        image: String,
+        // image: String,
         price: Number,
       },
     ],

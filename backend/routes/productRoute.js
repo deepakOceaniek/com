@@ -30,6 +30,8 @@ const {
   addToCart,
   getCartItems,
   deleteFromCart,
+  updateBanner,
+  getBannerDetails,
 } = require("../controllers/productController");
 
 router.route("/products").get(isAuthenticated, getAllProduct);
@@ -62,6 +64,8 @@ router
 
 router
   .route("/admin/banner/:id")
+  .get(getBannerDetails)
+  .put(isAuthenticatedAdmin,authorizeRoles("admin"),updateBanner)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteBanner);
 
 router.route("/allprescription").get(getAllPrescription);

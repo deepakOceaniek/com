@@ -6,12 +6,12 @@ import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, updateProfile, loadUser } from "../../actions/userAction";
 import { useAlert } from "react-alert";
-import { UPDATE_PROFILE_RESET } from "../../constants/userConstants";
+import { UPDATE_ADMIN_PROFILE_RESET } from "../../constants/userConstants";
 import MetaData from "../layout/MetaData";
 import { useNavigate } from "react-router-dom";
 
 const ProfileUpdate = () => {
-    const Navigate = useNavigate()
+    const Navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -63,10 +63,10 @@ const ProfileUpdate = () => {
       alert.success("Profile Updated Successfully");
       dispatch(loadUser());
 
-      Navigate("/account");
+      Navigate("/admin/me");
 
       dispatch({
-        type: UPDATE_PROFILE_RESET,
+        type: UPDATE_ADMIN_PROFILE_RESET,
       });
     }
   }, [dispatch, error, alert, Navigate, user, isUpdated]);
@@ -120,7 +120,7 @@ const ProfileUpdate = () => {
                 </div>
                 <input
                   type="submit"
-                  value="Update"
+                  value="Update Profile"
                   className="updateProfileBtn"
                 />
               </form>

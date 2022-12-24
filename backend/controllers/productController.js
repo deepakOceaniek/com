@@ -451,14 +451,60 @@ exports.addBanner = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// // Get single banner image
-// exports.getBannerDetails = catchAsyncErrors(async (req, res, next) => {
-//   const banner = await Banner.findById(req.params.id);
-//   if (!banner) {
-//     return next(new ErrorHandler("No banner found ", 404));
-//   }
-//   res.status(200).json({ success: true, banner });
-// });
+// Get single banner image
+exports.getBannerDetails = catchAsyncErrors(async (req, res, next) => {
+  const banner = await Banner.findById(req.params.id);
+  if (!banner) {
+    return next(new ErrorHandler("No banner found ", 404));
+  }
+  res.status(200).json({ success: true, banner });
+});
+
+//Update Banner --Admin
+exports.updateBanner = catchAsyncErrors(async (req, res, next) => {
+  let banner = Banner.findById(req.params.id);
+  if (!banner) {
+    return next(new ErrorHandler("Banner not found", 404));
+  }
+
+// Images Start Here
+let images = [];
+
+if (typeof req.body.images === "string") {
+  images.push(req.body.images);
+} else {
+  images = req.body.images;
+}
+
+if (images !== undefined) {
+  // Deleting Images From Cloudinary
+  for (let i = 0; i < banner.images.length; i++) {
+    await cloudinary.v2.uploader.destroy(banner.images[i].public_id);
+  }
+
+  const imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "bannerImage",
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
+}
+
+  banner = await Banner.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  res.status(200).json({ success: true, banner });
+});
 
 
 //Delete banner --admin

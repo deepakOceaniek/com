@@ -130,7 +130,7 @@ const LabCategoryList = () => {
       rows.push({
         id: item._id,
         type: "image",
-        image: item.categoryImage[0].url,
+        image: item.images[0].url,
         name: item.categoryName,
       });
     });

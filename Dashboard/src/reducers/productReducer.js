@@ -61,6 +61,10 @@ import {
   DELETE_BANNER_FAIL,
   DELETE_BANNER_RESET,
 
+  BANNER_DETAILS_REQUEST,
+  BANNER_DETAILS_SUCCESS,
+  BANNER_DETAILS_FAIL,
+
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -261,6 +265,7 @@ export const productReducer = (state = {}, action) => {
     case UPDATE_PRODUCT_REQUEST:
     case DELETE_CATEGORY_REQUEST:
     case UPDATE_CATEGORY_REQUEST:
+      case UPDATE_BANNER_REQUEST:
       case DELETE_BANNER_REQUEST:
       return {
         ...state,
@@ -277,6 +282,7 @@ export const productReducer = (state = {}, action) => {
 
     case UPDATE_PRODUCT_SUCCESS:
     case UPDATE_CATEGORY_SUCCESS:
+      case UPDATE_BANNER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -287,6 +293,7 @@ export const productReducer = (state = {}, action) => {
     case DELETE_CATEGORY_FAIL:
     case UPDATE_CATEGORY_FAIL:
     case DELETE_BANNER_FAIL:
+      case UPDATE_BANNER_FAIL:
       return {
         ...state,
         loading: false,
@@ -301,6 +308,7 @@ export const productReducer = (state = {}, action) => {
       };
     case UPDATE_PRODUCT_RESET:
     case UPDATE_CATEGORY_RESET:
+      case UPDATE_BANNER_RESET:
       return {
         ...state,
         isUpdated: false,
@@ -429,6 +437,35 @@ export const reviewReducer = (state = {}, action) => {
         ...state,
         error: null,
       };
+    default:
+      return state;
+  }
+};
+
+export const bannerDetailsReducer = (state = { banner: {} }, action) => {
+  switch (action.type) {
+    case BANNER_DETAILS_REQUEST:
+      return {
+        loading: true,
+        ...state,
+      };
+
+    case BANNER_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        banner: action.payload.banner,
+      };
+    case BANNER_DETAILS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
     default:
       return state;
   }

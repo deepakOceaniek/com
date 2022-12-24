@@ -34,15 +34,13 @@ const {
 router.route("/login").get(loginUser);
 router.route("/verify").post(optVerify);
 
-// router.route("/login").post(loginUser);
 router.route("/register").get(registerUser);
 router.route("/admin/register").get(registerAdmin);
-// router.route("/password/forgot").post(forgetPassword);
-// router.route("/password/reset/:token").put(resetPassword);
 router.route("/logout").get(logout);
+
+
 router.route("/me").get(isAuthenticated, getUserDetails);
 router.route("/me/update").put(isAuthenticated, updateProfile);
-// router.route("/password/update").put(isAuthenticated, updatePassword);
 router.route("/address").get(isAuthenticated, getAllAddress);
 router.route("/address").post(isAuthenticated, addUserAddress);
 router

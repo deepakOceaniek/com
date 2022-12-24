@@ -101,7 +101,7 @@ export const loadadmin = () => async (dispatch) => {
     dispatch({ type: LOAD_ADMIN_REQUEST });
 
     const { data } = await axios.get(`/api/v1/admin/me`);
-    dispatch({ type: LOAD_ADMIN_SUCCESS, payload: data.user });
+    dispatch({ type: LOAD_ADMIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_ADMIN_FAIL, payload: error.response.data.message });
   }

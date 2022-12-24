@@ -198,7 +198,7 @@ const Sidebar = () => {
           <AccountCircleIcon /> Profile
         </p>
       </Link>
-      <Link to="/login" onClick={logoutUser}>
+      <Link to="/" onClick={logoutUser}>
         <p>
           <ExitToAppIcon /> Logout
         </p>
