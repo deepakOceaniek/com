@@ -4,11 +4,12 @@ import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updateProfile, loadUser } from "../../actions/userAction";
+import { clearErrors, updateProfile, loadadmin } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import { UPDATE_ADMIN_PROFILE_RESET } from "../../constants/userConstants";
 import MetaData from "../layout/MetaData";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../Admin/Sidebar";
 
 const ProfileUpdate = () => {
     const Navigate = useNavigate();
@@ -19,9 +20,16 @@ const ProfileUpdate = () => {
   const { error, isUpdated, loading } = useSelector((state) => state.profile);
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState("");
+  const [category, setCategory] = useState("");
+  const [status, setStatus] = useState("");
+  const [fromTime, setFromTime] = useState("");
+  const [toTime, setToTime] = useState("");
+  const [profileImage, setProfileImage] = useState();
+  const [profileImagePreview, setProfileImagePreview] = useState("");
+  const [certificateImage, setCertificateImage] = useState();
+  const [certificateImagePreview, setCertificateImagePreview] = useState("");
 
   const updateProfileSubmit = (e) => {
     e.preventDefault();
@@ -29,8 +37,14 @@ const ProfileUpdate = () => {
     const myForm = new FormData();
 
     myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("avatar", avatar);
+    myForm.set("contact", contact);
+    myForm.set("address", address);
+    myForm.set("category", category);
+    myForm.set("status", status);
+    myForm.set("fromTime", fromTime);
+    myForm.set("toTime", toTime);
+    myForm.set("profileImage", profileImage);
+    myForm.set("certificateImage", certificateImage);
     dispatch(updateProfile(myForm));
   };
 
@@ -39,8 +53,23 @@ const ProfileUpdate = () => {
 
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setAvatarPreview(reader.result);
-        setAvatar(reader.result);
+        setProfileImagePreview(reader.result);
+        setProfileImage(reader.result);
+     
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+  
+  const updateCertificateDataChange = (e) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+       
+        setCertificateImagePreview(reader.result);
+        setCertificateImage(reader.result);
       }
     };
 
@@ -50,8 +79,12 @@ const ProfileUpdate = () => {
   useEffect(() => {
     if (user) {
       setName(user.name);
-      setEmail(user.email);
-      setAvatarPreview(user.avatar.url);
+      setContact(user.contact);
+      setAddress(user.address)
+      setCategory(user.category)
+      setStatus(user.status)
+      setProfileImagePreview(user.profileImage.url);
+      setCertificateImagePreview(user.certificateImage.url)
     }
 
     if (error) {
@@ -61,7 +94,7 @@ const ProfileUpdate = () => {
 
     if (isUpdated) {
       alert.success("Profile Updated Successfully");
-      dispatch(loadUser());
+      dispatch(loadadmin());
 
       Navigate("/admin/me");
 
@@ -78,6 +111,9 @@ const ProfileUpdate = () => {
         <>
           <MetaData title="Update Profile" />
           <div className="updateProfileContainer">
+            <div className="sideBar">
+          <Sidebar /> 
+            </div>
             <div className="updateProfileBox">
               <h2 className="updateProfileHeading">Update Profile</h2>
 
@@ -86,8 +122,9 @@ const ProfileUpdate = () => {
                 encType="multipart/form-data"
                 onSubmit={updateProfileSubmit}
               >
+                <div className="profile_main_Content" >
+                <div className="inner_content_div" >
                 <div className="updateProfileName">
-                  <FaceIcon />
                   <input
                     type="text"
                     placeholder="Name"
@@ -97,26 +134,90 @@ const ProfileUpdate = () => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div className="updateProfileEmail">
-                  <MailOutlineIcon />
+                <div className="updateProfileContact">
                   <input
-                    type="email"
-                    placeholder="Email"
+                    type="number"
+                    placeholder="Contact"
                     required
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="contact"
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
                   />
                 </div>
 
-                <div id="updateProfileImage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
+                <div className="updateProfileAddress">
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    required
+                    name="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+
+                <div id="updateProfileImageAdmin">
+                  <img src={profileImagePreview} alt="Profile Preview" />
                   <input
                     type="file"
-                    name="avatar"
+                    name="profileImagePreview"
                     accept="image/*"
                     onChange={updateProfileDataChange}
                   />
+                </div>
+
+
+
+ 
+
+                </div>
+                <div className="inner_content_div" >
+                  
+                <div id="updateCertificateImageAdmin">
+                  <img src={certificateImagePreview} alt="Certificate Preview" />
+                  <input
+                    type="file"
+                    name="certificateImagePreview"
+                    accept="image/*"
+                    onChange={updateCertificateDataChange}
+                  />
+                </div>
+              
+            
+                <div className="updateProfileStatus">
+                  <input
+                    type="text"
+                    placeholder="Status"
+                    required
+                    name="status"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                </div>
+           
+
+                <div className="updateProfileTime">
+                  <p>Timings</p>
+                  <input
+                    type="time"
+                    placeholder="fromTime"
+                    required
+                    name="fromTime"
+                    value={fromTime}
+                    onChange={(e) => setFromTime(e.target.value)}
+                  />
+                     <input
+                    type="time"
+                    placeholder="toTime"
+                    required
+                    name="toTime"
+                    value={toTime}
+                    onChange={(e) => setToTime(e.target.value)}
+                  />
+                </div>
+
+                </div>
+             
                 </div>
                 <input
                   type="submit"

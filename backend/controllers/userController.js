@@ -13,6 +13,8 @@ const client = require("twilio")(process.env.ACCOUNTSID, process.env.AUTHTOKEN);
 //Register Admin
 exports.registerAdmin = catchAsyncErrors(async (req, res, next) => {
   // console.log(req.body);
+  // console.log(contact);
+  // console.log(req.query.sms);
   // console.log(req.files);
   const contact = req.query.contact;
   // const { category, name, contact, address, fromTime, toTime, status } =
@@ -81,9 +83,12 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   // if (!name || !contact || contact.toString().length !== 12) {
   //   return next(new ErrorHandler("Please fill the all Entries Properly", 400));
   // }
+   // console.log(req.body);
+  // console.log(req.query.contact);
+  // console.log(req.query.channel);
 
   const userExist = await User.findOne({ contact: req.query.contact });
-
+console.log(userExist)
   if (userExist) {
     return next(new ErrorHandler("Already registered", 409));
   } else {
@@ -94,6 +99,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         channel: req.query.channel,
       });
     if (optreq) {
+      // console.log(optreq)
       res
         .status(200)
         .json({ status: optreq.status, statusCode: 200, message: "success" });
@@ -271,6 +277,9 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
     toTime: req.body.toTime,
     status: req.body.status,
   };
+  console.log(newUserData)
+  console.log(`user id ${req.user.id}`)
+
   // Cloudinary
   if (req.body.profileImage !== "") {
     const user = await Admin.findById(req.user.id);
@@ -312,12 +321,13 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
       url: certificateMyCloud.secure_url,
     };
   }
+  console.log(`user id ${req.user.id}`)
   const user = await Admin.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
-  console.log(user);
+  console.log(`profile Updated data ${user}`);
   res.status(200).json({ success: true });
 });
 

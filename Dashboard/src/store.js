@@ -18,6 +18,9 @@ import {
   bannersReducer,
   newBannerReducer,
   bannerDetailsReducer,
+  prescriptionReducer,
+  newPrescriptionsReducer,
+  prescriptionDetailsReducer,
 } from "./reducers/productReducer";
 import {
   userReducer,
@@ -50,6 +53,10 @@ const reducer = combineReducers({
   productReviews: productReviewsReducer,
   review: reviewReducer,
 
+
+ prescriptions : prescriptionReducer,
+ newPrescription: newPrescriptionsReducer,
+ prescriptionDetails: prescriptionDetailsReducer,
 
   banners : bannersReducer,
   newBanner:newBannerReducer,

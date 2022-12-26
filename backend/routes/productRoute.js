@@ -32,6 +32,8 @@ const {
   deleteFromCart,
   updateBanner,
   getBannerDetails,
+  deletePrescription,
+  UpdatePrescription,
 } = require("../controllers/productController");
 
 router.route("/products").get(isAuthenticated, getAllProduct);
@@ -68,13 +70,15 @@ router
   .put(isAuthenticatedAdmin,authorizeRoles("admin"),updateBanner)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteBanner);
 
-router.route("/allprescription").get(getAllPrescription);
+router.route("/admin/prescription").get(getAllPrescription);
 router
   .route("/admin/prescription/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addPrescription); // change Auth to user later
 router
   .route("/admin/prescription/:id")
-  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails);
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails)
+  .put(isAuthenticatedAdmin,authorizeRoles("admin"),UpdatePrescription)
+  .delete(isAuthenticatedAdmin,authorizeRoles("admin"),deletePrescription)
 
 router.route("/allcategory").get(isAuthenticated, getAllCategory);
 router

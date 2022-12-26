@@ -28,7 +28,8 @@ import LoginScreen from "./component/User/LoginScreen";
 import RegisterScreen from "./component/User/RegisterScreen";
 import OtpScreen from "./component/User/OtpScreen";
 import PrescriptionList from "./component/Admin/Prescription/PrescriptionList.js";
-import AddPrescription from "./component/Admin/Prescription/AddPrescription";
+import NewPrescription from "./component/Admin/Prescription/NewPrescription";
+import PrescriptionProcess from "./component/Admin/Prescription/PrescriptionProcess"
 import BannerList from "./component/Admin/Banner/BannerList.js"
 import NewBanner from "./component/Admin/Banner/NewBanner.js";
 import UpdateBanner from "./component/Admin/Banner/UpdateBanner"
@@ -148,11 +149,14 @@ function App() {
           {isAuthenticated && (
             <Route path="/admin/prescription" element={<PrescriptionList />} />
           )}
+             {isAuthenticated && (
+            <Route path="/admin/prescription/process" element={<PrescriptionProcess />} />
+          )}
 
           {isAuthenticated && (
             <Route
               path="/admin/addPrescription"
-              element={<AddPrescription />}
+              element={<NewPrescription />}
             />
           )}
 

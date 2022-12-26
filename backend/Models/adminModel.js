@@ -94,23 +94,7 @@ adminSchema.methods.getJWTToken = function () {
   return newGenrateToken;
 };
 
-// // Compare Password
-// adminSchema.methods.comparePassword = async function (enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
 
-// // Generating Password Reset Token
-// userSchema.methods.getResetPasswordToken = function () {
-//   // Generating Token
-//   const resetToken = crypto.randomBytes(20).toString("hex");
 
-//   //Hashing and add to usserSchema
-//   this.resetPasswordToken = crypto
-//     .createHash("sha256")
-//     .update(resetToken)
-//     .digest("hex");
 
-//   this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
-//   return resetToken;
-// };
 module.exports = mongoose.model("Admin", adminSchema);

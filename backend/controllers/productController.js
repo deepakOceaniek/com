@@ -362,18 +362,70 @@ exports.getAllPrescription = catchAsyncErrors(async (req, res, next) => {
 
 // Add Prescription ---user 
 exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
-  const myCloud = await cloudinary.v2.uploader.upload(req.body.prescriptionImage, {
-    folder: "category",
-    width: 150,
-    crop: "scale",
-  });
-  const prescription = await Prescription.create({
-    prescriptionImage: {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    },
-  });
+  // const myCloud = await cloudinary.v2.uploader.upload(req.body.prescriptionImage, {
+  //   folder: "category",
+  //   width: 150,
+  //   crop: "scale",
+  // });
+  // const prescription = await Prescription.create({
+  //   prescriptionImage: {
+  //     public_id: myCloud.public_id,
+  //     url: myCloud.secure_url,
+  //   },
+  // });
+  // res.status(201).json({
+  //   success: true,
+  // });
+
+
+  let images = [];
+
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  const imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "prescriptionImage",
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
+  req.body.user = req.user.id;
+
+  const prescription = await Prescription.create(req.body);
+
   res.status(201).json({
+    success: true,
+    prescription,
+  });
+});
+
+// update prescription Status -- Admin
+exports.UpdatePrescription = catchAsyncErrors(async (req, res, next) => {
+  const prescription = await Prescription.findById(req.params.id);
+
+  if (!prescription) {
+    return next(new ErrorHandler("Prescription not found with this Id", 404));
+  }
+
+  if (prescription.status === "Your Medicine Get Ready Pay Now") {
+    return next(new ErrorHandler("Medicine Already Ready", 400));
+  }
+
+  prescription.status = req.body.status;
+
+  await order.save({ validateBeforeSave: false });
+  res.status(200).json({
     success: true,
   });
 });
@@ -397,8 +449,10 @@ exports.deletePrescription = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  const imageId = prescription.prescriptionImage.public_id;
-  await cloudinary.v2.uploader.destroy(imageId);
+  //Deleting Images from Cloudinary
+  for(let i=0 ;i< prescription.images.length;i++){
+    await cloudinary.v2.uploader.destroy(prescription.images[i].public_id)
+ }
 
   await prescription.remove();
   res.status(200).json({ success: true, message: "Prescription deleted successfully" });

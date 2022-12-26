@@ -32,7 +32,7 @@ const Profile = () => {
              <Sidebar /> 
             <div className="row-profile">
           <div className="profileTitle">
-            <p>Pharmacy Profile</p>
+            <p className="profile_title_text" >Pharmacy Profile</p>
           </div>
           <div className="innerRow">
             <div className="content">
@@ -57,7 +57,9 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <button to="/admin/me/update" >Edit Profile</button>
+          <span className="edit_btn" >
+          <Link to="/admin/me/update">Edit Profile</Link>
+        </span>
           </div>
         </div>
           </div>

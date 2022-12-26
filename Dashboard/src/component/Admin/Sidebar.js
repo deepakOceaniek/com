@@ -31,7 +31,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <Link to="/">
-        <img src="../Images/Group.png" alt="MediPros" />
+        <img src="..public/Images/Dashboard.png" alt="MediPros" />
       </Link>
       <Link to="/admin/dashboard">
         <p>

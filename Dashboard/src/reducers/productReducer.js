@@ -65,6 +65,24 @@ import {
   BANNER_DETAILS_SUCCESS,
   BANNER_DETAILS_FAIL,
 
+  ADMIN_PRESCRIPTION_REQUEST ,
+  ADMIN_PRESCRIPTION_SUCCESS ,
+  ADMIN_PRESCRIPTION_FAIL ,
+ 
+  NEW_PRESCRIPTION_REQUEST ,
+  NEW_PRESCRIPTION_SUCCESS ,
+  NEW_PRESCRIPTION_FAIL ,
+  NEW_PRESCRIPTION_RESET,
+ 
+  DELETE_PRESCRIPTION_REQUEST,
+  DELETE_PRESCRIPTION_SUCCESS ,
+  DELETE_PRESCRIPTION_FAIL ,
+  DELETE_PRESCRIPTION_RESET ,
+
+  PRESCRIPTION_DETAILS_REQUEST ,
+  PRESCRIPTION_DETAILS_SUCCESS,
+  PRESCRIPTION_DETAILS_FAIL,
+
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -267,6 +285,7 @@ export const productReducer = (state = {}, action) => {
     case UPDATE_CATEGORY_REQUEST:
       case UPDATE_BANNER_REQUEST:
       case DELETE_BANNER_REQUEST:
+        case DELETE_PRESCRIPTION_REQUEST:
       return {
         ...state,
         loading: true,
@@ -274,6 +293,8 @@ export const productReducer = (state = {}, action) => {
     case DELETE_PRODUCT_SUCCESS:
     case DELETE_CATEGORY_SUCCESS:
       case DELETE_BANNER_SUCCESS:
+        case DELETE_PRESCRIPTION_SUCCESS:
+
       return {
         ...state,
         loading: false,
@@ -294,6 +315,8 @@ export const productReducer = (state = {}, action) => {
     case UPDATE_CATEGORY_FAIL:
     case DELETE_BANNER_FAIL:
       case UPDATE_BANNER_FAIL:
+        case DELETE_PRESCRIPTION_FAIL:
+
       return {
         ...state,
         loading: false,
@@ -302,6 +325,8 @@ export const productReducer = (state = {}, action) => {
     case DELETE_PRODUCT_RESET:
     case DELETE_CATEGORY_RESET:
       case DELETE_BANNER_RESET:
+        case DELETE_PRESCRIPTION_RESET:
+        
       return {
         ...state,
         isDeleted: false,
@@ -456,6 +481,101 @@ export const bannerDetailsReducer = (state = { banner: {} }, action) => {
         banner: action.payload.banner,
       };
     case BANNER_DETAILS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+export const prescriptionReducer = (state = { prescriptions: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_PRESCRIPTION_REQUEST:
+      return {
+        loading: true,
+        prescriptions: [],
+      };
+
+    case ADMIN_PRESCRIPTION_SUCCESS:
+      return {
+        loading: false,
+        prescriptions: action.payload,
+      };
+
+    case ADMIN_PRESCRIPTION_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const newPrescriptionsReducer = (state = { prescription: {} }, action) => {
+  switch (action.type) {
+    case NEW_PRESCRIPTION_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case NEW_PRESCRIPTION_SUCCESS:
+      return {
+        loading: false,
+        success: action.payload.success,
+        prescription: action.payload.prescription,
+      };
+
+    case NEW_PRESCRIPTION_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case NEW_PRESCRIPTION_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+
+export const prescriptionDetailsReducer = (state = { prescription: {} }, action) => {
+  switch (action.type) {
+    case PRESCRIPTION_DETAILS_REQUEST:
+      return {
+        loading: true,
+        ...state,
+      };
+    case PRESCRIPTION_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        product: action.payload.product,
+      };
+    case PRESCRIPTION_DETAILS_FAIL:
       return {
         loading: false,
         error: action.payload,

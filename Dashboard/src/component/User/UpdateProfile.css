@@ -1,22 +1,16 @@
 .updateProfileContainer {
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
+     width: 100vw;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(231, 231, 231);
-    position: fixed;
-    top: 0%;
-    left: 0;
+  }
+  .sideBar{
+    width: 20vw;
   }
   
   .updateProfileBox {
     background-color: white;
-    width: 25vw;
-    height: 70vh;
+    width: 100vw;
+    height: 100vh;
     box-sizing: border-box;
-    overflow: hidden;
   }
   
   .updateProfileHeading {
@@ -30,44 +24,27 @@
   }
   
   .updateProfileForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin: auto;
     padding: 2vmax;
-    justify-content: space-evenly;
-    height: 70%;
     transition: all 0.5s;
   }
-  
+   
   .updateProfileForm > div {
     display: flex;
-    width: 100%;
-    align-items: center;
+    justify-content: space-around;
+  } 
+  .inner_content_div > div ,.updateProfileTime >input{
+    margin :1em 0em 0em 0em;
+  }
+  .updateProfileForm > input{
+    margin:2em 0em 0em 18em;
+
   }
   
-  .updateProfileForm > div > input {
-    padding: 1vmax 4vmax;
-    padding-right: 1vmax;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.267);
-    border-radius: 4px;
-    font: 300 0.9vmax cursive;
-    outline: none;
-  }
   
-  .updateProfileForm > div > svg {
-    position: absolute;
-    transform: translateX(1vmax);
-    font-size: 1.6vmax;
-    color: rgba(0, 0, 0, 0.623);
-  }
-  
-  #updateProfileImage > img {
-    width: 3vmax;
-    border-radius: 100%;
-    margin: 1vmax;
+  #updateProfileImageAdmin > img ,#updateCertificateImageAdmin > img {
+    width: 24vw;
+    margin-bottom:1em ;
   }
   #updateProfileImage > input {
     display: flex;
@@ -97,7 +74,7 @@
     background-color: rgb(26, 68, 184);
     color: white;
     font: 300 0.9vmax "Roboto";
-    width: 100%;
+    width: 30%;
     padding: 0.8vmax;
     cursor: pointer;
     transition: all 0.5s;
@@ -108,6 +85,10 @@
   
   .updateProfileBtn:hover {
     background-color: rgb(179, 66, 46);
+  }
+  .updateProfileTime{
+    display: flex;
+    flex-direction: column;
   }
   
   @media screen and (max-width: 600px) {
