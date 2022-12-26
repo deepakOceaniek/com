@@ -600,21 +600,26 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
         cart.products.push({ productId, quantity, name, price });
       }
       cart = await cart.save();
-      return res.status(201).send(cart);
+      // return res.status(201).send(cart);
     } else {
       //no cart for user, create new cart
-      const newCart = await Cart.create({
-
+       cart = await Cart.create({
         user,
         products: [{ productId, quantity, name, price }]
-      });
-      return res.status(201).send(newCart);
+      }); 
     }
+    return res.status(201).send(cart);
   } catch (err) {
     console.log(err);
     res.status(500).send("Something went wrong");
   }
 });
+
+// totalPrice:
+// priceDiscount:
+// ShippingFee: 
+// Total Savings:
+// ToBePaid:
 
 // Get card Details
 exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
@@ -622,6 +627,24 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   const userId = req.user.id; 
    let cart = await Cart.findOne({ userId });
    if(cart){
+
+    // const prices = cart.products.map(product=>product.price * product.quantity)
+    // const totalPrice = prices.reduce((acc,curr)=>acc + curr) 
+    // console.log(totalPrice)
+
+    let totalPrice = 0
+    for(let product of cart.products ){
+      totalPrice += product.price * product.quantity
+      // afterDiscountPrice  +=  (product.price - (product.discount /100* product.price))*product.quantity
+      // totalSaving = totalPrice - discountPrice     
+    }
+    cart.totalPrice = totalPrice // Todo : afterDiscountPrice
+    if(totalPrice < 500){
+     card.shippingFee = 100  
+    }else{
+      cart.shippingFee = 0 
+    }
+    // cart.amountToBePaid = afterDiscountPrice + cart.shippingFee 
      res.status(200).send(cart);
    }else{
      res.status(200).json({message:"Your Cart is Empty Add Some Product"});      

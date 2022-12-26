@@ -16,6 +16,9 @@ const CartSchema = new mongoose.Schema(
         price: Number,
       },
     ],
+    totalPrice: { type: Number, required: true },
+    shippingFee: { type: Number, required: true },
+    amountToBePaid: { type: Number },
     active: {
       type: Boolean,
       default: true,

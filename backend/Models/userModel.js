@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
     type: Number,
     required: [true, "please Enter Your Contact Number"],
   },
+
+  // defaultAdress:{
+  // }
+
   userAddresses: [
     {
       // user: {
@@ -22,6 +26,12 @@ const userSchema = mongoose.Schema({
       //   ref: "User",
       //   required: true,
       // },
+
+      // isdefault:{
+      //   type:Boolean,
+      //   default:false
+      // },
+
       address: {
         type: String,
         required: true,
