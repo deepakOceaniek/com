@@ -2,15 +2,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./newProduct.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, createProduct,getAdminCategory } from "../../../actions/productAction";
+import {
+  clearErrors,
+  createProduct,
+  getAdminCategory,
+} from "../../../actions/productAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import Loader from "../../layout/Loader/Loader";
 import { NEW_PRODUCT_RESET } from "../../../constants/productConstants";
@@ -31,7 +29,7 @@ const NewProduct = () => {
   const [tabletPerStrip, setTabletPerStrip] = useState("");
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
-  const [discount,setDiscount] = useState("")
+  const [discount, setDiscount] = useState("");
   const [stock, setStock] = useState(0);
   const [gst, setGst] = useState("");
   const [batchCode, setBatchCode] = useState("");
@@ -48,14 +46,10 @@ const NewProduct = () => {
   //   "Skin Care"
   // ];
 
-
-  const {categories } = useSelector((state) => state.categories);
-
-
-
+  const { categories } = useSelector((state) => state.categories);
 
   useEffect(() => {
-    dispatch(getAdminCategory()) 
+    dispatch(getAdminCategory());
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -118,178 +112,156 @@ const NewProduct = () => {
     });
   };
 
-
-
   return (
     <Fragment>
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-         {loading ? <Loader /> :  <form
-            className="createProductForm"
-            encType="multipart/form-data"
-            onSubmit={createProductSubmitHandler}
-          >
-            <h1>Create Product</h1>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="addproductrow">
+              <form
+                className="content_addproduct"
+                encType="multipart/form-data"
+                onSubmit={createProductSubmitHandler}
+              >
+                <div className="product_row">
+                  <h1>Add Product</h1>
+                </div>
+                <div className="product_row">
+                  <div className="inputdiv">
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder="Product Name"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder="Product Description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      cols="30"
+                      rows="1"
+                    />
+                    <input
+                      type="number"
+                      className="productadd"
+                      placeholder=" Price"
+                      required
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder="Salt"
+                      required
+                      onChange={(e) => setSalt(e.target.value)}
+                    />
+                    <select
+                      className="productadd"
+                      onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <option value="">Choose Category</option>
+                      {categories &&
+                        categories.map((cate) => (
+                          <option key={cate.categoryName} value={cate._id}>
+                            {cate.categoryName}
+                          </option>
+                        ))}
+                    </select>
+                    <input
+                      className="productadd"
+                      type="date"
+                      placeholder="expired"
+                      required
+                      onChange={(e) => setExpired(e.target.value)}
+                    />
+                    <input
+                      className="productadd"
+                      type="number"
+                      placeholder="tabletPerStrip"
+                      required
+                      onChange={(e) => setTabletPerStrip(e.target.value)}
+                    />
+                  </div>
+                  <div className="inputdiv">
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder="company"
+                      required
+                      onChange={(e) => setCompany(e.target.value)}
+                    />
+                    <input
+                      type="number"
+                      className="productadd"
+                      placeholder="stock"
+                      required
+                      onChange={(e) => setStock(e.target.value)}
+                    />
+                    <input
+                      type="number"
+                      className="productadd"
+                      placeholder="discount"
+                      required
+                      onChange={(e) => setDiscount(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder="gst"
+                      required
+                      onChange={(e) => setGst(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder="batchCode"
+                      required
+                      onChange={(e) => setBatchCode(e.target.value)}
+                    />
 
-            <div>
-              <SpellcheckIcon />
-              <input
-                type="text"
-                placeholder="Product Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+                    <input
+                      type="text"
+                      className="productadd"
+                      placeholder=" hsnCode"
+                      required
+                      onChange={(e) => setHsnCode(e.target.value)}
+                    />
+                    <input
+                      type="file"
+                      className="addImage"
+                      placeholder=" Product Image Upload"
+                      name="avatar"
+                      accept="image/*"
+                      onChange={createProductImagesChange}
+                      multiple
+                    />
+                  </div>
+                </div>
+                <div id="createProductFormImage">
+                  {imagesPreview.map((image, index) => (
+                    <img key={index} src={image} alt="Product Preview" />
+                  ))}
+                </div>
+                <div className="button_row">
+                  <button
+                    id="createProductBtn"
+                    type="submit"
+                    disabled={loading ? true : false}
+                  >
+                    Add Product
+                  </button>
+                </div>
+              </form>
             </div>
-          
-            <div>
-              <DescriptionIcon />
-
-              <textarea
-                placeholder="Product Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="number"
-                placeholder="Price"
-                required
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="Salt"
-                required
-                onChange={(e) => setSalt(e.target.value)}
-              />
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="date"
-                placeholder="expired"
-                required
-                onChange={(e) => setExpired(e.target.value)}
-              />
-            </div>
-          
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="Number"
-                placeholder="tabletPerStrip"
-                required
-                onChange={(e) => setTabletPerStrip(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="company"
-                required
-                onChange={(e) => setCompany(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AccountTreeIcon />
-              <select onChange={(e) => setCategory(e.target.value)}>
-                <option value="">Choose Category</option>
-                {categories && categories.map((cate) => (
-                  <option key={cate.categoryName} value={cate._id}>
-                    {cate.categoryName}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="stock"
-                required
-                onChange={(e) => setStock(e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="discount"
-                required
-                onChange={(e) => setDiscount(e.target.value)}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="gst"
-                required
-                onChange={(e) => setGst(e.target.value)}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="batchCode"
-                required
-                onChange={(e) => setBatchCode(e.target.value)}
-              />
-            </div>
-           
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder=" hsnCode"
-                required
-                onChange={(e) => setHsnCode(e.target.value)}
-              />
-            </div>
-
-            
-
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={createProductImagesChange}
-                multiple
-              />
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
-            </div>
-
-            <Button
-              id="createProductBtn"
-              type="submit"
-              disabled={loading ? true : false}
-            >
-              Create
-            </Button>
-          </form>}
+          )}
         </div>
       </div>
     </Fragment>

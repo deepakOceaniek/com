@@ -6,13 +6,7 @@ import {
   getProductDetails,
 } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import { UPDATE_PRODUCT_RESET } from "../../../constants/productConstants";
 import { useParams, useNavigate } from "react-router-dom";
@@ -24,7 +18,7 @@ const UpdateProduct = () => {
   const Navigate = useNavigate();
 
   const { error, product } = useSelector((state) => state.productDetails);
-console.log(product)
+  console.log(product);
   const {
     loading,
     error: updateError,
@@ -54,7 +48,7 @@ console.log(product)
     "Healthcare devices",
     "Pain Relief",
     "Diabetes Care",
-    "Skin Care"
+    "Skin Care",
   ];
 
   const productId = id;
@@ -122,7 +116,6 @@ console.log(product)
     myForm.set("batchCode", batchCode);
     myForm.set("hsnCode", hsnCode);
 
-
     images.forEach((image) => {
       myForm.append("images", image);
     });
@@ -155,190 +148,167 @@ console.log(product)
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
-        <div className="newProductContainer">
-          <form
-            className="createProductForm"
-            encType="multipart/form-data"
-            onSubmit={updateProductSubmitHandler}
-          >
-            <h1>Create Product</h1>
-
-            <div>
-              <SpellcheckIcon />
-              <input
-                type="text"
-                placeholder="Product Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-       
-
-            <div>
-              <DescriptionIcon />
-
-              <textarea
-                placeholder="Product Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="number"
-                placeholder="Price"
-                required
-                onChange={(e) => setPrice(e.target.value)}
-                value={price}
-              />
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="Salt"
-                required
-                value={price}
-                onChange={(e) => setSalt(e.target.value)}
-              />
-            </div>
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="date"
-                placeholder="expired"
-                required
-                value={expired}
-                onChange={(e) => setExpired(e.target.value)}
-              />
-            </div>
-          
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="Number"
-                placeholder="tabletPerStrip"
-                required
-                value={tabletPerStrip}
-                onChange={(e) => setTabletPerStrip(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="company"
-                required
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-              />
-            </div>
-
-
-            <div>
-              <AccountTreeIcon />
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="">Choose Category</option>
-                {categories.map((cate) => (
-                  <option key={cate} value={cate}>
-                    {cate}
-                  </option>
-                ))}
-              </select>
-            </div>
-            discount
-            <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="stock"
-                required
-                onChange={(e) => setStock(e.target.value)}
-                value={stock}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="number"
-                placeholder="discount"
-                required
-                onChange={(e) => setDiscount(e.target.value)}
-                value={discount}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="gst"
-                required
-                value={gst}
-                onChange={(e) => setGst(e.target.value)}
-              />
-            </div>
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder="batchCode"
-                value={batchCode}
-                required
-                onChange={(e) => setBatchCode(e.target.value)}
-              />
-            </div>
-           
-            <div>
-              <StorageIcon />
-              <input
-                type="text"
-                placeholder=" hsnCode"
-                value={hsnCode}
-                required
-                onChange={(e) => setHsnCode(e.target.value)}
-              />
-            </div>
-
-
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={updateProductImagesChange}
-                multiple
-              />
-            </div>
-
-            <div id="createProductFormImage">
-              {oldImages &&
-                oldImages.map((image, index) => (
-                  <img key={index} src={image.url} alt="Old Product Preview" />
-                ))}
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
-            </div>
-
-            <Button
-              id="createProductBtn"
-              type="submit"
-              disabled={loading ? true : false}
+        <div className=" newProductContainer">
+          <div className="addproductrow">
+            <form
+              className="content_addproduct"
+              encType="multipart/form-data"
+              onSubmit={updateProductSubmitHandler}
             >
-              Create
-            </Button>
-          </form>
+              <div className="product_row">
+                <h1>Updated Product</h1>
+              </div>
+              <div className="product_row">
+                <div className="inputdiv">
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder="Product Name"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder="Product Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    cols="30"
+                    rows="1"
+                  />
+                  <input
+                    type="number"
+                    className="productadd"
+                    placeholder=" Price"
+                    required
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder="Salt"
+                    value={salt}
+                    required
+                    onChange={(e) => setSalt(e.target.value)}
+                  />
+                  <select
+                    className="productadd"
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value={category}>Choose Category</option>
+                    {categories &&
+                      categories.map((cate) => (
+                        <option key={cate.categoryName} value={cate._id}>
+                          {cate.categoryName}
+                        </option>
+                      ))}
+                  </select>
+                  <input
+                    className="productadd"
+                    type="date"
+                    placeholder="expired"
+                    value={expired}
+                    required
+                    onChange={(e) => setExpired(e.target.value)}
+                  />
+                  <input
+                    className="productadd"
+                    type="number"
+                    placeholder="tabletPerStrip"
+                    value={tabletPerStrip}
+                    required
+                    onChange={(e) => setTabletPerStrip(e.target.value)}
+                  />
+                </div>
+                <div className="inputdiv">
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder="company"
+                    required
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    className="productadd"
+                    placeholder="stock"
+                    required
+                    value={stock}
+                    onChange={(e) => setStock(e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    className="productadd"
+                    placeholder="discount"
+                    required
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder="gst"
+                    value={gst}
+                    required
+                    onChange={(e) => setGst(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder="batchCode"
+                    required
+                    value={batchCode}
+                    onChange={(e) => setBatchCode(e.target.value)}
+                  />
+
+                  <input
+                    type="text"
+                    className="productadd"
+                    placeholder=" hsnCode"
+                    required
+                    value={hsnCode}
+                    onChange={(e) => setHsnCode(e.target.value)}
+                  />
+                  <input
+                    type="file"
+                    className="addImage"
+                    placeholder=" Product Image Upload"
+                    name="avatar"
+                    accept="image/*"
+                    onChange={updateProductImagesChange}
+                    multiple
+                  />
+                </div>
+              </div>
+              <div id="createProductFormImage">
+                {oldImages &&
+                  oldImages.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image.url}
+                      alt="Old Product Preview"
+                    />
+                  ))}
+              </div>
+              <div id="createProductFormImage">
+                {imagesPreview.map((image, index) => (
+                  <img key={index} src={image} alt="Product Preview" />
+                ))}
+              </div>
+              <div className="button_row">
+                <button
+                  id="createProductBtn"
+                  type="submit"
+                  disabled={loading ? true : false}
+                >
+                  Updated Product
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </Fragment>
