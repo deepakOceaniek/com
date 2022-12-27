@@ -39,6 +39,7 @@ console.log(product)
   const [tabletPerStrip, setTabletPerStrip] = useState("");
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
+  const [discount, setDiscount] = useState("");
   const [stock, setStock] = useState(0);
   const [gst, setGst] = useState("");
   const [batchCode, setBatchCode] = useState("");
@@ -70,6 +71,7 @@ console.log(product)
       setTabletPerStrip(product.tabletPerStrip);
       setCompany(product.company);
       setCategory(product.category);
+      setDiscount(product.discount);
       setStock(product.stock);
       setGst(product.gst);
       setBatchCode(product.batchCode);
@@ -252,7 +254,7 @@ console.log(product)
                 ))}
               </select>
             </div>
-
+            discount
             <div>
               <StorageIcon />
               <input
@@ -261,6 +263,16 @@ console.log(product)
                 required
                 onChange={(e) => setStock(e.target.value)}
                 value={stock}
+              />
+            </div>
+            <div>
+              <StorageIcon />
+              <input
+                type="number"
+                placeholder="discount"
+                required
+                onChange={(e) => setDiscount(e.target.value)}
+                value={discount}
               />
             </div>
             <div>

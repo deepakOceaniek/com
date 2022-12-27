@@ -33,7 +33,7 @@ import {
   orderDetailsReducer,
   orderReducer,
 } from "./reducers/orderReducer";
-import { labCategoriesReducer, labCategoryDetailsReducer, newLabCategoryReducer, newPackageReducer, newTestReducer, PackageDetailsReducer, packageReducer, packageReviewsReducer, reviewPackageReducer, testDetailsReducer, testPackageReducer, testsReducer } from "./reducers/testReducer";
+import { labCategoriesReducer, labCategoryDetailsReducer, newLabCategoryReducer, newPackageReducer, newSampleReducer, newTestReducer, PackageDetailsReducer, packageReducer, packageReviewsReducer, reviewPackageReducer, sampleDetailsReducer, samplesReducer, testDetailsReducer, testPackageReducer, testsReducer } from "./reducers/testReducer";
 
 const reducer = combineReducers({
   products: productsReducer, 
@@ -73,7 +73,12 @@ const reducer = combineReducers({
   packageDetails: PackageDetailsReducer,
   labCategoryDetails : labCategoryDetailsReducer,
   packageReviews :packageReviewsReducer,
-  reviewPackage: reviewPackageReducer
+  reviewPackage: reviewPackageReducer,
+
+
+  samples:samplesReducer,
+  newSample:newSampleReducer,
+  sampleDetails:sampleDetailsReducer,
 
 
 

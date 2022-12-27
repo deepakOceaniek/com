@@ -46,6 +46,9 @@ import UpdateTest from "./component/Admin/Test/UpdateTest.js";
 import NewPackage from "./component/Admin/Package/NewPackage.js";
 import PackageList from "./component/Admin/Package/PackageList.js";
 import UpdatePackage from "./component/Admin/Package/UpdatePackage.js";
+import SampleList from "./component/Admin/Sample/SampleList"
+import NewSample from "./component/Admin/Sample/NewSample"
+import UpdateSample from "./component/Admin/Sample/UpdateSample"
 
 // import ProtectedRoute from "./component/Route/ProtectedRoute"; // Its not working
 // import Registration from "./component/Register/Registration";
@@ -186,6 +189,11 @@ function App() {
           <Route path="/admin/package" element={<NewPackage />} />
           <Route path="/admin/packages" element={<PackageList />} />
           <Route path="/admin/package/:id" element={<UpdatePackage />} />
+          
+          <Route path="/admin/samples" element={<SampleList />} />
+          <Route path="/admin/sample" element={<NewSample />} />
+          <Route path="/admin/sample/:id" element={<UpdateSample />} />
+
 
           {/* <Route path="/Registration" element={<Registration />} /> */}
           {/* <Route path="/admindashboard" element={<AdminDashborad />} /> */}

@@ -29,6 +29,11 @@ const {
   getAdminTestDetails,
   getAdminPackageDetails,
   getAdminAllLabCategory,
+  getAdminSample,
+  addSample,
+  getSampleDetails,
+  updateSample,
+  deleteSample,
 } = require("../controllers/testController");
 
 //Test --user
@@ -85,4 +90,10 @@ router
   .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateLabCategory)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteLabCategory);
 
+  router.route("/admin/sample").get(getAdminSample)
+  router.route("/admin/sample/new").post(addSample)
+  router.route("/admin/sample/:id")
+  .get(getSampleDetails)
+.put(updateSample)
+.delete(deleteSample)
 module.exports = router;

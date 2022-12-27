@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema({
       //   type:Boolean,
       //   default:false
       // },
+      name:{
+        type:String,
+        required:true
+      },
 
       address: {
         type: String,
@@ -90,6 +94,7 @@ userSchema.methods.getJWTToken = function () {
 
 // store address
 userSchema.methods.addMessage = async function (
+  name,
   address,
   city,
   area,
@@ -101,6 +106,7 @@ userSchema.methods.addMessage = async function (
     console.log("message called");
 
     this.userAddresses = this.userAddresses.concat({
+      name,
       address,
       city,
       area,

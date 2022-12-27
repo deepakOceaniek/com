@@ -62,6 +62,32 @@ import {
   LABCATEGORY_DETAILS_REQUEST,
   LABCATEGORY_DETAILS_SUCCESS,
   LABCATEGORY_DETAILS_FAIL,
+
+  SAMPLE_REQUEST,
+  SAMPLE_SUCCESS,
+  SAMPLE_FAIL,
+
+  NEW_SAMPLE_REQUEST,
+  NEW_SAMPLE_SUCCESS,
+  NEW_SAMPLE_FAIL,
+  NEW_SAMPLE_RESET,
+
+  UPDATE_SAMPLE_REQUEST,
+  UPDATE_SAMPLE_SUCCESS,
+  UPDATE_SAMPLE_FAIL,
+  UPDATE_SAMPLE_RESET,
+
+  DELETE_SAMPLE_REQUEST,
+  DELETE_SAMPLE_SUCCESS,
+  DELETE_SAMPLE_FAIL,
+  DELETE_SAMPLE_RESET,
+
+  SAMPLE_DETAILS_REQUEST,
+  SAMPLE_DETAILS_SUCCESS,
+  SAMPLE_DETAILS_FAIL,
+
+
+
   CLEAR_ERRORS,
 } from "../constants/testConstants";
 
@@ -441,6 +467,121 @@ export const getLabCategoryDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+
+// Get All Sample For Admin
+export const getAdminSample = () => async (dispatch) => {
+  try {
+    dispatch({ type: SAMPLE_REQUEST });
+
+    const { data } = await axios.get("/api/v1/admin/sample");
+
+    dispatch({
+      type: SAMPLE_SUCCESS,
+      payload: data.samples,
+    });
+  } catch (error) {
+    dispatch({
+      type: SAMPLE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Create Sample --admin
+export const createSample = (testData) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_SAMPLE_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const { data } = await axios.post(
+      `/api/v1/admin/sample/new`,
+      testData,
+      config
+    );
+
+    dispatch({
+      type: NEW_SAMPLE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_SAMPLE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update Sample - admin
+export const updateSample = (id, testData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_SAMPLE_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+
+    const { data } = await axios.put(
+      `/api/v1/admin/sample/${id}`,
+      testData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_SAMPLE_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_SAMPLE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Delete test -admin
+export const deleteSample = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_SAMPLE_REQUEST });
+
+    const { data } = await axios.delete(`/api/v1/admin/sample/${id}`);
+
+    dispatch({
+      type: DELETE_SAMPLE_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_SAMPLE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Get Test Details admin
+export const getSampleDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SAMPLE_DETAILS_REQUEST,
+    });
+    const { data } = await axios.get(`/api/v1/admin/sample/${id}`);
+    console.log(data);
+    dispatch({
+      type: SAMPLE_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SAMPLE_DETAILS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
 
 // // Get All Category For Admin
 // export const getBanner = () => async (dispatch) => {

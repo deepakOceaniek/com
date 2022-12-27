@@ -31,6 +31,7 @@ const NewProduct = () => {
   const [tabletPerStrip, setTabletPerStrip] = useState("");
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
+  const [discount,setDiscount] = useState("")
   const [stock, setStock] = useState(0);
   const [gst, setGst] = useState("");
   const [batchCode, setBatchCode] = useState("");
@@ -85,6 +86,7 @@ const NewProduct = () => {
     myForm.set("tabletPerStrip", tabletPerStrip);
     myForm.set("company", company);
     myForm.set("category", category);
+    myForm.set("discount", discount);
     myForm.set("stock", stock);
     myForm.set("gst", gst);
     myForm.set("batchCode", batchCode);
@@ -221,6 +223,16 @@ const NewProduct = () => {
                 placeholder="stock"
                 required
                 onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
+            
+            <div>
+              <StorageIcon />
+              <input
+                type="number"
+                placeholder="discount"
+                required
+                onChange={(e) => setDiscount(e.target.value)}
               />
             </div>
             <div>

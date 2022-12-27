@@ -7,6 +7,7 @@ import {
   clearErrors,
   createPackage,
   getAdminLabCategory,
+  getAdminSample,
 } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
@@ -41,19 +42,14 @@ const NewPackage = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  // const categories = [
-  //   "Ayurveda",
-  //   "Vitamins & supplements",
-  //   "Healthcare devices",
-  //   "Pain Relief",
-  //   "Diabetes Care",
-  //   "Skin Care"
-  // ];
+
 
   const { labCategories } = useSelector((state) => state.labCategories);
+  const { samples } = useSelector((state) => state.samples);
 
   useEffect(() => {
     dispatch(getAdminLabCategory());
+    dispatch(getAdminSample());
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -66,11 +62,7 @@ const NewPackage = () => {
     }
   }, [dispatch, alert, error, Navigate, success]);
 
-  // const data = categories &&  categories.map((category)=> console.log(category.categoryName))
-
-  // console.log(Object.values(categories))
-  // console.log(categories)
-  // console.log(data)
+ 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -214,14 +206,18 @@ const NewPackage = () => {
               </div>
 
               <div>
-                <StorageIcon />
-                <input
-                  type="text"
-                  placeholder="sample"
-                  required
-                  onChange={(e) => setSample(e.target.value)}
-                />
+                <AccountTreeIcon />
+                <select onChange={(e) => setSample(e.target.value)}>
+                  <option value="">Choose Sample</option>
+                  {samples &&
+                    samples.map((sam) => (
+                      <option key={sam.name} value={sam._id}>
+                        {sam.name}
+                      </option>
+                    ))}
+                </select>
               </div>
+
               <div>
                 <StorageIcon />
                 <input

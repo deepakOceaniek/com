@@ -78,7 +78,30 @@ import {
     LABCATEGORY_DETAILS_SUCCESS,
     LABCATEGORY_DETAILS_FAIL,
 
-  CLEAR_ERRORS,
+    SAMPLE_REQUEST,
+    SAMPLE_SUCCESS,
+    SAMPLE_FAIL,
+
+    NEW_SAMPLE_REQUEST,
+    NEW_SAMPLE_SUCCESS,
+    NEW_SAMPLE_FAIL,
+    NEW_SAMPLE_RESET,
+
+    UPDATE_SAMPLE_REQUEST,
+    UPDATE_SAMPLE_SUCCESS,
+    UPDATE_SAMPLE_FAIL,
+    UPDATE_SAMPLE_RESET,
+
+    DELETE_SAMPLE_REQUEST,
+    DELETE_SAMPLE_SUCCESS,
+    DELETE_SAMPLE_FAIL,
+    DELETE_SAMPLE_RESET,
+
+    SAMPLE_DETAILS_REQUEST,
+    SAMPLE_DETAILS_SUCCESS,
+    SAMPLE_DETAILS_FAIL,
+
+    CLEAR_ERRORS,
   } from "../constants/testConstants";
   
   export const testsReducer = (state = { tests: [] }, action) => {
@@ -154,6 +177,38 @@ import {
           labCategories: action.payload,
         };
       case ADMIN_LABCATEGORY_FAIL:
+        return {
+          loading: false,
+          error: action.payload,
+        };
+      case CLEAR_ERRORS:
+        return {
+          ...state,
+          error: null,
+        };
+  
+      default:
+        return state;
+    }
+  };
+
+
+  
+  export const samplesReducer = (state = { samples: [] }, action) => {
+    switch (action.type) {
+      case SAMPLE_REQUEST:
+        return {
+          loading: true,
+          samples: [],
+        };
+  
+      case SAMPLE_SUCCESS:
+        return {
+          loading: false,
+          samples: action.payload,
+        };
+  
+      case SAMPLE_FAIL:
         return {
           loading: false,
           error: action.payload,
@@ -276,6 +331,40 @@ import {
     }
   };
   
+  export const newSampleReducer = (state = { sample: {} }, action) => {
+    switch (action.type) {
+      case NEW_SAMPLE_REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case NEW_SAMPLE_SUCCESS:
+        return {
+          loading: false,
+          success: action.payload.success,
+          sample: action.payload.sample,
+        };
+  
+      case NEW_SAMPLE_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      case NEW_SAMPLE_RESET:
+        return {
+          ...state,
+          success: false,
+        };
+      case CLEAR_ERRORS:
+        return {
+          ...state,
+          error: null,
+        };
+      default:
+        return state;
+    }
+  };
   
   
   export const testPackageReducer = (state = {}, action) => {
@@ -286,6 +375,8 @@ import {
         case DELETE_PACKAGE_REQUEST:
         case UPDATE_LABCATEGORY_REQUEST:
         case DELETE_LABCATEGORY_REQUEST:
+          case UPDATE_SAMPLE_REQUEST :
+          case DELETE_SAMPLE_REQUEST :
         return {
           ...state,
           loading: true,
@@ -293,6 +384,7 @@ import {
       case DELETE_TEST_SUCCESS:
       case DELETE_PACKAGE_SUCCESS:
       case DELETE_LABCATEGORY_SUCCESS:
+      case DELETE_SAMPLE_SUCCESS:
         return {
           ...state,
           loading: false,
@@ -302,6 +394,7 @@ import {
       case UPDATE_TEST_SUCCESS:
       case UPDATE_PACKAGE_SUCCESS:
       case UPDATE_LABCATEGORY_SUCCESS:
+      case UPDATE_SAMPLE_SUCCESS:
         return {
           ...state,
           loading: false,
@@ -313,6 +406,8 @@ import {
       case DELETE_PACKAGE_FAIL:
       case DELETE_LABCATEGORY_FAIL:
       case UPDATE_LABCATEGORY_FAIL:
+      case UPDATE_SAMPLE_FAIL:
+      case DELETE_SAMPLE_FAIL:
         return {
           ...state,
           loading: false,
@@ -321,6 +416,7 @@ import {
       case DELETE_TEST_RESET:
       case DELETE_PACKAGE_RESET:
       case DELETE_LABCATEGORY_RESET:
+      case DELETE_SAMPLE_RESET:
         return {
           ...state,
           isDeleted: false,
@@ -328,6 +424,7 @@ import {
       case UPDATE_TEST_RESET:
       case UPDATE_PACKAGE_RESET:
       case UPDATE_LABCATEGORY_RESET:
+      case UPDATE_SAMPLE_RESET:
         return {
           ...state,
           isUpdated: false,
@@ -412,6 +509,34 @@ import {
           labCategory: action.payload.labCategory,
         };
       case LABCATEGORY_DETAILS_FAIL:
+        return {
+          loading: false,
+          error: action.payload,
+        };
+      case CLEAR_ERRORS:
+        return {
+          ...state,
+          error: null,
+        };
+  
+      default:
+        return state;
+    }
+  };
+
+  export const sampleDetailsReducer = (state = { sample: {} }, action) => {
+    switch (action.type) {
+      case SAMPLE_DETAILS_REQUEST:
+        return {
+          loading: true,
+          ...state,
+        };
+      case SAMPLE_DETAILS_SUCCESS:
+        return {
+          loading: false,
+          sample: action.payload.sample,
+        };
+      case SAMPLE_DETAILS_FAIL:
         return {
           loading: false,
           error: action.payload,

@@ -129,6 +129,26 @@ const Sidebar = () => {
           </TreeItem>
         </TreeView>
       </Link>
+      <Link>
+        <TreeView
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ImportExportIcon />}
+        >
+          <TreeItem nodeId="1" label="Sample">
+            <Link to="/admin/samples">
+              <TreeItem
+                nodeId="2"
+                label="All"
+                icon={<FormatListBulletedIcon />}
+              />
+            </Link>
+
+            <Link to="/admin/sample">
+              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+            </Link>
+          </TreeItem>
+        </TreeView>
+      </Link>
 
       <Link>
         <TreeView

@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
   shippingInfo: {
+    name:{
+      type: String,
+      required: true,
+    },
+
     address: {
       type: String,
       required: true,
@@ -74,23 +79,22 @@ const productSchema = mongoose.Schema({
     required: true,
   },
 
-  //  These are calculated at front end
-  itemsPrice: {
-    type: Number,
-    default: 0,
-    required: true,
-  },
-  taxPrice: {
-    type: Number,
-    default: 0,
-    required: true,
-  },
-  shippingPrice: {
-    type: Number,
-    default: 0,
-    required: true,
-  },
   totalPrice: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  totalSaving: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  shippingFee: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  amountToBePaid: {
     type: Number,
     default: 0,
     required: true,

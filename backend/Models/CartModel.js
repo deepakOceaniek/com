@@ -14,10 +14,13 @@ const CartSchema = new mongoose.Schema(
         name: String,
         // image: String,
         price: Number,
+        discount: Number
       },
     ],
-    totalPrice: { type: Number, required: true },
-    shippingFee: { type: Number, required: true },
+    totalPrice: { type: Number },
+
+    totalSaving: { type: Number},
+    shippingFee: { type: Number },
     amountToBePaid: { type: Number },
     active: {
       type: Boolean,

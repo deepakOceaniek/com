@@ -8,6 +8,7 @@ import {
   createTest,
   getAdminLabCategory,
   getAdminPackage,
+  getAdminSample,
 } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
@@ -50,12 +51,15 @@ const NewTest = () => {
 
   const { labCategories } = useSelector((state) => state.labCategories);
   const { packages } = useSelector((state) => state.packages);
+  const { samples } = useSelector((state) => state.samples);
 
   console.log(packages);
   console.log(labCategories);
+  console.log(samples);
   useEffect(() => {
     dispatch(getAdminLabCategory());
     dispatch(getAdminPackage());
+    dispatch(getAdminSample());
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -151,6 +155,19 @@ const NewTest = () => {
                 ></textarea>
               </div>
               <div>
+                <AccountTreeIcon />
+                <select onChange={(e) => setSample(e.target.value)}>
+                  <option value="">Choose Sample</option>
+                  {samples &&
+                    samples.map((sam) => (
+                      <option key={sam.name} value={sam._id}>
+                        {sam.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div>
                 <AttachMoneyIcon />
                 <input
                   type="number"
@@ -159,24 +176,15 @@ const NewTest = () => {
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
-              <div>
-                <AttachMoneyIcon />
-                <input
-                  type="text"
-                  placeholder="sample"
-                  required
-                  onChange={(e) => setSample(e.target.value)}
-                />
-              </div>
-
+          
               <div>
                 <AccountTreeIcon />
                 <select onChange={(e) => setPackageTest(e.target.value)}>
                   <option value="">Choose Package</option>
                   {packages &&
-                    packages.map((cate) => (
-                      <option key={cate.name} value={cate._id}>
-                        {cate.name}
+                    packages.map((pack) => (
+                      <option key={pack.name} value={pack._id}>
+                        {pack.name}
                       </option>
                     ))}
                 </select>

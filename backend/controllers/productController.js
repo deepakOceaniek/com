@@ -9,7 +9,6 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const ApiFeatures = require("../utils/apiFeatures");
 const cloudinary = require("cloudinary");
-const CartModel = require("../Models/CartModel");
 
 // Create Product -- Admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -583,7 +582,7 @@ exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
 
 // Add to cart 
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
-  const { productId, quantity, name, price } = req.body;
+  const { productId, quantity, name, price, discount } = req.body;
   console.log(req.body)
   console.log(req.user.id)
   const user = req.user.id; 
@@ -597,7 +596,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
        cart.products[itemIndex].quantity = quantity       
       } else {
         //product does not exists in cart, add new item
-        cart.products.push({ productId, quantity, name, price });
+        cart.products.push({ productId, quantity, name, price,discount});
       }
       cart = await cart.save();
       // return res.status(201).send(cart);
@@ -605,7 +604,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
       //no cart for user, create new cart
        cart = await Cart.create({
         user,
-        products: [{ productId, quantity, name, price }]
+        products: [{ productId, quantity, name, price ,discount}]
       }); 
     }
     return res.status(201).send(cart);
@@ -627,24 +626,32 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   const userId = req.user.id; 
    let cart = await Cart.findOne({ userId });
    if(cart){
-
-    // const prices = cart.products.map(product=>product.price * product.quantity)
-    // const totalPrice = prices.reduce((acc,curr)=>acc + curr) 
-    // console.log(totalPrice)
-
-    let totalPrice = 0
-    for(let product of cart.products ){
+     
+     // const prices = cart.products.map(product=>product.price * product.quantity)
+     // const totalPrice = prices.reduce((acc,curr)=>acc + curr) 
+    //  console.log(cart)
+     
+     let totalPrice = 0
+     let afterDiscountPrice = 0
+     let totalSaving = 0
+    //  console.log(cart.products[0].populate("productId","name price discount" ))
+     for(let product of cart.products ){
       totalPrice += product.price * product.quantity
-      // afterDiscountPrice  +=  (product.price - (product.discount /100* product.price))*product.quantity
-      // totalSaving = totalPrice - discountPrice     
+      console.log(product)
+      afterDiscountPrice  +=  (product.price - ((product.discount /100)* product.price))*product.quantity
+      totalSaving = totalPrice - afterDiscountPrice     
     }
+
     cart.totalPrice = totalPrice // Todo : afterDiscountPrice
-    if(totalPrice < 500){
-     card.shippingFee = 100  
+    cart.totalSaving = totalSaving
+
+    if(afterDiscountPrice < 500){
+     cart.shippingFee = 99 
+
     }else{
       cart.shippingFee = 0 
     }
-    // cart.amountToBePaid = afterDiscountPrice + cart.shippingFee 
+    cart.amountToBePaid = afterDiscountPrice + cart.shippingFee 
      res.status(200).send(cart);
    }else{
      res.status(200).json({message:"Your Cart is Empty Add Some Product"});      

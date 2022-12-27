@@ -5,6 +5,7 @@ const ApiFeatures = require("../utils/apiFeatures");
 const Test = require("../Models/testModel");
 const Package = require("../Models/packageTestModel");
 const LabCategory = require("../Models/labCategory");
+const Sample = require("../Models/sampleModel")
 
 // Create Test --admin
 exports.createTest = catchAsyncErrors(async (req, res, next) => {
@@ -524,3 +525,70 @@ exports.deleteLabCategory = catchAsyncErrors(async (req, res, next) => {
     .status(200)
     .json({ success: true, message: "Product deleted Successfully" });
 });
+
+
+
+
+
+
+
+// All Sample   --admin
+exports.getAdminSample = catchAsyncErrors(async (req, res, next) => {
+  const samples = await Sample.find();
+
+  res.status(200).json({
+    success: true,
+    samples,
+  });
+});
+
+// Add Sample ---admin
+exports.addSample = catchAsyncErrors(async (req, res, next) => {
+  const sample = await Sample.create(req.body);
+  res.status(201).json({
+    success: true,
+    sample,
+  });
+});
+
+// Get LabCategory details
+exports.getSampleDetails = catchAsyncErrors(async (req, res, next) => {
+  const sample = await Sample.findById(req.params.id);
+  if (!sample) {
+    return next(new ErrorHandler("Sample not found", 404));
+  }
+  res.status(200).json({ success: true, sample });
+});
+
+//Update Sample --Admin
+exports.updateSample = catchAsyncErrors(async (req, res, next) => {
+  let sample = Sample.findById(req.params.id);
+  if (!sample) {
+    return next(new ErrorHandler("Sample not found", 404));
+  }
+  sample = await Sample.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+  res.status(200).json({ success: true, sample });
+});
+
+// Delete sample --Admin
+exports.deleteSample = catchAsyncErrors(async (req, res, next) => {
+  const sample = await Sample.findById(req.params.id);
+  if (!sample) {
+    return next(new ErrorHandler("Sample not found", 404));
+  }
+  await sample.remove();
+  res
+    .status(200)
+    .json({ success: true, message: "Sample deleted Successfully" });
+});
+
+
+
+
+
+
+

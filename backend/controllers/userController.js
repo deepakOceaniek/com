@@ -408,15 +408,16 @@ exports.getAllAddress = catchAsyncErrors(async (req, res, next) => {
 
 // Add user Address
 exports.addUserAddress = catchAsyncErrors(async (req, res, next) => {
-  const { address, city, area, state, pinCode, contact } = req.body;
+  const { name ,address, city, area, state, pinCode, contact } = req.body;
   console.log(req.body);
-  if (!address || !city || !area || !state || !pinCode || !contact) {
+  if (!name || !address || !city || !area || !state || !pinCode || !contact) {
     res.status(400).json({ message: "please fill the Address details" });
   }
   const userDetails = await User.findOne({ _id: req.user.id });
   console.log(userDetails);
   if (userDetails) {
     const userAddress = await userDetails.addMessage(
+      name,
       address,
       city,
       area,
