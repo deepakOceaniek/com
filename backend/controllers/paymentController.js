@@ -1,9 +1,11 @@
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const Razorpay = require("razorpay");
+
 const crypto = require("crypto");
 const Payment = require("../Models/paymentModel");
-const {validateWebhookSignature} = require('razorpay/dist/utils/razorpay-utils')
-
+const {
+  validateWebhookSignature,
+} = require("razorpay/dist/utils/razorpay-utils");
 
 const instance = new Razorpay({
   key_id: process.env.RAZORPAY_API_KEY,
@@ -25,49 +27,24 @@ exports.checkout = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-//  webhookCapture
-// exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
-//   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-//     req.body;
-//   console.log(`webHook Console ${razorpay_signature}`);
-//   console.log(`webHook Console ${razorpay_payment_id}`);
-//   console.log(`webHook Console ${razorpay_order_id}`);
-//   // console.log(`webHook Console ${webhookSecret}`);
-//   // console.log(`webHook Console ${webhookSignature}`);
-
-
-// validateWebhookSignature(JSON.stringify(req.body), razorpay_signature, "abcdefghijklmnopqrstuvwxyz")
-
-
-// key                = "abcdefghijklmnopqrstuvwxyz"
-// message            = req.body // raw webhook request body
-// received_signature = razorpay_signature
-
-// expected_signature = hmac('sha256', message, key)
-
-// if (expected_signature != received_signature){
-// console.log("invalid")
-// } else{
-//   console.log("valid")
-// }
-// });
-
 exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
+  // console.log(req.body);
+  // console.log(req.headers);
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
   const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
     .update(body.toString())
     .digest("hex");
-//  const expectedSignature = hmac('sha256', req.body,  process.env.RAZORPAY_WEBHOOK_SECRET)
 
   const isAuthentic = expectedSignature === razorpay_signature;
 
-  console.log(`${expectedSignature}-----------------${razorpay_signature}`)
+  console.log(`${expectedSignature}-----------------${razorpay_signature}`);
 
   if (isAuthentic) {
+    // TODO : check payment is success dataBase
     await Payment.create({
       razorpay_order_id,
       razorpay_payment_id,
@@ -83,5 +60,42 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
     res.status(400).json({
       success: false,
     });
+  }
+});
+
+exports.webhookCapture = catchAsyncErrors(async (req, res, next) => {
+  if (req.body.event == "payment.captured") {
+    const { id, order_id } = req.body.payload.payment.entity;
+    const razorpay_order_id = order_id;
+    const razorpay_payment_id = id;
+    const razorpay_signature = req.headers["x-razorpay-signature"];
+
+    // console.log(razorpay_order_id);
+    // console.log(razorpay_payment_id);
+    console.log(req.body);
+    console.log(req.body.payload);
+
+    const isAuthentic = validateWebhookSignature(
+      JSON.stringify(req.body),
+      razorpay_signature,
+      process.env.RAZORPAY_WEBHOOK_SECRET
+    );
+    console.log(isAuthentic);
+
+    if (isAuthentic) {
+      // TODO : check payment is success dataBase
+      await Payment.create({
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+      });
+      res.status(200).json({
+        success: "ok",
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+      });
+    }
   }
 });
