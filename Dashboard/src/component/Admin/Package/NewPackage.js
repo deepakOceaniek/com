@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
-import "../Product/newProduct.css";
+import "./newPackage.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -10,13 +10,7 @@ import {
   getAdminSample,
 } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import Loader from "../../layout/Loader/Loader";
 import { NEW_PACKAGE_RESET } from "../../../constants/testConstants";
@@ -114,87 +108,77 @@ const NewPackage = () => {
           {loading ? (
             <Loader />
           ) : (
+        <div className="lab_package">
+
             <form
-              className="createProductForm"
+              className="add_package_row"
               encType="multipart/form-data"
               onSubmit={createProductSubmitHandler}
             >
-              <h1>Create Package</h1>
+            <div className="content_add_package">
 
-              <div>
-                <SpellcheckIcon />
+            <div className="package_row">
+                <h1>Add Package</h1>
+              </div>
+            <div className="package_row">
+                <div className="inside-input" >
                 <input
                   type="text"
                   placeholder="Package Name"
+                  className="package_add"s
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-              </div>
 
-              <div>
-                <DescriptionIcon />
 
-                <textarea
+                <input
                   placeholder="Package Description"
                   value={description}
+                  className="package_add"
                   onChange={(e) => setDescription(e.target.value)}
-                  cols="30"
-                  rows="1"
-                ></textarea>
-              </div>
-              <div>
-                <AttachMoneyIcon />
+                 
+                ></input>
                 <input
                   type="number"
                   placeholder="Price"
+                  className="package_add"
                   required
                   onChange={(e) => setPrice(e.target.value)}
                 />
-              </div>
-
-              <div>
-                <AttachMoneyIcon />
                 <input
                   type="text"
                   placeholder="Verify"
+                  className="package_add"
                   required
                   onChange={(e) => setVerify(e.target.value)}
                 />
-              </div>
-              <div>
-                <AttachMoneyIcon />
                 <input
                   type="text"
                   placeholder="tests"
+                  className="package_add"
                   required
                   onChange={(e) => setTests(e.target.value)}
                 />
-              </div>
-
-              <div>
-                <AttachMoneyIcon />
                 <input
                   type="Number"
                   placeholder="numOfTest"
+                  className="package_add"
                   required
                   onChange={(e) => setNumOfTest(e.target.value)}
                 />
-              </div>
+</div>
+<div className="inside-input" >
 
-              <div>
-                <AttachMoneyIcon />
                 <input
                   type="text"
                   placeholder="testTiming"
+                  className="package_add"
                   required
                   onChange={(e) => setTestTiming(e.target.value)}
                 />
-              </div>
-
-              <div>
-                <AccountTreeIcon />
-                <select onChange={(e) => setCategory(e.target.value)}>
+                <div   >
+                <select  className="package_add" onChange={(e) => setCategory(e.target.value)}>
                   <option value="">Choose Lab Category</option>
                   {labCategories &&
                     labCategories.map((cate) => (
@@ -203,11 +187,9 @@ const NewPackage = () => {
                       </option>
                     ))}
                 </select>
-              </div>
-
-              <div>
-                <AccountTreeIcon />
-                <select onChange={(e) => setSample(e.target.value)}>
+                </div>
+                <div  >
+                <select  className="package_add" onChange={(e) => setSample(e.target.value)}>
                   <option value="">Choose Sample</option>
                   {samples &&
                     samples.map((sam) => (
@@ -216,42 +198,46 @@ const NewPackage = () => {
                       </option>
                     ))}
                 </select>
-              </div>
+                </div>
 
-              <div>
-                <StorageIcon />
                 <input
                   type="text"
                   placeholder="report"
+                  className="package_add"
                   required
                   onChange={(e) => setReport(e.target.value)}
                 />
-              </div>
 
-              <div id="createProductFormFile">
                 <input
                   type="file"
                   name="avatar"
+                  className="package_add"
                   accept="image/*"
                   onChange={createProductImagesChange}
                   multiple
                 />
-              </div>
-
-              <div id="createProductFormImage">
+                 <div id="createPackageFormImage">
                 {imagesPreview.map((image, index) => (
                   <img key={index} src={image} alt="Product Preview" />
                 ))}
               </div>
+</div>
 
-              <Button
+             
+              </div>
+              <div className="package_row">
+
+              <button
                 id="createProductBtn"
                 type="submit"
                 disabled={loading ? true : false}
               >
-                Create
-              </Button>
+               Add Package
+              </button>
+              </div>
+              </div>
             </form>
+            </div>
           )}
         </div>
       </div>

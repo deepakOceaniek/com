@@ -1,4 +1,3 @@
-
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -7,7 +6,6 @@ import {
   getBannerDetails,
 } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
 import SideBar from "../Sidebar";
 import { UPDATE_BANNER_RESET } from "../../../constants/productConstants";
@@ -20,27 +18,23 @@ const UpdateBanner = () => {
   const Navigate = useNavigate();
 
   const { error, banner } = useSelector((state) => state.bannerDetails);
-console.log(banner)
+  console.log(banner);
   const {
     loading,
     error: updateError,
     isUpdated,
   } = useSelector((state) => state.product);
 
-
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
-
-
 
   const bannerId = id;
 
   useEffect(() => {
     if (banner && banner._id !== bannerId) {
       dispatch(getBannerDetails(bannerId));
-    } 
-    else {
+    } else {
       setOldImages(banner.images);
     }
     if (error) {
@@ -111,39 +105,50 @@ console.log(banner)
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Update Banner</h1>
+            <div className="content_banner_Category">
+              <div className="banner_row">
+                <h1>Create Banner</h1>
+              </div>
 
-        
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={updateProductImagesChange}
-                multiple
-              />
-            </div>
+              <div className="banner_row">
+                <div className="input_banner_upload">
+                  <input
+                    type="file"
+                    name="avatar"
+                    accept="image/*"
+                    onChange={updateProductImagesChange}
+                    multiple
+                  />
+                </div>
+              </div>
 
-            <div id="createProductFormImage">
-              {oldImages &&
-                oldImages.map((image, index) => (
-                  <img key={index} src={image.url} alt="Old Product Preview" />
+              <div id="createBannerFormImage">
+                {oldImages &&
+                  oldImages.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image.url}
+                      alt="Old Product Preview"
+                    />
+                  ))}
+              </div>
+
+              <div id="createBannerFormImage">
+                {imagesPreview.map((image, index) => (
+                  <img key={index} src={image} alt="Product Preview" />
                 ))}
-            </div>
+              </div>
 
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
+              <div className="button_banner">
+                <button
+                  id="createBannerBtn"
+                  type="submit"
+                  disabled={loading ? true : false}
+                >
+                  Add Banner
+                </button>
+              </div>
             </div>
-
-            <Button
-              id="createProductBtn"
-              type="submit"
-              disabled={loading ? true : false}
-            >
-              Update
-            </Button>
           </form>
         </div>
       </div>

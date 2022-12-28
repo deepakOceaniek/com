@@ -14,6 +14,7 @@ const Home = () => {
         const { data: { order } } = await axios.post("/api/v1/checkout", {
             amount
         })
+        console.log(order)
 
         const options = {
             key,
@@ -21,7 +22,7 @@ const Home = () => {
             currency: "INR",
             name: "Madipros",
             description: "RazorPay",
-            image: "https://avatars.githubusercontent.com/u/25058652?",
+            // image: "https://avatars.githubusercontent.com/u/25058652?",
             order_id: order.id,
             callback_url: "/api/v1/paymentverification",
             prefill: {
@@ -29,14 +30,13 @@ const Home = () => {
                 email: "Deepak@oceaniek.com",
                 contact: "7986614157"
             },
-            notes: {
+            notes:[ {
                 "address": "Razorpay Corporate Office"
-            },
+            }],
             theme: {
                 "color": "#121212"
             }
         };
-        console.log(window.Razorpay);
         const razor = new window.Razorpay(options);
          razor.open();
     }

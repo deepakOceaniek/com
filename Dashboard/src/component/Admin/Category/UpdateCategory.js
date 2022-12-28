@@ -33,7 +33,7 @@ const UpdateCategory = () => {
 
   const [categoryName, setCategoryName] = useState("");
   const [categoryImage, setCategoryImage] = useState();
-  const [categoryPreview, setCategoryPreview] = useState("/Profile.png");
+  const [categoryPreview, setCategoryPreview] = useState("");
 
   // const categories = [
   //   "laptop",

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import "../Product/newProduct.css";
+import "./newCategory.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, createCategory } from "../../../actions/productAction";
@@ -23,8 +23,8 @@ const NewCategory = () => {
   const { loading, error, success } = useSelector((state) => state.newCategory);
 
   const [categoryName, setCategoryName] = useState("");
-  const [categoryImage, setCategoryImage] = useState();
-  const [categoryPreview, setCategoryPreview] = useState("/Profile.png");
+  const [categoryImage, setCategoryImage] = useState("");
+  const [categoryPreview, setCategoryPreview] = useState([]);
 
   // const categories = [
   //   "laptop",
@@ -64,10 +64,12 @@ const NewCategory = () => {
   const createProductImagesChange = (e) => {
     const reader = new FileReader();
 
+ 
+
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setCategoryPreview(reader.result);
-        setCategoryImage(reader.result);
+        setCategoryPreview((old) => [...old, reader.result]);
+        setCategoryImage((old) => [...old, reader.result]);
       }
     };
 
@@ -80,12 +82,51 @@ const NewCategory = () => {
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
+        <div className="create_Category">
           <form
-            className="createProductForm"
+            className="add_Category_row"
             encType="multipart/form-data"
             onSubmit={createProductSubmitHandler}
           >
-            <h1>Create Category</h1>
+            <div className="content_create_Category">
+
+            <div className="Category_row">
+                <h1>Create Category</h1>
+              </div>
+              <div className="Category_row">
+                <div className="input_Category">
+                  <input
+                    type="text"
+                placeholder="Category Name"
+                required
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+                  />
+                </div>
+                <div className="input_Category_upload">
+                  <input
+                    accept="image/png image/jpeg"
+                    className="Category_add"
+                    type="file"
+                    name="categoryImage"
+                    onChange={createProductImagesChange}
+                    placeholder=" Product Image Upload"
+                  />
+                  <div className="categoryDiv">
+                  {categoryPreview.map((image, index) => (
+                  <img key={index} src={image} alt="Product Preview" />
+                ))}
+
+            </div>
+                </div>
+              </div>
+              <div className="button_Category">
+                <button id="createProductBtn"
+              type="submit"
+              disabled={loading ? true : false}  >Add Category</button>
+              </div>
+
+            {/* <h1>Create Category</h1>
 
             <div>
               <SpellcheckIcon />
@@ -117,8 +158,10 @@ const NewCategory = () => {
               disabled={loading ? true : false}
             >
               Create
-            </Button>
+            </Button> */}
+            </div>
           </form>
+          </div>
         </div>
       </div>
     </Fragment>
