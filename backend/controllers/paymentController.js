@@ -102,17 +102,70 @@ exports.webhookCapture = catchAsyncErrors(async (req, res, next) => {
 
 exports.genrateInvoice = catchAsyncErrors(async (req, res, next) => {
   const options = {
-  type: "invoice",
-  date: 1589994898,
-  customer_id: "cust_E7q0trFqXgExmT",
-  line_items: [
-    {
-      "item_id": "item_DRt61i2NnL8oy6"
-    }
-  ]
-}
+    type: "invoice",
+    description: "Domestic invoice for Gaurav Kumar.",
+    partial_payment: true,
+    customer: {
+      name: "Deepak Singh",
+      contact: "9876543210",
+      email: "deepak@oceaniek.com",
+      billing_address: {
+        line1: "Ground FLoor, Millennium Tower, 1st Avenue",
+        line2: "1st Avenue",
+        zipcode: "560001",
+        city: "Bangalore",
+        state: "Karnataka",
+        country: "India",
+      },
+      shipping_address: {
+        line1: "3rd FLoor, Nakamura Tower, Bomaye Boulevard",
+        line2: "Baker Street",
+        zipcode: "560001",
+        city: "Bangalore",
+        state: "Karnataka",
+        country: "in",
+      },
+    },
+    line_items: [
+      {
+        name: "Crate of sea weed",
+        description: "Crate of sea weed.",
+        amount: 20000,
+        currency: "INR",
+        quantity: 1,
+      },
+      {
+        item_id: "item_KxkrmU4kcFch7E",
+      },
+    ],
+    sms_notify: 1,
+    email_notify: 1,
+    draft: "1",
+    date: 1588076279,
+    expire_by: 1924991999,
+    receipt: "Receipt No. 1",
+    comment: "Fresh sea weed mowed this morning",
+    terms: "No Returns; No Refunds",
+    notes: {
+      notes_key_1: "Tea, Earl Grey, Hot",
+      notes_key_2: "Tea, Earl Grey… decaf.",
+    },
+  };
   const invoice = await instance.invoices.create(options);
   console.log(invoice);
+
+  res.status(200).json({
+    success: true,
+    invoice,
+  });
+});
+
+exports.getInvoice = catchAsyncErrors(async (req, res, next) => {
+  // const invoiceId = req.params.id;
+  const type = req.queery.type;
+
+  // const invoice = instance.invoices.fetch(invoiceId);
+  const invoice = instance.invoices.all();
 
   res.status(200).json({
     success: true,

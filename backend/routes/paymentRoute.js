@@ -16,6 +16,8 @@ const {
   checkout,
   paymentVerification,
   webhookCapture,
+  genrateInvoice,
+  getInvoice,
 } = require("../controllers/paymentController.js");
 
 const router = express.Router();
@@ -24,5 +26,7 @@ router.route("/checkout").post(checkout);
 
 router.route("/paymentverification").post(paymentVerification);
 router.route("/webhook").post(webhookCapture);
+router.route("/invoice").post(genrateInvoice);
+router.route("/getinvoice").get(getInvoice);
 
 module.exports = router;
