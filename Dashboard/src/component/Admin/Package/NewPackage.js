@@ -36,8 +36,6 @@ const NewPackage = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-
-
   const { labCategories } = useSelector((state) => state.labCategories);
   const { samples } = useSelector((state) => state.samples);
 
@@ -56,7 +54,6 @@ const NewPackage = () => {
     }
   }, [dispatch, alert, error, Navigate, success]);
 
- 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -108,135 +105,131 @@ const NewPackage = () => {
           {loading ? (
             <Loader />
           ) : (
-        <div className="lab_package">
-
-            <form
-              className="add_package_row"
-              encType="multipart/form-data"
-              onSubmit={createProductSubmitHandler}
-            >
-            <div className="content_add_package">
-
-            <div className="package_row">
-                <h1>Add Package</h1>
-              </div>
-            <div className="package_row">
-                <div className="inside-input" >
-                <input
-                  type="text"
-                  placeholder="Package Name"
-                  className="package_add"s
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-
-
-                <input
-                  placeholder="Package Description"
-                  value={description}
-                  className="package_add"
-                  onChange={(e) => setDescription(e.target.value)}
-                 
-                ></input>
-                <input
-                  type="number"
-                  placeholder="Price"
-                  className="package_add"
-                  required
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Verify"
-                  className="package_add"
-                  required
-                  onChange={(e) => setVerify(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="tests"
-                  className="package_add"
-                  required
-                  onChange={(e) => setTests(e.target.value)}
-                />
-                <input
-                  type="Number"
-                  placeholder="numOfTest"
-                  className="package_add"
-                  required
-                  onChange={(e) => setNumOfTest(e.target.value)}
-                />
-</div>
-<div className="inside-input" >
-
-                <input
-                  type="text"
-                  placeholder="testTiming"
-                  className="package_add"
-                  required
-                  onChange={(e) => setTestTiming(e.target.value)}
-                />
-                <div   >
-                <select  className="package_add" onChange={(e) => setCategory(e.target.value)}>
-                  <option value="">Choose Lab Category</option>
-                  {labCategories &&
-                    labCategories.map((cate) => (
-                      <option key={cate.categoryName} value={cate._id}>
-                        {cate.categoryName}
-                      </option>
-                    ))}
-                </select>
-                </div>
-                <div  >
-                <select  className="package_add" onChange={(e) => setSample(e.target.value)}>
-                  <option value="">Choose Sample</option>
-                  {samples &&
-                    samples.map((sam) => (
-                      <option key={sam.name} value={sam._id}>
-                        {sam.name}
-                      </option>
-                    ))}
-                </select>
-                </div>
-
-                <input
-                  type="text"
-                  placeholder="report"
-                  className="package_add"
-                  required
-                  onChange={(e) => setReport(e.target.value)}
-                />
-
-                <input
-                  type="file"
-                  name="avatar"
-                  className="package_add"
-                  accept="image/*"
-                  onChange={createProductImagesChange}
-                  multiple
-                />
-                 <div id="createPackageFormImage">
-                {imagesPreview.map((image, index) => (
-                  <img key={index} src={image} alt="Product Preview" />
-                ))}
-              </div>
-</div>
-
-             
-              </div>
-              <div className="package_row">
-
-              <button
-                id="createProductBtn"
-                type="submit"
-                disabled={loading ? true : false}
+            <div className="lab_package">
+              <form
+                className="add_package_row"
+                encType="multipart/form-data"
+                onSubmit={createProductSubmitHandler}
               >
-               Add Package
-              </button>
-              </div>
-              </div>
-            </form>
+                <div className="content_add_package">
+                  <div className="package_row">
+                    <h1>Add Package</h1>
+                  </div>
+                  <div className="package_row">
+                    <div className="inside-input">
+                      <input
+                        type="text"
+                        placeholder="Package Name"
+                        className="package_add"
+                        required
+                        onChange={(e) => setName(e.target.value)}
+                      />
+
+                      <input
+                        placeholder="Package Description"
+                        className="package_add"
+                        onChange={(e) => setDescription(e.target.value)}
+                      ></input>
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        className="package_add"
+                        required
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Verify"
+                        className="package_add"
+                        required
+                        onChange={(e) => setVerify(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="tests"
+                        className="package_add"
+                        required
+                        onChange={(e) => setTests(e.target.value)}
+                      />
+                      <input
+                        type="Number"
+                        placeholder="numOfTest"
+                        className="package_add"
+                        required
+                        onChange={(e) => setNumOfTest(e.target.value)}
+                      />
+                    </div>
+                    <div className="inside-input">
+                      <input
+                        type="text"
+                        placeholder="testTiming"
+                        className="package_add"
+                        required
+                        onChange={(e) => setTestTiming(e.target.value)}
+                      />
+                      <div>
+                        <select
+                          className="package_add"
+                          onChange={(e) => setCategory(e.target.value)}
+                        >
+                          <option value="">Choose Lab Category</option>
+                          {labCategories &&
+                            labCategories.map((cate) => (
+                              <option key={cate.categoryName} value={cate._id}>
+                                {cate.categoryName}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                      <div>
+                        <select
+                          className="package_add"
+                          onChange={(e) => setSample(e.target.value)}
+                        >
+                          <option value="">Choose Sample</option>
+                          {samples &&
+                            samples.map((sam) => (
+                              <option key={sam.name} value={sam._id}>
+                                {sam.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <input
+                        type="text"
+                        placeholder="report"
+                        className="package_add"
+                        required
+                        onChange={(e) => setReport(e.target.value)}
+                      />
+
+                      <input
+                        type="file"
+                        name="avatar"
+                        className="package_add_image"
+                        accept="image/*"
+                        onChange={createProductImagesChange}
+                        multiple
+                      />
+                      <div id="createPackageFormImage">
+                        {imagesPreview.map((image, index) => (
+                          <img key={index} src={image} alt="Product Preview" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="package_row">
+                    <button
+                      id="createProductBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                      Add Package
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           )}
         </div>

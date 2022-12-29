@@ -42,14 +42,9 @@ const UpdateProduct = () => {
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Ayurveda",
-    "Vitamins & supplements",
-    "Healthcare devices",
-    "Pain Relief",
-    "Diabetes Care",
-    "Skin Care",
-  ];
+  const { categories } = useSelector((state) => state.categories);
+
+ 
 
   const productId = id;
 

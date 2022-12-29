@@ -3,10 +3,9 @@ import "./newBanner.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, createBanner } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
 import SideBar from "../Sidebar";
-import {NEW_BANNER_RESET } from "../../../constants/productConstants";
+import { NEW_BANNER_RESET } from "../../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../layout/Loader/Loader";
 
@@ -35,7 +34,6 @@ const NewBanner = () => {
 
   const createBannerSubmitHandler = (e) => {
     e.preventDefault();
-
 
     const myForm = new FormData();
 
@@ -72,50 +70,50 @@ const NewBanner = () => {
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-          {loading? <Loader /> : (
-      <div className="create_banner">
-            
-            <form
-            className="add_banner_row"
-            encType="multipart/form-data"
-            onSubmit={createBannerSubmitHandler}
-          >
-          <div className="content_banner_Category">
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="create_banner">
+              <form
+                className="add_banner_row"
+                encType="multipart/form-data"
+                onSubmit={createBannerSubmitHandler}
+              >
+                <div className="content_banner_Category">
+                  <div className="banner_row">
+                    <h1>Create Banner</h1>
+                  </div>
 
-             <div className="banner_row">
-            <h1>Create Banner</h1>
+                  <div className="banner_row">
+                    <div className="input_banner_upload">
+                      <input
+                        type="file"
+                        name="avatar"
+                        accept="image/*"
+                        onChange={createProductImagesChange}
+                        multiple
+                      />
+                    </div>
+                  </div>
+                  <div id="createBannerFormImage">
+                    {imagesPreview.map((image, index) => (
+                      <img key={index} src={image} alt="Product Preview" />
+                    ))}
+                  </div>
+
+                  <div className="button_banner">
+                    <button
+                      id="createBannerBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                      Add Banner
+                    </button>
+                  </div>
                 </div>
-
-                <div className="banner_row">
-                  <div className="input_banner_upload">
-
-                <input
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={createProductImagesChange}
-                  multiple
-                />
-              </div>
-              </div>
-              <div id="createBannerFormImage">
-                {imagesPreview.map((image, index) => (
-                  <img key={index} src={image} alt="Product Preview" />
-                ))}
-              </div>
-
-
-              <div className="button_banner">
-              <button  id="createBannerBtn"
-              type="submit"
-              disabled={loading ? true : false} >Add Banner</button>
+              </form>
             </div>
-            </div>
-           
-          </form>
-        </div>
           )}
-         
         </div>
       </div>
     </Fragment>

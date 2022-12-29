@@ -10,6 +10,8 @@ import MetaData from "../../layout/MetaData";
 import SideBar from "../Sidebar";
 import { UPDATE_BANNER_RESET } from "../../../constants/productConstants";
 import { useParams, useNavigate } from "react-router-dom";
+import Loader from "../../layout/Loader/Loader";
+
 
 const UpdateBanner = () => {
   const dispatch = useDispatch();
@@ -100,14 +102,14 @@ const UpdateBanner = () => {
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-          <form
+          {loading ? <Loader /> :(<form
             className="createProductForm"
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
             <div className="content_banner_Category">
               <div className="banner_row">
-                <h1>Create Banner</h1>
+                <h1>Update Banner</h1>
               </div>
 
               <div className="banner_row">
@@ -145,11 +147,11 @@ const UpdateBanner = () => {
                   type="submit"
                   disabled={loading ? true : false}
                 >
-                  Add Banner
+                  Update Banner
                 </button>
               </div>
             </div>
-          </form>
+          </form>)}
         </div>
       </div>
     </Fragment>

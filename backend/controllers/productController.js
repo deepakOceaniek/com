@@ -515,7 +515,7 @@ exports.getBannerDetails = catchAsyncErrors(async (req, res, next) => {
 
 //Update Banner --Admin
 exports.updateBanner = catchAsyncErrors(async (req, res, next) => {
-  let banner = Banner.findById(req.params.id);
+  let banner = await Banner.findById( req.params.id);
   if (!banner) {
     return next(new ErrorHandler("Banner not found", 404));
   }

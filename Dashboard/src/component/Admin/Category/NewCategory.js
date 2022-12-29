@@ -1,19 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./newCategory.css";
-
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, createCategory } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import { NEW_CATEGORY_RESET } from "../../../constants/productConstants";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../layout/Loader/Loader";
 
 const NewCategory = () => {
   const dispatch = useDispatch();
@@ -25,17 +19,6 @@ const NewCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const [categoryImage, setCategoryImage] = useState("");
   const [categoryPreview, setCategoryPreview] = useState([]);
-
-  // const categories = [
-  //   "laptop",
-  //   "footware",
-  //   "bottom",
-  //   "tops",
-  //   "attire",
-  //   "camera",
-  //   "smartPhone",
-  //   "fruit",
-  // ];
 
   useEffect(() => {
     if (error) {
@@ -64,8 +47,6 @@ const NewCategory = () => {
   const createProductImagesChange = (e) => {
     const reader = new FileReader();
 
- 
-
     reader.onload = () => {
       if (reader.readyState === 2) {
         setCategoryPreview((old) => [...old, reader.result]);
@@ -82,51 +63,55 @@ const NewCategory = () => {
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-        <div className="create_Category">
-          <form
-            className="add_Category_row"
-            encType="multipart/form-data"
-            onSubmit={createProductSubmitHandler}
-          >
-            <div className="content_create_Category">
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="create_Category">
+              <form
+                className="add_Category_row"
+                encType="multipart/form-data"
+                onSubmit={createProductSubmitHandler}
+              >
+                <div className="content_create_Category">
+                  <div className="Category_row">
+                    <h1>Create Category</h1>
+                  </div>
+                  <div className="Category_row">
+                    <div className="input_Category">
+                      <input
+                        type="text"
+                        placeholder="Category Name"
+                        required
+                        onChange={(e) => setCategoryName(e.target.value)}
+                      />
+                    </div>
+                    <div className="input_Category_upload">
+                      <input
+                        accept="image/png image/jpeg"
+                        className="Category_add"
+                        type="file"
+                        name="categoryImage"
+                        onChange={createProductImagesChange}
+                        placeholder=" Product Image Upload"
+                      />
+                      <div className="categoryDiv">
+                        {categoryPreview.map((image, index) => (
+                          <img key={index} src={image} alt="Product Preview" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="button_Category">
+                    <button
+                      id="createProductBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                      Add Category
+                    </button>
+                  </div>
 
-            <div className="Category_row">
-                <h1>Create Category</h1>
-              </div>
-              <div className="Category_row">
-                <div className="input_Category">
-                  <input
-                    type="text"
-                placeholder="Category Name"
-                required
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                  />
-                </div>
-                <div className="input_Category_upload">
-                  <input
-                    accept="image/png image/jpeg"
-                    className="Category_add"
-                    type="file"
-                    name="categoryImage"
-                    onChange={createProductImagesChange}
-                    placeholder=" Product Image Upload"
-                  />
-                  <div className="categoryDiv">
-                  {categoryPreview.map((image, index) => (
-                  <img key={index} src={image} alt="Product Preview" />
-                ))}
-
-            </div>
-                </div>
-              </div>
-              <div className="button_Category">
-                <button id="createProductBtn"
-              type="submit"
-              disabled={loading ? true : false}  >Add Category</button>
-              </div>
-
-            {/* <h1>Create Category</h1>
+                  {/* <h1>Create Category</h1>
 
             <div>
               <SpellcheckIcon />
@@ -159,9 +144,10 @@ const NewCategory = () => {
             >
               Create
             </Button> */}
+                </div>
+              </form>
             </div>
-          </form>
-          </div>
+          )}
         </div>
       </div>
     </Fragment>

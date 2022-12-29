@@ -6,16 +6,11 @@ import {
   getLabCategoryDetails,
 } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import { UPDATE_LABCATEGORY_RESET } from "../../../constants/testConstants";
 import { useParams, useNavigate } from "react-router-dom";
+import Loader from "../../layout/Loader/Loader";
 
 const UpdateLabCategory = () => {
   const dispatch = useDispatch();
@@ -23,8 +18,10 @@ const UpdateLabCategory = () => {
   const { id } = useParams();
   const Navigate = useNavigate();
 
-  const { error, labCategory } = useSelector((state) => state.labCategoryDetails);
-console.log(labCategory)
+  const { error, labCategory } = useSelector(
+    (state) => state.labCategoryDetails
+  );
+  console.log(labCategory);
   const {
     loading,
     error: updateError,
@@ -37,23 +34,13 @@ console.log(labCategory)
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Ayurveda",
-    "Vitamins & supplements",
-    "Healthcare devices",
-    "Pain Relief",
-    "Diabetes Care",
-    "Skin Care"
-  ];
-
   const labCategoryId = id;
 
   useEffect(() => {
     if (labCategory && labCategory._id !== labCategoryId) {
       dispatch(getLabCategoryDetails(labCategoryId));
-    } 
-    else {
-        setCategoryName(labCategory.categoryName);
+    } else {
+      setCategoryName(labCategory.categoryName);
       setOldImages(labCategory.images);
     }
     if (error) {
@@ -120,7 +107,73 @@ console.log(labCategory)
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-          <form
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="create_Category">
+              <form
+                className="add_Category_row"
+                encType="multipart/form-data"
+                onSubmit={updateProductSubmitHandler}
+              >
+                <div className="content_create_Category">
+                  <div className="Category_row">
+                    <h1>Update Lab Category</h1>
+                  </div>
+                  <div className="Category_row">
+                    <div className="input_Category">
+                      <input
+                        type="text"
+                        placeholder="Category Name"
+                        required
+                        className="category_input"
+                        value={categoryName}
+                        onChange={(e) => setCategoryName(e.target.value)}
+                      />
+                    </div>
+                    <div className="input_Category_upload">
+                      <input
+                        accept="image/png image/jpeg"
+                        className="Category_add_image"
+                        type="file"
+                        name="categoryImage"
+                        onChange={updateProductImagesChange}
+                        placeholder=" Product Image Upload"
+                      />
+                      <div id="createProductFormImage">
+                        {oldImages &&
+                          oldImages.map((image, index) => (
+                            <img
+                              key={index}
+                              src={image.url}
+                              alt="Old Product Preview"
+                            />
+                          ))}
+                           {imagesPreview.map((image, index) => (
+                          <img key={index} src={image} alt="Product Preview" />
+                        ))}
+                      </div>
+
+                      {/* <div id="createProductFormImage">
+                       
+                      </div> */}
+                    </div>
+                  </div>
+                  <div className="button_Category">
+                    <button
+                      id="createProductBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                      Update Lab Category
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* <form
             className="createProductForm"
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
@@ -167,7 +220,7 @@ console.log(labCategory)
             >
               Update
             </Button>
-          </form>
+          </form> */}
         </div>
       </div>
     </Fragment>

@@ -1,13 +1,10 @@
 /* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
-import "../Product/newProduct.css";
+import "../Category/newCategory.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, createSample } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import Loader from "../../layout/Loader/Loader";
 import { NEW_SAMPLE_RESET } from "../../../constants/testConstants";
@@ -36,14 +33,12 @@ const NewProduct = () => {
     }
   }, [dispatch, alert, error, Navigate, success]);
 
-
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
     const myForm = new FormData();
     myForm.set("name", name);
     myForm.set("sampleCode", sampleCode);
     dispatch(createSample(myForm));
-
   };
 
   return (
@@ -52,44 +47,51 @@ const NewProduct = () => {
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-         {loading ? <Loader /> :  <form
-            className="createProductForm"
-            encType="multipart/form-data"
-            onSubmit={createProductSubmitHandler}
-          >
-            <h1>Add New Sample</h1>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="create_Category">
+              <form
+                className="add_Category_row"
+                encType="multipart/form-data"
+                onSubmit={createProductSubmitHandler}
+              >
+                <div className="content_create_Category">
+                  <div className="Category_row">
+                    <h1>Add New Sample</h1>
+                  </div>
+                  <div className="Category_row">
+                    <input
+                      type="text"
+                      placeholder="Sample Name"
+                      className="sample_input"
+                      required
+                      onChange={(e) => setName(e.target.value)}
+                    />
 
-            <div>
-              <SpellcheckIcon />
-              <input
-                type="text"
-                placeholder="Sample Name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-          
-      
-            <div>
-              <AttachMoneyIcon />
-              <input
-                type="text"
-                placeholder="Sample Code"
-                required
-                value={sampleCode}
-                onChange={(e) => setSampleCode(e.target.value)}
-              />
-            </div>
+                    <input
+                      type="text"
+                      placeholder="Sample Code"
+                      required
+                      className="sample_input"
+                      onChange={(e) => setSampleCode(e.target.value)}
+                    />
+                  </div>
 
-            <Button
-              id="createProductBtn"
-              type="submit"
-              disabled={loading ? true : false}
-            >
-              Add Sample
-            </Button>
-          </form>}
+                  <div className="button_Category">
+                    <button
+                      id="createProductBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                    
+                      Add Sample
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </Fragment>

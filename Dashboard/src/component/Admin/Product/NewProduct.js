@@ -137,14 +137,12 @@ const NewProduct = () => {
                       className="productadd"
                       placeholder="Product Name"
                       required
-                      value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                     <input
                       type="text"
                       className="productadd"
                       placeholder="Product Description"
-                      value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       cols="30"
                       rows="1"

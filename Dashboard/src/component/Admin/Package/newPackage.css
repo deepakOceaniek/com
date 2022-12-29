@@ -101,6 +101,12 @@
   }
   
   #createPackageFormImage > img {
-    width: 12vmax;
+    width: 7vw;
+    height:10vh;
     margin: 0 3vmax;
+  }
+  .package_add_image{
+    width: 22vw;
+    height: 5vh;
+    margin: 1em 0em 1em 1em ;
   }

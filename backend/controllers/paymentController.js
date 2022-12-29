@@ -99,3 +99,23 @@ exports.webhookCapture = catchAsyncErrors(async (req, res, next) => {
     }
   }
 });
+
+exports.genrateInvoice = catchAsyncErrors(async (req, res, next) => {
+  const options = {
+  type: "invoice",
+  date: 1589994898,
+  customer_id: "cust_E7q0trFqXgExmT",
+  line_items: [
+    {
+      "item_id": "item_DRt61i2NnL8oy6"
+    }
+  ]
+}
+  const invoice = await instance.invoices.create(options);
+  console.log(invoice);
+
+  res.status(200).json({
+    success: true,
+    invoice,
+  });
+});

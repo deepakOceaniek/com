@@ -264,7 +264,7 @@ exports.getAdminPackageDetails = catchAsyncErrors(async (req, res, next) => {
 
 //Update Package --Admin
 exports.updatePackage = catchAsyncErrors(async (req, res, next) => {
-  let package = Package.findById(req.params.id);
+  let package = await Package.findById(req.params.id);
   if (!package) {
     return next(new ErrorHandler("Product not found", 404));
   }
@@ -471,7 +471,7 @@ exports.getLabCategoryDetails = catchAsyncErrors(async (req, res, next) => {
 
 //Update Lab Category --Admin
 exports.updateLabCategory = catchAsyncErrors(async (req, res, next) => {
-  let labCategory = LabCategory.findById(req.params.id);
+  let labCategory = await LabCategory.findById(req.params.id);
   if (!labCategory) {
     return next(new ErrorHandler("Product not found", 404));
   }

@@ -6,10 +6,7 @@ import {
   getSampleDetails,
 } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import DescriptionIcon from "@material-ui/icons/Description";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import SideBar from "../Sidebar";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../layout/Loader/Loader";
@@ -22,7 +19,7 @@ const UpdateSample = () => {
   const Navigate = useNavigate();
 
   const { error, sample } = useSelector((state) => state.sampleDetails);
-console.log(sample)
+  console.log(sample);
   const {
     loading,
     error: updateError,
@@ -32,8 +29,6 @@ console.log(sample)
   const [name, setName] = useState("");
   const [sampleCode, setSampleCode] = useState("");
 
-
-
   const sampleId = id;
 
   useEffect(() => {
@@ -42,7 +37,6 @@ console.log(sample)
     } else {
       setName(sample.name);
       setSampleCode(sample.sampleCode);
-   
     }
     if (error) {
       alert.error(error);
@@ -83,7 +77,54 @@ console.log(sample)
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">
-          {loading ? <Loader /> : <form
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="create_Category">
+              <form
+                className="add_Category_row"
+                encType="multipart/form-data"
+                onSubmit={updateProductSubmitHandler}
+              >
+                <div className="content_create_Category">
+                  <div className="Category_row">
+                    <h1>Update Sample</h1>
+                  </div>
+                  <div className="Category_row">
+                    <input
+                      type="text"
+                      placeholder="Sample Name"
+                      className="sample_input"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Sample Code"
+                      required
+                      className="sample_input"
+                      value={sampleCode}
+                      onChange={(e) => setSampleCode(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="button_Category">
+                    <button
+                      id="createProductBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                      Update Sample
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* {loading ? <Loader /> : <form
             className="createProductForm"
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
@@ -121,7 +162,7 @@ console.log(sample)
             >
               Update
             </Button>
-          </form>}
+          </form>} */}
         </div>
       </div>
     </Fragment>

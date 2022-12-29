@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { Fragment, useEffect, useState } from "react";
-import "../Product/newProduct.css";
+import "./newTest.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -11,13 +11,7 @@ import {
   getAdminSample,
 } from "../../../actions/testAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import Loader from "../../layout/Loader/Loader";
 import { NEW_TEST_RESET } from "../../../constants/testConstants";
@@ -40,14 +34,6 @@ const NewTest = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  // const categories = [
-  //   "Ayurveda",
-  //   "Vitamins & supplements",
-  //   "Healthcare devices",
-  //   "Pain Relief",
-  //   "Diabetes Care",
-  //   "Skin Care"
-  // ];
 
   const { labCategories } = useSelector((state) => state.labCategories);
   const { packages } = useSelector((state) => state.packages);
@@ -125,108 +111,107 @@ const NewTest = () => {
           {loading ? (
             <Loader />
           ) : (
-            <form
-              className="createProductForm"
-              encType="multipart/form-data"
-              onSubmit={createProductSubmitHandler}
-            >
-              <h1>Create Test</h1>
-
-              <div>
-                <SpellcheckIcon />
-                <input
-                  type="text"
-                  placeholder="Test Name"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <DescriptionIcon />
-
-                <textarea
-                  placeholder="Test Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  cols="30"
-                  rows="1"
-                ></textarea>
-              </div>
-              <div>
-                <AccountTreeIcon />
-                <select onChange={(e) => setSample(e.target.value)}>
-                  <option value="">Choose Sample</option>
-                  {samples &&
-                    samples.map((sam) => (
-                      <option key={sam.name} value={sam._id}>
-                        {sam.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
-              <div>
-                <AttachMoneyIcon />
-                <input
-                  type="number"
-                  placeholder="Price"
-                  required
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-          
-              <div>
-                <AccountTreeIcon />
-                <select onChange={(e) => setPackageTest(e.target.value)}>
-                  <option value="">Choose Package</option>
-                  {packages &&
-                    packages.map((pack) => (
-                      <option key={pack.name} value={pack._id}>
-                        {pack.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
-              <div>
-                <AccountTreeIcon />
-                <select onChange={(e) => setCategory(e.target.value)}>
-                  <option value="">Choose Category</option>
-                  {labCategories &&
-                    labCategories.map((cate) => (
-                      <option key={cate.categoryName} value={cate._id}>
-                        {cate.categoryName}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
-              <div id="createProductFormFile">
-                <input
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={createProductImagesChange}
-                  multiple
-                />
-              </div>
-
-              <div id="createProductFormImage">
-                {imagesPreview.map((image, index) => (
-                  <img key={index} src={image} alt="Product Preview" />
-                ))}
-              </div>
-
-              <Button
-                id="createProductBtn"
-                type="submit"
-                disabled={loading ? true : false}
+            <div className="test">
+              <form
+                className="add_test_row"
+                encType="multipart/form-data"
+                onSubmit={createProductSubmitHandler}
               >
-                Create
-              </Button>
-            </form>
+                <div className="content_add_test">
+                  <div className="test_row">
+                    <h1>Add Test</h1>
+                  </div>
+                  <div className="test_row">
+                    <div className="input-inside">
+                      <input
+                        type="text"
+                        placeholder="Test Name"
+                        required
+                        className="test_add"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                      <input
+                        placeholder="Test Description"
+                        className="test_add"
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        required
+                        className="test_add"
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                      <div   >
+                        <select className="test_add" onChange={(e) => setSample(e.target.value)}>
+                          <option value="">Choose Sample</option>
+                          {samples &&
+                            samples.map((sam) => (
+                              <option key={sam.name} value={sam._id}>
+                                {sam.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="input-inside">
+                      <div  >
+                        <select className="test_add"
+                          onChange={(e) => setPackageTest(e.target.value)}
+                        >
+                          <option value="">Choose Package</option>
+                          {packages &&
+                            packages.map((pack) => (
+                              <option key={pack.name} value={pack._id}>
+                                {pack.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div   >
+                        <select className="test_add" onChange={(e) => setCategory(e.target.value)}>
+                          <option value="">Choose Category</option>
+                          {labCategories &&
+                            labCategories.map((cate) => (
+                              <option key={cate.categoryName} value={cate._id}>
+                                {cate.categoryName}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div id="createProductFormFile">
+                        <input
+                          type="file"
+                          name="avatar"
+                          className="test_add_image"
+                          accept="image/*"
+                          onChange={createProductImagesChange}
+                          multiple
+                        />
+                          <div id="createTestFormImage">
+                    {imagesPreview.map((image, index) => (
+                      <img key={index} src={image} alt="Product Preview" />
+                    ))}
+                  </div>
+                      </div>
+                    </div>
+                  </div>
+                
+
+                  <div className="button_test_row">
+                    <button
+                      id="createProductBtn"
+                      type="submit"
+                      disabled={loading ? true : false}
+                    >
+                      Add Test
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           )}
         </div>
       </div>

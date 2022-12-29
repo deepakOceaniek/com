@@ -8,11 +8,7 @@ import {
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../layout/MetaData";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import SideBar from "../Sidebar";
 import { UPDATE_PRODUCT_RESET } from "../../../constants/productConstants";
 import { useParams, useNavigate } from "react-router-dom";
@@ -34,17 +30,6 @@ const UpdateCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const [categoryImage, setCategoryImage] = useState();
   const [categoryPreview, setCategoryPreview] = useState("");
-
-  // const categories = [
-  //   "laptop",
-  //   "footware",
-  //   "bottom",
-  //   "tops",
-  //   "attire",
-  //   "camera",
-  //   "smartPhone",
-  //   "fruit",
-  // ];
 
   const categoryId = id;
   useEffect(() => {
@@ -127,20 +112,16 @@ const UpdateCategory = () => {
                 onChange={(e) => setCategoryName(e.target.value)}
               />
             </div>
-
-       
-
-          
             <div id="updateProfileImage">
-                  <img src={categoryPreview} alt="Category Preview" />
-                  <input
-                    type="file"
-                    name="categoryImage"
-                    accept="image/*"
-                    disabled={loading ? true : false}
-                    onChange={updateProductImagesChange}
-                  />
-                </div>
+              <img src={categoryPreview} alt="Category Preview" />
+              <input
+                type="file"
+                name="categoryImage"
+                accept="image/*"
+                disabled={loading ? true : false}
+                onChange={updateProductImagesChange}
+              />
+            </div>
 
             <Button
               id="createProductBtn"
