@@ -6,8 +6,8 @@ const cookieParser = require("cookie-parser");
 const errorMiddleware = require("./middleware/error");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-const swaggerUI = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
+const expressLayouts = require('express-ejs-layouts');
+const path = require('path');
 
 
 //Config
@@ -19,6 +19,7 @@ const user = require("./routes/userRoute");
 const order = require("./routes/orderRoute");
 const payment = require("./routes/paymentRoute");
 const test =require("./routes/testRoute")
+const pdfRoutes = require("./routes/pdfRoutes")
 
 
 
@@ -28,6 +29,14 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 app.use(fileUpload());
 
+
+app.use(expressLayouts);
+app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/docs', express.static(path.join(__dirname, 'docs')));
+
+app.use("/api/v1" ,pdfRoutes);
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
