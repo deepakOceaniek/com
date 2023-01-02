@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Header from "./component/layout/Header/Header.js";
-import Footer from "./component/layout/Footer/Footer.js";
 import WebFont from "webfontloader";
 import Loader from "./component/layout/Loader/Loader.js";
 import store from "./store";
 import { loadadmin } from "./actions/userAction";
-import UserOption from "./component/layout/Header/UserOptions.js";
 import { useSelector } from "react-redux";
 import Dashboard from "./component/Admin/Dashboard.js";
 import ProductList from "./component/Admin/Product/ProductList.js";
@@ -55,7 +52,7 @@ export const UserContext = createContext();
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+console.log(`APP.JS ${state}`)
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   const [contactData, setContactData] = useState("");
   const [registerData, setRegisterData] = useState("");

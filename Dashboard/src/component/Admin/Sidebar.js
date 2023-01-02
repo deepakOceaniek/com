@@ -3,7 +3,6 @@ import "./sidebar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TreeView, TreeItem } from "@material-ui/lab";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import PostAddIcon from "@material-ui/icons/PostAdd";
 import AddIcon from "@material-ui/icons/Add";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
 import ListAltIcon from "@material-ui/icons/ListAlt";
@@ -22,7 +21,7 @@ import { UserContext } from "../../App";
 
 const Sidebar = () => {
   const { state } = useContext(UserContext);
-
+console.log(state)
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
@@ -33,7 +32,8 @@ const Sidebar = () => {
   };
 
   const RenderMenu = () => {
-    if (state) {
+    if (state && state=== true) {
+      return (
       <>
         <Link to="/admin/dashboard">
           <p>
@@ -131,7 +131,8 @@ const Sidebar = () => {
             </TreeItem>
           </TreeView>
         </Link>
-      </>;
+      </>
+      )
     } else {
       return (
         <>

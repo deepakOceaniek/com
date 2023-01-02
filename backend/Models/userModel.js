@@ -16,8 +16,9 @@ const userSchema = mongoose.Schema({
     required: [true, "please Enter Your Contact Number"],
   },
 
-  // defaultAdress:{
-  // }
+  // defaultAddress:{
+  // type: String, required: false, default: _id
+  // },
 
   userAddresses: [
     {
@@ -83,6 +84,11 @@ const userSchema = mongoose.Schema({
 //   });
 // };
 
+// userSchema.pre('save', function (next) {
+//   this.userAddresses = this.get('_id'); // considering _id is input by client
+//   next();
+// });
+
 userSchema.methods.getJWTToken = function () {
   let newGenrateToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
@@ -113,7 +119,7 @@ userSchema.methods.addMessage = async function (
       state,
       pinCode,
       contact,
-    }); //both key and value same than we have to write once
+    }); 
     await this.save();
     return this.userAddresses;
   } catch (error) {

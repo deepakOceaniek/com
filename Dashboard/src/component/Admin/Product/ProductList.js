@@ -56,7 +56,7 @@ const ProductList = () => {
     {
       field: "id",
       headerName: "Product ID",
-      minWidth: 150,
+      Width: 150,
       flex: 0.5,
       headerAlign: "center",
       align: "center",
@@ -81,7 +81,7 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
-            {" "}
+          
             <img
               style={{ height: "100%", width: "100%" }}
               src={params.value}

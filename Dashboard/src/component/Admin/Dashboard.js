@@ -14,9 +14,9 @@ import Loader from "../layout/Loader/Loader.js";
 import { UserContext } from "../../App";
 
 const Dashboard = () => {
-  const { dispatchUserType } = useContext(UserContext);
+ const { dispatch } = useContext(UserContext);
 
-  const dispatch = useDispatch();
+  const dispatched = useDispatch();
 
   const { user, error, loading, isAuthenticated } = useSelector(
     (state) => state.user
@@ -24,8 +24,6 @@ const Dashboard = () => {
   console.log(user);
 
   const { products } = useSelector((state) => state.products);
-  console.log(products);
-  console.log(isAuthenticated);
 
   const { orders } = useSelector((state) => state.allOrders);
 
@@ -42,12 +40,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user && user.category === "Pharmacy") {
-      dispatchUserType({ type: "PHARMACY", payload: true });
+      dispatch({ type: "PHARMACY", payload: true });
     }
-    dispatch(getAdminProduct());
-    dispatch(getAllOrders());
-    dispatch(getAllUsers());
-  }, [dispatch, dispatchUserType, user]);
+    
+    dispatched(getAdminProduct());
+    dispatched(getAllOrders());
+    dispatched(getAllUsers());
+  }, [dispatched, dispatch, user]);
 
   let totalAmount = 0;
   orders &&

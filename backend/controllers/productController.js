@@ -619,17 +619,13 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-// totalPrice:
-// priceDiscount:
-// ShippingFee: 
-// Total Savings:
-// ToBePaid:
-
 // Get card Details
 exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   
   const userId = req.user.id; 
-   let cart = await Cart.findOne({ userId });
+   let cart = await Cart.findOne({ userId })
+  // TODO 
+    //  .populate("user", "defaultAddress" );
    if(cart){
      
      // const prices = cart.products.map(product=>product.price * product.quantity)

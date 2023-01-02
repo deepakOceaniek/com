@@ -374,7 +374,6 @@ exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
-
   res.status(200).json({ success: true });
 });
 
@@ -455,14 +454,6 @@ exports.getAddressDetails = catchAsyncErrors(async (req, res, next) => {
 // Update user Address
 exports.updateUserAddress = catchAsyncErrors(async (req, res, next) => {
   const { address, city, area, state, pinCode, contact } = req.body;
-  const newUserData = {
-    address,
-    city,
-    area,
-    state,
-    pinCode,
-    contact,
-  };
 
   const userdetails = await User.findById(req.user.id);
 

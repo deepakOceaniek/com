@@ -15,6 +15,7 @@ import {
   clearErrors,
 } from "../../../actions/orderAction";
 import { DELETE_ORDER_RESET } from "../../../constants/orderConstant";
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -54,8 +55,9 @@ const OrderList = () => {
     {
       field: "id",
       headerName: "Order ID",
-      minWidth: 200,
-      flex: 1,
+      // minWidth: 200,
+      width:250,
+      // flex: 0.1,
       headerAlign: "center",
       align: "center",
     },
@@ -63,8 +65,8 @@ const OrderList = () => {
     {
       field: "status",
       headerName: "Status",
-      minWidth: 100,
-      flex: 0.5,
+      width: 250,
+      // flex: 0.1,
       align: "center",
       headerAlign: "center",
       cellClassName: (params) => {
@@ -77,8 +79,9 @@ const OrderList = () => {
       field: "itemsQty",
       headerName: "Items Qty",
       type: "number",
-      minWidth: 100,
-      flex: 0.3,
+      // minWidth: 100,
+      width: 200,
+      // flex: 0.1,
       headerAlign: "center",
       align: "center",
     },
@@ -86,18 +89,21 @@ const OrderList = () => {
     {
       field: "amount",
       headerName: "Amount",
+      width: 200,
+
       type: "number",
-      minWidth: 120,
-      flex: 0.5,
+      // minWidth: 120,
+      // flex: 0.1,
       headerAlign: "center",
       align: "center",
     },
 
     {
       field: "actions",
-      flex: 0.3,
+      // flex: 0.1,
       headerName: "Actions",
-      minWidth: 150,
+      width: 250,
+
       type: "number",
       headerAlign: "center",
       align: "center",
@@ -141,10 +147,14 @@ const OrderList = () => {
 
       <div className="dashboard">
         <SideBar />
-        <div className="productListContainer">
-          <h1 id="productListHeading">ALL ORDERS</h1>
 
-          {orders && orders.length > 0 ? (
+          {
+       
+            orders && orders.length > 0 ? ( <>
+              <div className="productListContainer">
+                <div className="heading" > 
+            <h1 id="productListHeading">ALL ORDERS</h1>
+                 </div>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -152,11 +162,14 @@ const OrderList = () => {
               disableSelectionOnClick
               className="productListTable"
               autoHeight
-            />
+              
+              />
+              </div>
+            </>
           ) : (
-            <h1 className="noOrder">No Orders Found</h1>
-          )}
-        </div>
+            <NotFoundProduct />
+          )
+           }
       </div>
     </Fragment>
   );
