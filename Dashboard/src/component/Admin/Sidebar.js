@@ -21,7 +21,7 @@ import { UserContext } from "../../App";
 
 const Sidebar = () => {
   const { state } = useContext(UserContext);
-console.log(state)
+  console.log(state);
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
@@ -32,107 +32,107 @@ console.log(state)
   };
 
   const RenderMenu = () => {
-    if (state && state=== true) {
+    if (state) {
       return (
-      <>
-        <Link to="/admin/dashboard">
-          <p>
-            <DashboardIcon /> Dashboard
-          </p>
-        </Link>
-        <Link>
-          <TreeView
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ImportExportIcon />}
-          >
-            <TreeItem nodeId="1" label="Products">
-              <Link to="/admin/products">
-                <TreeItem
-                  nodeId="2"
-                  label="All"
-                  icon={<FormatListBulletedIcon />}
-                />
-              </Link>
+        <>
+          <Link to="/admin/dashboard">
+            <p>
+              <DashboardIcon /> Dashboard
+            </p>
+          </Link>
+          <Link to="/admin/products">
+            <TreeView
+              defaultCollapseIcon={<ExpandMoreIcon />}
+              defaultExpandIcon={<ImportExportIcon />}
+            >
+              <TreeItem nodeId="1" label="Products">
+                <Link as={Link} to="/admin/products">
+                  <TreeItem
+                    nodeId="2"
+                    label="All"
+                    icon={<FormatListBulletedIcon />}
+                  />
+                </Link>
 
-              <Link to="/admin/product">
-                <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
-              </Link>
-            </TreeItem>
-          </TreeView>
-        </Link>
-        <Link to="/admin/orders">
-          <p>
-            <ListAltIcon />
-            Orders
-          </p>
-        </Link>
-        <Link to="/admin/users">
-          <p>
-            <PeopleIcon /> Users
-          </p>
-        </Link>
-        <Link to="/admin/prescription">
-          <p>
-            <RateReviewIcon />
-            Prescription
-          </p>
-        </Link>
-        <Link to="/admin/reviews">
-          <p>
-            <RateReviewIcon />
-            Reviews
-          </p>
-        </Link>
-        <Link to="/admin/addPrescription">
-          <p>
-            <PeopleIcon /> Add Prescription
-          </p>
-        </Link>
+                <Link to="/admin/product">
+                  <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+                </Link>
+              </TreeItem>
+            </TreeView>
+          </Link>
+          <Link to="/admin/orders">
+            <p>
+              <ListAltIcon />
+              Orders
+            </p>
+          </Link>
+          <Link to="/admin/users">
+            <p>
+              <PeopleIcon /> Users
+            </p>
+          </Link>
+          <Link to="/admin/prescription">
+            <p>
+              <RateReviewIcon />
+              Prescription
+            </p>
+          </Link>
+          <Link to="/admin/reviews">
+            <p>
+              <RateReviewIcon />
+              Reviews
+            </p>
+          </Link>
+          <Link to="/admin/addPrescription">
+            <p>
+              <PeopleIcon /> Add Prescription
+            </p>
+          </Link>
 
-        <Link>
-          <TreeView
-            defaultCollapseIcon={<VerticalAlignTopIcon />}
-            defaultExpandIcon={<UsbIcon />}
-          >
-            <TreeItem nodeId="1" label="Banner">
-              {/* using UserView */}
-              <Link to="/admin/banner">
-                <TreeItem
-                  nodeId="2"
-                  label="All"
-                  icon={<FormatListBulletedIcon />}
-                />
-              </Link>
+          <Link>
+            <TreeView
+              defaultCollapseIcon={<VerticalAlignTopIcon />}
+              defaultExpandIcon={<UsbIcon />}
+            >
+              <TreeItem nodeId="1" label="Banner">
+                {/* using UserView */}
+                <Link to="/admin/banner">
+                  <TreeItem
+                    nodeId="2"
+                    label="All"
+                    icon={<FormatListBulletedIcon />}
+                  />
+                </Link>
 
-              <Link to="/admin/addbanner">
-                <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
-              </Link>
-            </TreeItem>
-          </TreeView>
-        </Link>
+                <Link to="/admin/addbanner">
+                  <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+                </Link>
+              </TreeItem>
+            </TreeView>
+          </Link>
 
-        <Link>
-          <TreeView
-            defaultCollapseIcon={<VerticalAlignTopIcon />}
-            defaultExpandIcon={<UsbIcon />}
-          >
-            <TreeItem nodeId="1" label="Category">
-              <Link to="/admin/categories">
-                <TreeItem
-                  nodeId="2"
-                  label="All"
-                  icon={<FormatListBulletedIcon />}
-                />
-              </Link>
+          <Link>
+            <TreeView
+              defaultCollapseIcon={<VerticalAlignTopIcon />}
+              defaultExpandIcon={<UsbIcon />}
+            >
+              <TreeItem nodeId="1" label="Category">
+                <Link to="/admin/categories">
+                  <TreeItem
+                    nodeId="2"
+                    label="All"
+                    icon={<FormatListBulletedIcon />}
+                  />
+                </Link>
 
-              <Link to="/admin/category">
-                <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
-              </Link>
-            </TreeItem>
-          </TreeView>
-        </Link>
-      </>
-      )
+                <Link to="/admin/category">
+                  <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+                </Link>
+              </TreeItem>
+            </TreeView>
+          </Link>
+        </>
+      );
     } else {
       return (
         <>
@@ -264,7 +264,7 @@ console.log(state)
           <img src="..public/Images/Dashboard.png" alt="MediPros" />
         </Link>
 
-        <RenderMenu />
+        {<RenderMenu />}
 
         <Link to="/admin/me">
           <p>

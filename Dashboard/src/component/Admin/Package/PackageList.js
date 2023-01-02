@@ -15,6 +15,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_PACKAGE_RESET } from "../../../constants/testConstants";
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
 
 const PackageList = () => {
   const dispatch = useDispatch();
@@ -161,19 +162,31 @@ const PackageList = () => {
 
       <div className="dashboard">
         <SideBar />
-        <div className="prodackagetContainer">
-          <h1 id="productListHeading">ALL PACKAGE</h1>
 
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            rowHeight={100}
-            // checkboxSelection
-          />
-        </div>
+        {packages && packages.length > 0 ? (
+          <>
+            <div className="productListContainer">
+              <div className="heading">
+                <h1 id="productListHeading">ALL PACKAGE</h1>
+              </div>
+              <div>
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                  autoHeight
+
+                  // checkboxSelection
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <NotFoundProduct />
+        )}
       </div>
     </Fragment>
   );

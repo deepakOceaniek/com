@@ -9,8 +9,13 @@ import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
-import { getAllUsers, clearErrors, deleteUser } from "../../../actions/userAction";
+import {
+  getAllUsers,
+  clearErrors,
+  deleteUser,
+} from "../../../actions/userAction";
 import { DELETE_USER_RESET } from "../../../constants/userConstants";
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -137,18 +142,28 @@ const UsersList = () => {
 
       <div className="dashboard">
         <SideBar />
-        <div className="productListContainer">
-          <h1 id="productListHeading">ALL USERS</h1>
 
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            autoHeight
-          />
-        </div>
+        {users && users.length > 0 ? (
+          <>
+            <div className="productListContainer">
+              <div className="heading">
+                <h1 id="productListHeading">ALL USERS</h1>
+              </div>
+              <div style={{ height: 350, width: "100%" }}>
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  autoHeight
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <NotFoundProduct />
+        )}
       </div>
     </Fragment>
   );

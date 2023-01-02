@@ -55,9 +55,8 @@ const OrderList = () => {
     {
       field: "id",
       headerName: "Order ID",
-      // minWidth: 200,
-      width:250,
-      // flex: 0.1,
+      minwidth: 250,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
     },
@@ -65,8 +64,8 @@ const OrderList = () => {
     {
       field: "status",
       headerName: "Status",
-      width: 250,
-      // flex: 0.1,
+      minWidth: 250,
+      flex: 0.1,
       align: "center",
       headerAlign: "center",
       cellClassName: (params) => {
@@ -79,9 +78,8 @@ const OrderList = () => {
       field: "itemsQty",
       headerName: "Items Qty",
       type: "number",
-      // minWidth: 100,
-      width: 200,
-      // flex: 0.1,
+      minWidth: 200,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
     },
@@ -89,21 +87,18 @@ const OrderList = () => {
     {
       field: "amount",
       headerName: "Amount",
-      width: 200,
-
+      minWidth: 200,
       type: "number",
-      // minWidth: 120,
-      // flex: 0.1,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
     },
 
     {
       field: "actions",
-      // flex: 0.1,
+      flex: 0.1,
       headerName: "Actions",
-      width: 250,
-
+      minWidth: 250,
       type: "number",
       headerAlign: "center",
       align: "center",
@@ -135,7 +130,6 @@ const OrderList = () => {
       rows.push({
         id: item._id,
         itemsQty: item.orderItems.length,
-
         amount: item.totalPrice,
         status: item.orderStatus,
       });
@@ -148,28 +142,28 @@ const OrderList = () => {
       <div className="dashboard">
         <SideBar />
 
-          {
-       
-            orders && orders.length > 0 ? ( <>
-              <div className="productListContainer">
-                <div className="heading" > 
-            <h1 id="productListHeading">ALL ORDERS</h1>
-                 </div>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={10}
-              disableSelectionOnClick
-              className="productListTable"
-              autoHeight
-              
-              />
+        {orders && orders.length > 0 ? (
+          <>
+            <div className="productListContainer">
+              <div className="heading">
+                <h1 id="productListHeading">ALL ORDERS</h1>
               </div>
-            </>
-          ) : (
-            <NotFoundProduct />
-          )
-           }
+              <div style={{ height: 350, width: "100%" }}>
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  // rowsPerPageOptions={8}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  autoHeight
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <NotFoundProduct />
+        )}
       </div>
     </Fragment>
   );
