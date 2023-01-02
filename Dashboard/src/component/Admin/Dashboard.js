@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Sidebar from "./Sidebar.js";
 import "./dashboard.css";
 import { Typography } from "@material-ui/core";
@@ -11,41 +11,49 @@ import { getAllUsers } from "../../actions/userAction.js";
 import MetaData from "../layout/MetaData";
 import Chart from "chart.js/auto";
 import Loader from "../layout/Loader/Loader.js";
+import { UserContext } from "../../App";
+
 const Dashboard = () => {
-    const dispatch = useDispatch();
+  const { dispatchUserType } = useContext(UserContext);
 
-    const { error, loading, isAuthenticated } = useSelector(
-      (state) => state.user
-    );
+  const dispatch = useDispatch();
 
-    const { products } = useSelector((state) => state.products);
-    console.log(products)
-    console.log(isAuthenticated)
+  const { user, error, loading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
+  console.log(user);
 
-    const { orders } = useSelector((state) => state.allOrders);
+  const { products } = useSelector((state) => state.products);
+  console.log(products);
+  console.log(isAuthenticated);
 
-    const { users } = useSelector((state) => state.allUsers);
+  const { orders } = useSelector((state) => state.allOrders);
 
-    let outOfStock = 0;
+  const { users } = useSelector((state) => state.allUsers);
 
-    products &&
-  products.forEach((item) => {
-    if (item.stock === 0) {
-  outOfStock += 1;
+  let outOfStock = 0;
+
+  products &&
+    products.forEach((item) => {
+      if (item.stock === 0) {
+        outOfStock += 1;
+      }
+    });
+
+  useEffect(() => {
+    if (user && user.category === "Pharmacy") {
+      dispatchUserType({ type: "PHARMACY", payload: true });
     }
-  });
+    dispatch(getAdminProduct());
+    dispatch(getAllOrders());
+    dispatch(getAllUsers());
+  }, [dispatch, dispatchUserType, user]);
 
-    useEffect(() => {
-      dispatch(getAdminProduct());
-      dispatch(getAllOrders());
-      dispatch(getAllUsers());
-    }, [dispatch]);
-
-    let totalAmount = 0;
-    orders &&
-      orders.forEach((item) => {
-        totalAmount += item.totalPrice;
-      });
+  let totalAmount = 0;
+  orders &&
+    orders.forEach((item) => {
+      totalAmount += item.totalPrice;
+    });
 
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"],
@@ -57,78 +65,81 @@ const Dashboard = () => {
         data: [
           0,
 
-          totalAmount
+          totalAmount,
           // 4000,
         ],
       },
     ],
   };
-  let doughnutState
+  let doughnutState;
 
-if(products){
-   doughnutState = {
-    labels: ["Out of Stock", "InStock"],
+  if (products) {
+    doughnutState = {
+      labels: ["Out of Stock", "InStock"],
 
-  datasets: [
-      {
-        backgroundColor: ["#00A6B4", "#6800B4"],
-        hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [
-          outOfStock, products.length - outOfStock
-          // 2, 10,
-        ],
-      },
-    ],
-  };
-}
-
-
+      datasets: [
+        {
+          backgroundColor: ["#00A6B4", "#6800B4"],
+          hoverBackgroundColor: ["#4B5000", "#35014F"],
+          data: [
+            outOfStock,
+            products.length - outOfStock,
+            // 2, 10,
+          ],
+        },
+      ],
+    };
+  }
 
   return (
- <> {loading ? <Loader /> : <> <div className="dashboard">
- <MetaData title="Dashboard - Admin Panel" />
- <Sidebar />
+    <>
+      {" "}
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {" "}
+          <div className="dashboard">
+            <MetaData title="Dashboard - Admin Panel" />
+            <Sidebar />
 
- <div className="dashboardContainer">
-   <Typography component="h1">Dashboard</Typography>
+            <div className="dashboardContainer">
+              <Typography component="h1">Dashboard</Typography>
 
-   <div className="dashboardSummary">
-     <div>
-       <p>
-         Total Amount <br />
-         ₹{totalAmount}
-       </p>
-     </div>
-     <div className="dashboardSummaryBox2">
-       <Link to="/admin/products">
-         <p>Product</p>
-         <p>{products && products.length}</p>
-       </Link>
-       <Link to="/admin/orders">
-         <p>Orders</p>
-         <p>
-           {orders && orders.length}
-           </p>
-       </Link>
-       <Link to="/admin/users">
-         <p>Users</p>
-         <p>
-           {users && users.length}
-           </p>
-       </Link>
-     </div>
-   </div>
+              <div className="dashboardSummary">
+                <div>
+                  <p>
+                    Total Amount <br />₹{totalAmount}
+                  </p>
+                </div>
+                <div className="dashboardSummaryBox2">
+                  <Link to="/admin/products">
+                    <p>Product</p>
+                    <p>{products && products.length}</p>
+                  </Link>
+                  <Link to="/admin/orders">
+                    <p>Orders</p>
+                    <p>{orders && orders.length}</p>
+                  </Link>
+                  <Link to="/admin/users">
+                    <p>Users</p>
+                    <p>{users && users.length}</p>
+                  </Link>
+                </div>
+              </div>
 
-   <div className="lineChart">
-     <Line data={lineState} />
-   </div>
+              <div className="lineChart">
+                <Line data={lineState} />
+              </div>
 
-   <div className="doughnutChart">
-     <Doughnut data={doughnutState} />
-   </div>
- </div>
-</div></> }
-</> 
+              <div className="doughnutChart">
+                <Doughnut data={doughnutState} />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

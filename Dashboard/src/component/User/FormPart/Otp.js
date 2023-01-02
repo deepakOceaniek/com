@@ -10,11 +10,11 @@ const UserOtpScreen = (props) => {
   const Navigate = useNavigate();
   const alert = useAlert();
 
-  const { error, loading, isAuthenticated } = useSelector(
+  const { error, loading, isAuthenticated, user } = useSelector(
     (state) => state.user
   );
-  console.log(`data----------${props.data[0] }`)
-  console.log(`data----------${props.data[1] }`)
+  console.log(`data----------${props.data[0]}`);
+  console.log(`data----------${props.data[1]}`);
 
   // const [otp, setOtp] = useState(0);
   // console.log(otp);
@@ -34,14 +34,7 @@ const UserOtpScreen = (props) => {
     if (isAuthenticated) {
       Navigate("/admin/dashboard");
     }
-  }, [
-    dispatch,
-    alert,
-    error,
-    isAuthenticated,
-    Navigate,
-    // redirect
-  ]);
+  }, [dispatch, alert, error, isAuthenticated, Navigate]);
 
   let inputName, value;
   const loginInputHandler = (e) => {
@@ -63,7 +56,10 @@ const UserOtpScreen = (props) => {
     e.preventDefault();
 
     dispatch(
-      verify(otp,props.data[0],props.data[1]
+      verify(
+        otp,
+        props.data[0],
+        props.data[1]
         // route.params.contact
       )
     );

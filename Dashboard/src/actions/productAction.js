@@ -52,22 +52,21 @@ import {
   BANNER_DETAILS_REQUEST,
   BANNER_DETAILS_SUCCESS,
   BANNER_DETAILS_FAIL,
-
-   ADMIN_PRESCRIPTION_REQUEST ,
- ADMIN_PRESCRIPTION_SUCCESS ,
- ADMIN_PRESCRIPTION_FAIL ,
-
- NEW_PRESCRIPTION_REQUEST ,
- NEW_PRESCRIPTION_SUCCESS ,
- NEW_PRESCRIPTION_FAIL ,
-
- DELETE_PRESCRIPTION_REQUEST,
- DELETE_PRESCRIPTION_SUCCESS ,
- DELETE_PRESCRIPTION_FAIL ,
-
- PRESCRIPTION_DETAILS_REQUEST ,
- PRESCRIPTION_DETAILS_SUCCESS,
- PRESCRIPTION_DETAILS_FAIL,
+  ADMIN_PRESCRIPTION_REQUEST,
+  ADMIN_PRESCRIPTION_SUCCESS,
+  ADMIN_PRESCRIPTION_FAIL,
+  NEW_PRESCRIPTION_REQUEST,
+  NEW_PRESCRIPTION_SUCCESS,
+  NEW_PRESCRIPTION_FAIL,
+  UPDATE_PRESCRIPTION_REQUEST,
+  UPDATE_PRESCRIPTION_SUCCESS,
+  UPDATE_PRESCRIPTION_FAIL,
+  DELETE_PRESCRIPTION_REQUEST,
+  DELETE_PRESCRIPTION_SUCCESS,
+  DELETE_PRESCRIPTION_FAIL,
+  PRESCRIPTION_DETAILS_REQUEST,
+  PRESCRIPTION_DETAILS_SUCCESS,
+  PRESCRIPTION_DETAILS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -231,9 +230,9 @@ export const getAdminCategory = () => async (dispatch) => {
     const { data } = await axios.get("/api/v1/admin/allcategory");
     dispatch({
       type: ADMIN_CATEGORY_SUCCESS,
-      payload: data.categories
+      payload: data.categories,
     });
-    console.log(data)
+    console.log(data);
   } catch (error) {
     dispatch({
       type: ADMIN_CATEGORY_FAIL,
@@ -408,7 +407,6 @@ export const updateBanner = (id, productData) => async (dispatch) => {
   }
 };
 
-
 // Delete banner -admin
 export const deleteBannner = (id) => async (dispatch) => {
   try {
@@ -447,12 +445,6 @@ export const getBannerDetails = (id) => async (dispatch) => {
     });
   }
 };
-
-
-
-
-
-
 
 // Get All Prescription For Admin
 export const getAdminPrscription = () => async (dispatch) => {
@@ -501,31 +493,32 @@ export const createPrescription = (productData) => async (dispatch) => {
 };
 
 // Update Prescription - admin
-// export const updatePrescription = (id, productData) => async (dispatch) => {
-//   try {
-//     dispatch({ type: UPDATE_PRODUCT_REQUEST });
+export const updatePrescription = (id, productData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PRESCRIPTION_REQUEST });
 
-//     const config = {
-//       headers: { "Content-Type": "application/json" },
-//     };
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    console.log(productData);
+    const { data } = await axios.put(
+      `/api/v1/admin/prescription/${id}`,
+      productData,
+      config
+    );
+    console.log(data);
 
-//     const { data } = await axios.put(
-//       `/api/v1/admin/prescription/${id}`,
-//       productData,
-//       config
-//     );
-
-//     dispatch({
-//       type: UPDATE_PRODUCT_SUCCESS,
-//       payload: data.success,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: UPDATE_PRODUCT_FAIL,
-//       payload: error.response.data.message,
-//     });
-//   }
-// };
+    dispatch({
+      type: UPDATE_PRESCRIPTION_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PRESCRIPTION_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Delete Prescription -admin
 export const deletePrescription = (id) => async (dispatch) => {
@@ -546,7 +539,7 @@ export const deletePrescription = (id) => async (dispatch) => {
   }
 };
 
-// Get Products Details admin
+// Get Prescription Details admin
 export const getPrescriptionDetails = (id) => async (dispatch) => {
   try {
     dispatch({

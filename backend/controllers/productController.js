@@ -410,7 +410,8 @@ exports.addPrescription = catchAsyncErrors(async (req, res, next) => {
 });
 
 // update prescription Status -- Admin
-exports.UpdatePrescription = catchAsyncErrors(async (req, res, next) => {
+exports.updatePrescription = catchAsyncErrors(async (req, res, next) => {
+const {status , totalPrice,totalSaving,shippingFee,amountToBePaid}= req.body
   const prescription = await Prescription.findById(req.params.id);
 
   if (!prescription) {
@@ -421,9 +422,13 @@ exports.UpdatePrescription = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Medicine Already Ready", 400));
   }
 
-  prescription.status = req.body.status;
+  prescription.status = status;
+  prescription.totalPrice =  totalPrice;
+  prescription.totalSaving =  totalSaving;
+  prescription.shippingFee =  shippingFee;
+  prescription.amountToBePaid =  amountToBePaid;
 
-  await order.save({ validateBeforeSave: false });
+  await prescription.save({ validateBeforeSave: false });
   res.status(200).json({
     success: true,
   });
@@ -431,7 +436,7 @@ exports.UpdatePrescription = catchAsyncErrors(async (req, res, next) => {
 
 // Get Prescription details
 exports.getPrescriptionDetails = catchAsyncErrors(async (req, res, next) => {
-  const prescription = await Prescription.findById(req.params.id);
+  const prescription = await Prescription.findById(req.params.id).populate("user","name contact");
   if (!prescription) {
     return next(new ErrorHandler("No Prescription found ", 404));
   }

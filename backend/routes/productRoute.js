@@ -33,7 +33,7 @@ const {
   updateBanner,
   getBannerDetails,
   deletePrescription,
-  UpdatePrescription,
+  updatePrescription,
 } = require("../controllers/productController");
 
 router.route("/products").get(isAuthenticated, getAllProduct);
@@ -59,7 +59,9 @@ router
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteReview);
 
 router.route("/banner").get(isAuthenticated, getAllBanner);
-router.route("/admin/banner").get(isAuthenticatedAdmin,authorizeRoles("admin"),getAllBanner)
+router
+  .route("/admin/banner")
+  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getAllBanner);
 router
   .route("/admin/banner/new")
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addBanner);
@@ -67,7 +69,7 @@ router
 router
   .route("/admin/banner/:id")
   .get(getBannerDetails)
-  .put(isAuthenticatedAdmin,authorizeRoles("admin"),updateBanner)
+  .put(isAuthenticatedAdmin, authorizeRoles("admin"), updateBanner)
   .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deleteBanner);
 
 router.route("/admin/prescription").get(getAllPrescription);
@@ -76,9 +78,9 @@ router
   .post(isAuthenticatedAdmin, authorizeRoles("admin"), addPrescription); // change Auth to user later
 router
   .route("/admin/prescription/:id")
-  .get(isAuthenticatedAdmin, authorizeRoles("admin"), getPrescriptionDetails)
-  .put(isAuthenticatedAdmin,authorizeRoles("admin"),UpdatePrescription)
-  .delete(isAuthenticatedAdmin,authorizeRoles("admin"),deletePrescription)
+  .get(getPrescriptionDetails)
+  .put(isAuthenticatedAdmin, authorizeRoles("admin"), updatePrescription)
+  .delete(isAuthenticatedAdmin, authorizeRoles("admin"), deletePrescription);
 
 router.route("/allcategory").get(isAuthenticated, getAllCategory);
 router

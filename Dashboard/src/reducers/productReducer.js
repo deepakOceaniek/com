@@ -42,7 +42,6 @@ import {
   CATEGORY_DETAILS_REQUEST,
   CATEGORY_DETAILS_SUCCESS,
   CATEGORY_DETAILS_FAIL,
-
   BANNER_REQUEST,
   BANNER_SUCCESS,
   BANNER_FAIL,
@@ -50,39 +49,35 @@ import {
   NEW_BANNER_SUCCESS,
   NEW_BANNER_FAIL,
   NEW_BANNER_RESET,
-
   UPDATE_BANNER_REQUEST,
   UPDATE_BANNER_SUCCESS,
   UPDATE_BANNER_FAIL,
   UPDATE_BANNER_RESET,
-
   DELETE_BANNER_REQUEST,
   DELETE_BANNER_SUCCESS,
   DELETE_BANNER_FAIL,
   DELETE_BANNER_RESET,
-
   BANNER_DETAILS_REQUEST,
   BANNER_DETAILS_SUCCESS,
   BANNER_DETAILS_FAIL,
-
-  ADMIN_PRESCRIPTION_REQUEST ,
-  ADMIN_PRESCRIPTION_SUCCESS ,
-  ADMIN_PRESCRIPTION_FAIL ,
- 
-  NEW_PRESCRIPTION_REQUEST ,
-  NEW_PRESCRIPTION_SUCCESS ,
-  NEW_PRESCRIPTION_FAIL ,
+  ADMIN_PRESCRIPTION_REQUEST,
+  ADMIN_PRESCRIPTION_SUCCESS,
+  ADMIN_PRESCRIPTION_FAIL,
+  NEW_PRESCRIPTION_REQUEST,
+  NEW_PRESCRIPTION_SUCCESS,
+  NEW_PRESCRIPTION_FAIL,
   NEW_PRESCRIPTION_RESET,
- 
+  UPDATE_PRESCRIPTION_REQUEST,
+  UPDATE_PRESCRIPTION_SUCCESS,
+  UPDATE_PRESCRIPTION_FAIL,
+  UPDATE_PRESCRIPTION_RESET,
   DELETE_PRESCRIPTION_REQUEST,
-  DELETE_PRESCRIPTION_SUCCESS ,
-  DELETE_PRESCRIPTION_FAIL ,
-  DELETE_PRESCRIPTION_RESET ,
-
-  PRESCRIPTION_DETAILS_REQUEST ,
+  DELETE_PRESCRIPTION_SUCCESS,
+  DELETE_PRESCRIPTION_FAIL,
+  DELETE_PRESCRIPTION_RESET,
+  PRESCRIPTION_DETAILS_REQUEST,
   PRESCRIPTION_DETAILS_SUCCESS,
   PRESCRIPTION_DETAILS_FAIL,
-
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -279,22 +274,22 @@ export const newBannerReducer = (state = { banner: {} }, action) => {
 
 export const productReducer = (state = {}, action) => {
   switch (action.type) {
-    case DELETE_PRODUCT_REQUEST:
     case UPDATE_PRODUCT_REQUEST:
-    case DELETE_CATEGORY_REQUEST:
+    case DELETE_PRODUCT_REQUEST:
     case UPDATE_CATEGORY_REQUEST:
-      case UPDATE_BANNER_REQUEST:
-      case DELETE_BANNER_REQUEST:
-        case DELETE_PRESCRIPTION_REQUEST:
+    case DELETE_CATEGORY_REQUEST:
+    case UPDATE_BANNER_REQUEST:
+    case DELETE_BANNER_REQUEST:
+    case UPDATE_PRESCRIPTION_REQUEST:
+    case DELETE_PRESCRIPTION_REQUEST:
       return {
         ...state,
         loading: true,
       };
     case DELETE_PRODUCT_SUCCESS:
     case DELETE_CATEGORY_SUCCESS:
-      case DELETE_BANNER_SUCCESS:
-        case DELETE_PRESCRIPTION_SUCCESS:
-
+    case DELETE_BANNER_SUCCESS:
+    case DELETE_PRESCRIPTION_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -303,7 +298,8 @@ export const productReducer = (state = {}, action) => {
 
     case UPDATE_PRODUCT_SUCCESS:
     case UPDATE_CATEGORY_SUCCESS:
-      case UPDATE_BANNER_SUCCESS:
+    case UPDATE_BANNER_SUCCESS:
+    case UPDATE_PRESCRIPTION_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -314,9 +310,9 @@ export const productReducer = (state = {}, action) => {
     case DELETE_CATEGORY_FAIL:
     case UPDATE_CATEGORY_FAIL:
     case DELETE_BANNER_FAIL:
-      case UPDATE_BANNER_FAIL:
-        case DELETE_PRESCRIPTION_FAIL:
-
+    case UPDATE_BANNER_FAIL:
+    case UPDATE_PRESCRIPTION_FAIL:
+    case DELETE_PRESCRIPTION_FAIL:
       return {
         ...state,
         loading: false,
@@ -324,16 +320,16 @@ export const productReducer = (state = {}, action) => {
       };
     case DELETE_PRODUCT_RESET:
     case DELETE_CATEGORY_RESET:
-      case DELETE_BANNER_RESET:
-        case DELETE_PRESCRIPTION_RESET:
-        
+    case DELETE_BANNER_RESET:
+    case DELETE_PRESCRIPTION_RESET:
       return {
         ...state,
         isDeleted: false,
       };
     case UPDATE_PRODUCT_RESET:
     case UPDATE_CATEGORY_RESET:
-      case UPDATE_BANNER_RESET:
+    case UPDATE_BANNER_RESET:
+    case UPDATE_PRESCRIPTION_RESET:
       return {
         ...state,
         isUpdated: false,
@@ -496,7 +492,6 @@ export const bannerDetailsReducer = (state = { banner: {} }, action) => {
   }
 };
 
-
 export const prescriptionReducer = (state = { prescriptions: [] }, action) => {
   switch (action.type) {
     case ADMIN_PRESCRIPTION_REQUEST:
@@ -527,7 +522,10 @@ export const prescriptionReducer = (state = { prescriptions: [] }, action) => {
   }
 };
 
-export const newPrescriptionsReducer = (state = { prescription: {} }, action) => {
+export const newPrescriptionsReducer = (
+  state = { prescription: {} },
+  action
+) => {
   switch (action.type) {
     case NEW_PRESCRIPTION_REQUEST:
       return {
@@ -562,8 +560,10 @@ export const newPrescriptionsReducer = (state = { prescription: {} }, action) =>
   }
 };
 
-
-export const prescriptionDetailsReducer = (state = { prescription: {} }, action) => {
+export const prescriptionDetailsReducer = (
+  state = { prescription: {} },
+  action
+) => {
   switch (action.type) {
     case PRESCRIPTION_DETAILS_REQUEST:
       return {
@@ -573,7 +573,7 @@ export const prescriptionDetailsReducer = (state = { prescription: {} }, action)
     case PRESCRIPTION_DETAILS_SUCCESS:
       return {
         loading: false,
-        product: action.payload.product,
+        prescription: action.payload.prescription,
       };
     case PRESCRIPTION_DETAILS_FAIL:
       return {
