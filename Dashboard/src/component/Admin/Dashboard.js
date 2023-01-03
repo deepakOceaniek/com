@@ -14,7 +14,7 @@ import Loader from "../layout/Loader/Loader.js";
 import { UserContext } from "../../App";
 
 const Dashboard = () => {
- const { dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
 
   const dispatched = useDispatch();
 
@@ -42,7 +42,7 @@ const Dashboard = () => {
     if (user && user.category === "Pharmacy") {
       dispatch({ type: "PHARMACY", payload: true });
     }
-    
+
     dispatched(getAdminProduct());
     dispatched(getAllOrders());
     dispatched(getAllUsers());
@@ -78,8 +78,8 @@ const Dashboard = () => {
 
       datasets: [
         {
-          backgroundColor: ["#00A6B4", "#6800B4"],
-          hoverBackgroundColor: ["#4B5000", "#35014F"],
+          backgroundColor: ["#FF6347", "#308c89"],
+          hoverBackgroundColor: ["#4B5000", "#a7beae"],
           data: [
             outOfStock,
             products.length - outOfStock,
@@ -92,18 +92,16 @@ const Dashboard = () => {
 
   return (
     <>
-    
       {loading ? (
         <Loader />
       ) : (
         <>
-        
           <div className="dashboard">
             <MetaData title="Dashboard - Admin Panel" />
             <Sidebar />
 
             <div className="dashboardContainer">
-              <Typography component="h1">Dashboard</Typography>
+              <h1 id="dashboardHeading">Dashboard</h1>
 
               <div className="dashboardSummary">
                 <div>
@@ -113,16 +111,14 @@ const Dashboard = () => {
                 </div>
                 <div className="dashboardSummaryBox2">
                   <Link to="/admin/products">
-                    <p>Product</p>
-                    <p>{products && products.length}</p>
+                    <p>{`Products | ${products && products.length} `}</p>
+                    <p></p>
                   </Link>
                   <Link to="/admin/orders">
-                    <p>Orders</p>
-                    <p>{orders && orders.length}</p>
+                    <p>{`Orders | ${orders && orders.length}`}</p>
                   </Link>
                   <Link to="/admin/users">
-                    <p>Users</p>
-                    <p>{users && users.length}</p>
+                    <p>{`Users | ${users && users.length} `}</p>
                   </Link>
                 </div>
               </div>

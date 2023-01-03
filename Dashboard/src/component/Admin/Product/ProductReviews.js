@@ -19,7 +19,7 @@ import { DELETE_REVIEW_RESET } from "../../../constants/productConstants";
 
 const ProductReviews = () => {
   const dispatch = useDispatch();
-  const Navigate =useNavigate()
+  const Navigate = useNavigate();
 
   const alert = useAlert();
 
@@ -174,7 +174,7 @@ const ProductReviews = () => {
               autoHeight
             />
           ) : (
-            <h1 className="productReviewsFormHeading">No Reviews Found</h1>
+            <h1 className="productReviewsFormHeading">Search For Reviews</h1>
           )}
         </div>
       </div>
