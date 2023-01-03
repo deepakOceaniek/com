@@ -623,14 +623,12 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
 exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   
   const userId = req.user.id; 
-   let cart = await Cart.findOne({ userId })
-  // TODO 
-    //  .populate("user", "defaultAddress" );
+   let cart = await Cart.findOne({ userId }).populate("user", "defaultAddress" );
    if(cart){
      
      // const prices = cart.products.map(product=>product.price * product.quantity)
      // const totalPrice = prices.reduce((acc,curr)=>acc + curr) 
-    //  console.log(cart)
+     //  console.log(cart)   
      
      let totalPrice = 0
      let afterDiscountPrice = 0

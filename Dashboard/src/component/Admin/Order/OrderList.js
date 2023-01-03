@@ -16,6 +16,7 @@ import {
 } from "../../../actions/orderAction";
 import { DELETE_ORDER_RESET } from "../../../constants/orderConstant";
 import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const OrderList = () => {
 
   const alert = useAlert();
 
-  const { error, orders } = useSelector((state) => state.allOrders);
+  const {loading, error, orders } = useSelector((state) => state.allOrders);
 
   const { error: deleteError, isDeleted } = useSelector((state) => state.order);
 
@@ -55,7 +56,7 @@ const OrderList = () => {
     {
       field: "id",
       headerName: "Order ID",
-      minwidth: 250,
+      minwidth: 200,
       flex: 0.1,
       headerAlign: "center",
       align: "center",
@@ -64,7 +65,7 @@ const OrderList = () => {
     {
       field: "status",
       headerName: "Status",
-      minWidth: 250,
+      minWidth: 200,
       flex: 0.1,
       align: "center",
       headerAlign: "center",
@@ -98,7 +99,7 @@ const OrderList = () => {
       field: "actions",
       flex: 0.1,
       headerName: "Actions",
-      minWidth: 250,
+      minWidth: 200,
       type: "number",
       headerAlign: "center",
       align: "center",
@@ -137,33 +138,27 @@ const OrderList = () => {
 
   return (
     <Fragment>
-      <MetaData title={`ALL ORDERS - Admin`} />
+        <MetaData title={`ALL ORDERS - Admin`} />
 
       <div className="dashboard">
         <SideBar />
-
-        {orders && orders.length > 0 ? (
-          <>
-            <div className="productListContainer">
-              <div className="heading">
-                <h1 id="productListHeading">ALL ORDERS</h1>
-              </div>
-              <div style={{ height: 350, width: "100%" }}>
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  pageSize={10}
-                  // rowsPerPageOptions={8}
-                  disableSelectionOnClick
-                  className="productListTable"
-                  autoHeight
-                />
-              </div>
-            </div>
-          </>
-        ) : (
-          <NotFoundProduct />
-        )}
+        <div className="productListContainer">
+          {loading ? (<Loader />) :  <> <h1 id="productListHeading">ALL ORDERS</h1>
+          
+          {orders && orders.length > 0 ? (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="productListTable"
+              autoHeight
+            />
+          ) : (
+            <NotFoundProduct />
+          )} </>}
+      
+        </div>
       </div>
     </Fragment>
   );

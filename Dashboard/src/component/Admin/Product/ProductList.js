@@ -15,14 +15,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_PRODUCT_RESET } from "../../../constants/productConstants";
-
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 const ProductList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, products } = useSelector((state) => state.products);
+  const {loading, error, products } = useSelector((state) => state.products);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -56,7 +57,7 @@ const ProductList = () => {
     {
       field: "id",
       headerName: "Product ID",
-      Width: 150,
+      minWidth: 150,
       flex: 0.5,
       headerAlign: "center",
       align: "center",
@@ -74,14 +75,14 @@ const ProductList = () => {
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      minWidth: 150,
+      flex:0.5,
       headerAlign: "center",
       align: "center",
 
       renderCell: (params) => {
         return (
           <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
-          
             <img
               style={{ height: "100%", width: "100%" }}
               src={params.value}
@@ -96,7 +97,7 @@ const ProductList = () => {
       field: "stock",
       headerName: "Stock",
       type: "number",
-      minWidth: 50,
+      minWidth: 100,
       flex: 0.3,
       headerAlign: "center",
       align: "center",
@@ -162,17 +163,24 @@ const ProductList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
+        {loading ? (<Loader />) :<> 
+        
           <h1 id="productListHeading">ALL PRODUCTS</h1>
-
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            rowHeight={100}
-            // checkboxSelection
-          />
+          {products && products.length > 0 ? (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="productListTable"
+              rowHeight={100}
+              // checkboxSelection
+            />
+          ) : (
+            <NotFoundProduct />
+          )}
+        
+        </>}
         </div>
       </div>
     </Fragment>

@@ -15,14 +15,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_CATEGORY_RESET } from "../../../constants/productConstants";
-
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 const CategoryList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, categories } = useSelector((state) => state.categories);
+  const {loading, error, categories } = useSelector((state) => state.categories);
 console.log(categories)
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -134,16 +135,16 @@ console.log(categories)
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL CATEGORY</h1>
-
-          <DataGrid
+    {loading ? (<Loader />):<>       <h1 id="productListHeading">ALL CATEGORY</h1>
+{categories && categories.length >0 ? (  <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick
             className="productListTable"
             rowHeight={100}
-          />
+          />):( <NotFoundProduct />)}</>}
+        
         </div>
       </div>
     </Fragment>

@@ -15,14 +15,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_LABCATEGORY_RESET } from "../../../constants/testConstants";
-
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 const LabCategoryList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, labCategories } = useSelector((state) => state.labCategories);
+  const {loading, error, labCategories } = useSelector((state) => state.labCategories);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.testPackage
@@ -142,9 +143,9 @@ const LabCategoryList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          <h1 id="productListHeading">All Lab Categories</h1>
-
-          <DataGrid
+       {loading ? (<Loader />): <>
+       <h1 id="productListHeading">All Lab Categories</h1>
+{labCategories && labCategories.length > 0 ?( <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
@@ -152,7 +153,11 @@ const LabCategoryList = () => {
             className="productListTable"
             rowHeight={95}
             // checkboxSelection
-          />
+          />):(
+            <NotFoundProduct />
+          )}
+       </>}
+         
         </div>
       </div>
     </Fragment>

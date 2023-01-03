@@ -5,10 +5,7 @@ const {
   registerUser,
   loginUser,
   logout,
-  // forgetPassword,
-  // resetPassword,
   getUserDetails,
-  // updatePassword,
   updateProfile,
   getAllUser,
   getSingleUser,
@@ -24,6 +21,7 @@ const {
   updateUserAddress,
   deleteUserAddress,
   addPrescription,
+  getAddressDefault,
 } = require("../controllers/userController");
 const {
   isAuthenticated,
@@ -43,11 +41,13 @@ router.route("/me").get(isAuthenticated, getUserDetails);
 router.route("/me/update").put(isAuthenticated, updateProfile);
 router.route("/address").get(isAuthenticated, getAllAddress);
 router.route("/address").post(isAuthenticated, addUserAddress);
+router.route("/defaultAddress/:id").put(isAuthenticated,getAddressDefault)
 router
   .route("/address/:id")
   .get(isAuthenticated, getAddressDetails)
   .put(isAuthenticated, updateUserAddress)
-  .delete(isAuthenticated, deleteUserAddress);
+  .delete(isAuthenticated, deleteUserAddress)
+  
 
 router
   .route("/admin/me")

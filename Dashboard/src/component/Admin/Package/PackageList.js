@@ -16,14 +16,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_PACKAGE_RESET } from "../../../constants/testConstants";
 import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
-
+import Loader from "../../layout/Loader/Loader";
 const PackageList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, packages } = useSelector((state) => state.packages);
+  const {loading, error, packages } = useSelector((state) => state.packages);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.testPackage
@@ -163,30 +163,26 @@ const PackageList = () => {
       <div className="dashboard">
         <SideBar />
 
-        {packages && packages.length > 0 ? (
-          <>
-            <div className="productListContainer">
-              <div className="heading">
-                <h1 id="productListHeading">ALL PACKAGE</h1>
-              </div>
-              <div>
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  pageSize={10}
-                  disableSelectionOnClick
-                  className="productListTable"
-                  rowHeight={100}
-                  autoHeight
+        <div className="productListContainer">
+         {loading ? (<Loader />): <>
+         <h1 id="productListHeading">ALL PACKAGE</h1>
 
-                  // checkboxSelection
-                />
-              </div>
-            </div>
-          </>
-        ) : (
-          <NotFoundProduct />
-        )}
+{packages && packages.length > 0 ? (
+  <DataGrid
+    rows={rows}
+    columns={columns}
+    pageSize={10}
+    disableSelectionOnClick
+    className="productListTable"
+    rowHeight={100}
+    autoHeight
+    // checkboxSelection
+  />
+) : (
+  <NotFoundProduct />
+)}
+         </>}
+        </div>
       </div>
     </Fragment>
   );

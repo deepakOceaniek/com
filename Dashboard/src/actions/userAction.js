@@ -117,14 +117,13 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-// Update Profile --admin bnana hai
+// Update Profile --admin bnana hai8
 export const updateProfile = (userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_ADMIN_PROFILE_REQUEST });
-
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     const { data } = await axios.put(
-      `/api/v1//admin/me/update`,
+      `/api/v1/admin/me/update`,
       userData,
       config
     );

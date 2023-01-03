@@ -92,12 +92,12 @@ const Dashboard = () => {
 
   return (
     <>
-      {" "}
+    
       {loading ? (
         <Loader />
       ) : (
         <>
-          {" "}
+        
           <div className="dashboard">
             <MetaData title="Dashboard - Admin Panel" />
             <Sidebar />

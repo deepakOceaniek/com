@@ -15,14 +15,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_PRESCRIPTION_RESET } from "../../../constants/productConstants";
-
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 const PrescriptionList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, prescriptions } = useSelector((state) => state.prescriptions);
+  const {loading ,  error, prescriptions } = useSelector((state) => state.prescriptions);
 console.log(prescriptions)
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -155,9 +156,9 @@ console.log(prescriptions)
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL PRESCRIPTION</h1>
-
-          <DataGrid
+    {loading ? (<Loader />): <> 
+    <h1 id="productListHeading">ALL PRESCRIPTION</h1>
+{prescriptions && prescriptions.length >0 ? (    <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
@@ -165,7 +166,9 @@ console.log(prescriptions)
             className="productListTable"
             rowHeight={100}
             // checkboxSelection
-          />
+          />):(<NotFoundProduct />) }
+    </> }
+      
         </div>
       </div>
     </Fragment>

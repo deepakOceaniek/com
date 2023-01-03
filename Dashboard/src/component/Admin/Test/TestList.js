@@ -15,6 +15,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_TEST_RESET } from "../../../constants/testConstants";
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 
 const TestList = () => {
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ const TestList = () => {
 
   const alert = useAlert();
 
-  const { error, tests } = useSelector((state) => state.tests);
+  const {loading, error, tests } = useSelector((state) => state.tests);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.testPackage
@@ -170,9 +172,9 @@ const TestList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="prodackagetContainer">
-          <h1 id="productListHeading">ALL Test</h1>
-
-          <DataGrid
+  {loading ? (<Loader />) : <> 
+  <h1 id="productListHeading">ALL Test</h1>
+{tests && tests.length >0 ? (<DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
@@ -180,7 +182,9 @@ const TestList = () => {
             className="productListTable"
             rowHeight={100}
             // checkboxSelection
-          />
+          />):(<NotFoundProduct />)}
+  </>}
+          
         </div>
       </div>
     </Fragment>

@@ -278,10 +278,13 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
     status: req.body.status,
   };
   console.log(newUserData)
-  console.log(`user id ${req.user.id}`)
+  console.log(`user id upper${req.user.id}`)
+  console.log(`profileImage  file ${req.body.profileImage}`)
+  console.log(`body ${req.body}`)
+  console.log(`certificateImage  file ${req.body.certificateImage}`)
 
   // Cloudinary
-  if (req.body.profileImage !== "") {
+  if (req.body.profileImage !== "" || req.body.profileImage !== undefined ) {
     const user = await Admin.findById(req.user.id);
     const imageId = user.profileImage.public_id;
 
@@ -301,7 +304,7 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
       url: profileMyCloud.secure_url,
     };
   }
-  if (req.body.certificateImage !== "") {
+  if (req.body.certificateImage !== "" || req.body.certificateImage !== undefined ) {
     const user = await Admin.findById(req.user.id);
     const imageId = user.certificateImage.public_id;
 
@@ -321,7 +324,7 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
       url: certificateMyCloud.secure_url,
     };
   }
-  console.log(`user id ${req.user.id}`)
+  console.log(`user id lower ${req.user.id}`)
   const user = await Admin.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
@@ -505,6 +508,28 @@ exports.deleteUserAddress = catchAsyncErrors(async (req, res, next) => {
     message: "Address Deleted",
   });
 });
+
+// Make User Address  Default
+exports.getAddressDefault = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new ErrorHandler("User not found", 400));
+  }
+  const address = user.userAddresses.filter((add) => {
+    return add._id.toString() === req.params.id.toString();
+  });
+
+  if (address.length <= 0) {
+    return next(new ErrorHandler("User address not found", 400));
+  } else {
+    const defaultaddress =   await user.makeDefault(address)
+    res.status(200).json({
+      success: true,
+    });
+  }
+});
+
+
 
 //Add prescription
 exports.addPrescription = catchAsyncErrors(async (req, res, next) => {

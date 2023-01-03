@@ -15,14 +15,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
 import { DELETE_BANNER_RESET  } from "../../../constants/productConstants";
-
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 const BannerList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const alert = useAlert();
 
-  const { error, banners } = useSelector((state) => state.banners);
+  const {loading , error, banners } = useSelector((state) => state.banners);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -134,9 +135,9 @@ const BannerList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL Banners</h1>
-
-          <DataGrid
+       {loading ? (<Loader />): <> 
+       <h1 id="productListHeading">ALL Banners</h1>
+          {banners && banners.length > 0 ? (   <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
@@ -144,7 +145,11 @@ const BannerList = () => {
             className="productListTable"
             rowHeight={100}
             // checkboxSelection
-          />
+          />):(
+            <NotFoundProduct />
+          )}
+       </>}
+       
         </div>
       </div>
     </Fragment>

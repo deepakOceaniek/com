@@ -16,9 +16,9 @@ const userSchema = mongoose.Schema({
     required: [true, "please Enter Your Contact Number"],
   },
 
-  // defaultAddress:{
-  // type: String, required: false, default: _id
-  // },
+  defaultAddress:{
+  type:Object,
+  },
 
   userAddresses: [
     {
@@ -122,6 +122,20 @@ userSchema.methods.addMessage = async function (
     }); 
     await this.save();
     return this.userAddresses;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+userSchema.methods.makeDefault = async function (
+  address,
+) {
+  try {
+    this.defaultAddress = address
+    await this.save();
+    // return this.defaultAddress;
   } catch (error) {
     console.log(error);
   }

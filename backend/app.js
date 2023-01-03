@@ -43,9 +43,9 @@ app.use("/api/v1", order);
 app.use("/api/v1", payment);
 app.use("/api/v1", test);
 
-app.get("/api/v1/getkey", (req, res) =>
-  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
-);
+// app.get("/api/v1/getkey", (req, res) =>
+//   res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+// );
 
 // Middleware For error
 app.use(errorMiddleware);

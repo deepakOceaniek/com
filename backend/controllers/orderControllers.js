@@ -35,10 +35,19 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
 //Get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate(
-    "user",
-    "name email"
-  );
+
+  const query = [
+    {
+      path: "orderItems.product",
+      select: "name price ",
+    },
+    {
+      path: "user",
+      select: "name email",
+    },
+  ];
+
+  const order = await Order.findById(req.params.id).populate(query);
   if (!order) {
     return next(new ErrorHandler("Order not found with this Id", 404));
   }
@@ -77,13 +86,13 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
 
 //Get Single Order --admin
 exports.orderDetailsAdmin = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate(
-    "user",
-    "name email"
-  );
+
+  const order = await Order.findById(req.params.id).populate("user" ," name contact");
   if (!order) {
     return next(new ErrorHandler("Order not found with this Id", 404));
   }
+
+   
   res.status(200).json({
     success: true,
     order,

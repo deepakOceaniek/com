@@ -67,8 +67,7 @@ const adminSchema = mongoose.Schema({
     // required: true,
   },
 
-  resetPasswordToken: String,
-  resetPasswordExpire: Date,
+ 
 });
 
 // userSchema.pre("save", async function (next) {

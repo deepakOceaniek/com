@@ -14,9 +14,9 @@ import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
-import Loader from "../../layout/Loader/Loader";
 import { DELETE_SAMPLE_RESET } from "../../../constants/testConstants";
-
+import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
+import Loader from "../../layout/Loader/Loader";
 const SampleList = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -128,8 +128,9 @@ const SampleList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
+          {loading ? (<Loader />): <>
           <h1 id="productListHeading">ALL SAMPLES</h1>
-            {loading ? <Loader /> :  <DataGrid
+            {samples && samples.length >0 ? (      <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
@@ -137,7 +138,9 @@ const SampleList = () => {
             className="productListTable"
             rowHeight={100}
             // checkboxSelection
-          />}
+          />):(<NotFoundProduct />) }
+          </>}
+       
          
         </div>
       </div>

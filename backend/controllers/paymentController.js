@@ -12,6 +12,11 @@ const instance = new Razorpay({
   key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
+exports.getKey = catchAsyncErrors(async (req, res, next) => { 
+  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+
+})
+
 exports.checkout = catchAsyncErrors(async (req, res, next) => {
   const options = {
     amount: Number(req.body.amount * 100),

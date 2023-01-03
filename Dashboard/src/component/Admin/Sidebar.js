@@ -261,7 +261,7 @@ const Sidebar = () => {
     <>
       <div className="sidebar">
         <Link to="/">
-          <img src="..public/Images/Dashboard.png" alt="MediPros" />
+          <img src="/Images/logo.png" alt="MediPros" />
         </Link>
 
         {<RenderMenu />}

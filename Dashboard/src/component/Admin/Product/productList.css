@@ -1,31 +1,33 @@
 .productListContainer {
-  /* width: 100%;
+  width: 100%;
   box-sizing: border-box;
   background-color: whitesmoke;
   border-left: 1px solid rgba(0, 0, 0, 0.158);
   display: flex;
   flex-direction: column;
   height: 100%;
- */
-
-  margin: 1em 1em;
+  background-image: url("../../../../public/Images/backcoveradmin.png"); 
+  /* margin: 1em 1em;
   box-shadow: 0px 1px 8px 1px;
   width: 100%;
   height: 100vh;
   padding: 2em 0em;
   border-radius: 30px;
   background-color: #fff;
-  background-image: url("../../../../public/Images/backcoveradmin.png");
+  */
 }
-/* #productListHeading {
+
+
+#productListHeading {
   font: 400 2rem "Roboto";
   padding: 0.5vmax;
   box-sizing: border-box;
   color: rgba(0, 0, 0, 0.637);
   transition: all 0.5s;
-  margin: 2rem;
+  margin: 1rem ;
+  margin-left: 25em;
   text-align: center;
-} */
+}
 
 .heading {
   display: flex;
@@ -42,14 +44,10 @@
   padding-top: 0.2em;
   font-size: 17px;
   font-weight: 500;
-
   /* margin: 1rem; */
 }
 
 .productListTable {
-  background-color: #fff;
-  background-image: url("../../../../public/Images/backcoveradmin.png");
-  width: 100vw;
   border: none !important;
 }
 
