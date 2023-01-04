@@ -1,0 +1,130 @@
+.updateProfileContainer {
+     width: 100vw;
+    display: flex;
+  }
+  .sideBar{
+    width: 20vw;
+  }
+  
+  .updateProfileBox {
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  .updateProfileHeading {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.664);
+    font: 400 1.3vmax "Roboto";
+    padding: 1.3vmax;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.205);
+    width: 50%;
+    margin: auto;
+  }
+  
+  .updateProfileForm {
+    margin: auto;
+    padding: 2vmax;
+    transition: all 0.5s;
+  }
+   
+  .updateProfileForm > div {
+    display: flex;
+    justify-content: space-around;
+  } 
+  .inner_content_div > div ,.updateProfileTime >input{
+    margin :1em 0em 0em 0em;
+  }
+  .updateProfileForm > input{
+    margin:2em 0em 0em 18em;
+
+  }
+  
+  
+  #updateProfileImageAdmin > img ,#updateCertificateImageAdmin > img {
+    width: 24vw;
+    margin-bottom:1em ;
+  }
+  #updateProfileImage > input {
+    display: flex;
+    padding: 0%;
+  }
+  
+  #updateProfileImage > input::file-selector-button {
+    cursor: pointer;
+    width: 100%;
+    z-index: 2;
+    height: 5vh;
+    border: none;
+    margin: 0%;
+    font: 400 0.8vmax cursive;
+    transition: all 0.5s;
+    padding: 0 1vmax;
+    color: rgba(0, 0, 0, 0.623);
+    background-color: rgb(255, 255, 255);
+  }
+  
+  #updateProfileImage > input::file-selector-button:hover {
+    background-color: rgb(235, 235, 235);
+  }
+  
+  .updateProfileBtn {
+    border: none;
+    background-color: rgb(26, 68, 184);
+    color: white;
+    font: 300 0.9vmax "Roboto";
+    width: 30%;
+    padding: 0.8vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+    border-radius: 4px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+  }
+  
+  .updateProfileBtn:hover {
+    background-color: rgb(179, 66, 46);
+  }
+  .updateProfileTime{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .updateProfileContainer {
+      background-color: white;
+    }
+    .updateProfileBox {
+      width: 100vw;
+      height: 95vh;
+    }
+  
+    .updateProfileForm {
+      padding: 5vmax;
+    }
+  
+    .updateProfileForm > div > input {
+      padding: 2.5vmax 5vmax;
+      font: 300 1.7vmax cursive;
+    }
+  
+    .updateProfileForm > div > svg {
+      font-size: 2.8vmax;
+    }
+  
+    #updateProfileImage > img {
+      width: 8vmax;
+      border-radius: 100%;
+    }
+  
+    #updateProfileImage > input::file-selector-button {
+      height: 7vh;
+      font: 400 1.8vmax cursive;
+    }
+  
+    .updateProfileBtn {
+      font: 300 1.9vmax "Roboto";
+      padding: 1.8vmax;
+    }
+  }

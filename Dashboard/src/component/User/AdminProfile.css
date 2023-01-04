@@ -1,0 +1,168 @@
+.profileContainer{
+    display: flex;
+    flex-direction:row;
+    width: 100%;
+
+}
+.pharm-profile {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: whitesmoke;
+  }
+  
+  .content .textPart {
+    width: 24vw;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #FFFFFF; 
+    margin: 1em;
+  }
+  
+  .row-profile {
+    height: 100%;
+    width: 100vw;
+    margin-top: 1.5em;
+  }
+  .row-profile > div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 0.7em;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .innerRow {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .row-profile > div > p,
+  .edit_btn {
+    height: 7vh;
+    width: 20vw;
+    background: #308c89;
+    border-radius: 5px;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.7em;
+  }
+  
+  .content .profileUpload {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+ 
+  
+  .imgdiv > img {
+    width: 25vw;
+    height: 20vh;
+  }
+  
+  .category1_dropDown select{
+    height: 6vh;
+    width: 24vw;
+    margin-left: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #ADA7A7;
+  
+  
+  }
+  
+  
+  @media screen and (max-width: 480px) {
+  
+      .row-profile .profileTitle {
+          height: 4vh;
+      }
+    
+      .row-profile > div > p,
+    button {
+      height: 6vh;
+      width: 50vw;
+      background: #308c89;
+      border-radius: 5px;
+      color: #ffffff;
+      text-align: center;
+      padding-bottom: 2em;
+      margin: auto; 
+    }
+  
+    .content > input {
+      width: 60vw;
+      height: 4vh;
+      border-radius: 5px;
+      background-color: #ffffff;
+      margin: 0.5em;
+      border: 1px solid #ada7a7;
+    }
+  
+    .innerRow {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .imgdiv > img {
+      width: 60vw;
+      height: 20vh;
+    }
+  
+    .profileUpload > input {
+      height: 4vh;
+      width: 60vw;
+    }
+  
+    .category-dropDown > select {
+      height: 4vh;
+      width: 50vw;
+    }
+  }
+   @media screen and (max-width: 768px) {
+  
+  
+    .row-profile > div > p,
+    button {
+      height: 6vh;
+      width: 40vw;
+      background: #308c89;
+      border-radius: 5px;
+      color: #ffffff;
+      text-align: center;
+      
+    }
+  
+  
+    .content > input {
+      width: 30vw;
+      height: 5vh;
+      border-radius: 5px;
+      background-color: #ffffff;
+      border: 1px solid #ada7a7;
+    }
+  
+    .innerRow {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .imgdiv > img {
+      width: 45vw;
+      height: 35vh;
+    }
+  
+    .profileUpload > input {
+      height: 5vh;
+      width: 30vw;
+    }
+  
+    .category-dropDown > select {
+      height: 5vh;
+      width: 30vw;
+    }
+  } 

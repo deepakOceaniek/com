@@ -15,9 +15,27 @@ const productSchema = mongoose.Schema({
     required: [true, "please Enter Product Price"],
     maxLength: [8, "Price can not exceed 8 character"],
   },
-  Rating: {
+  ratings: {
     type: Number,
     default: 0,
+  },
+  salt: {
+    type: String,
+    required: [true, "please Enter Product Salt"],
+  },
+  expired: {
+    type: Date,
+    required: [true, "please Enter Expiry date"],
+  },
+
+  tabletPerStrip: {
+    type: Number,
+    required: [true, "please Enter tablet per strip"],
+  },
+
+  company: {
+    type: String,
+    required: [true, "please Enter Company"],
   },
   images: [
     {
@@ -32,36 +50,63 @@ const productSchema = mongoose.Schema({
     },
   ],
 
+  // category: {
+  //   type: String,
+  //   required: [true, "please Enter Product category"],
+  // },
+
   category: {
-    type: String,
-    required: [true, "please Enter Product category"],
+    type: mongoose.Schema.ObjectId,
+    ref: "Category",
+    required: true,
   },
   stock: {
     type: Number,
-    required: [true, "please Enter Product stock"],
-    maxLength: [4, "Stock can not exceed 4 character"],
     default: 1,
   },
+  discount : {type:Number ,default :0},
   numOfReviews: {
     type: Number,
     default: 0,
   },
   reviews: [
     {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
       name: {
         type: String,
         required: true,
       },
       rating: {
-        type: String,
+        type: Number,
         required: true,
       },
-      Comment: {
+      comment: {
         type: String,
         required: true,
       },
     },
   ],
+  gst: {
+    type: String,
+    required: [true, "please Enter GST"],
+  },
+
+  batchCode: {
+    type: String,
+    required: [true, "please Enter Batch Code"],
+  },
+
+  hsnCode: { type: String, required: [true, "please Enter HSN Code"] },
+
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

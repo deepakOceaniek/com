@@ -12,9 +12,9 @@ const connectDatabase = () => {
     })
     .then(() => {
       console.log("DataBase Connected Successfully");
-    })
-    .catch((error) => {
-      console.log(error.message);
     });
+  // .catch((error) => { // Server.js mai humne error ko handle kar liya hai isliye yha jarrat nhi hai
+  //   console.log(error.message);
+  // });
 };
 module.exports = connectDatabase;
