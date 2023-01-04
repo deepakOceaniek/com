@@ -12,3 +12,13 @@ http://localhost:4000/api/v1/addtocart -POST
     "image":"sample Image",
     "price": 120
 }
+
+Email
+alexaryacorporation6@gmail.com
+alexarya@0123!
+
+AWS 
+alexaryacorporation6@gmail.com
+alexarya@0123!
+
+8968425321
