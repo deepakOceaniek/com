@@ -1,9 +1,9 @@
 const Product = require("../models/productModel");
-const Category =require("../Models/categoryModel")
-const Prescription = require("../Models/prescriptionModel")
-const  Banner = require("../Models/bannerModel")
+const Category =require("../models/categoryModel")
+const Prescription = require("../models/prescriptionModel")
+const  Banner = require("../models/bannerModel")
 const sendToken = require("../utils/jwtToken");
-const Cart = require("../Models/CartModel")
+const Cart = require("../models/CartModel")
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");

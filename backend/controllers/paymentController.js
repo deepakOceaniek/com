@@ -2,7 +2,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncError");
 const Razorpay = require("razorpay");
 
 const crypto = require("crypto");
-const Payment = require("../Models/paymentModel");
+const Payment = require("../models/paymentModel");
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
@@ -12,10 +12,9 @@ const instance = new Razorpay({
   key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
-exports.getKey = catchAsyncErrors(async (req, res, next) => { 
-  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
-
-})
+exports.getKey = catchAsyncErrors(async (req, res, next) => {
+  res.status(200).json({ key: process.env.RAZORPAY_API_KEY });
+});
 
 exports.checkout = catchAsyncErrors(async (req, res, next) => {
   const options = {
