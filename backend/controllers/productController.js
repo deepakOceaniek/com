@@ -623,7 +623,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
 exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   
   const userId = req.user.id; 
-   let cart = await Cart.findOne({ userId }).populate("user", "defaultAddress" );
+   let cart = await Cart.findOne({user:userId }).populate("user", "defaultAddress" );
    if(cart){
      
      // const prices = cart.products.map(product=>product.price * product.quantity)
