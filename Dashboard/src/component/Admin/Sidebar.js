@@ -34,7 +34,10 @@ const Sidebar = () => {
   const RenderMenu = () => {
     if (state) {
       return (
-        <>
+        <div className="sidebar">
+          <Link to="/">
+            <img src="/Images/logo.png" alt="MediPros" />
+          </Link>
           <Link to="/admin/dashboard">
             <p>
               <DashboardIcon /> Dashboard
@@ -131,11 +134,24 @@ const Sidebar = () => {
               </TreeItem>
             </TreeView>
           </Link>
-        </>
+          <Link to="/admin/me">
+            <p>
+              <AccountCircleIcon /> Profile
+            </p>
+          </Link>
+          <Link to="/" onClick={logoutUser}>
+            <p>
+              <ExitToAppIcon /> Logout
+            </p>
+          </Link>
+        </div>
       );
     } else {
       return (
-        <>
+        <div className="sidebar">
+          <Link to="/">
+            <img src="/Images/logo.png" alt="MediPros" />
+          </Link>
           <Link to="/admin/dashboard">
             <p>
               <DashboardIcon /> Dashboard
@@ -252,33 +268,22 @@ const Sidebar = () => {
               </TreeItem>
             </TreeView>
           </Link>
-        </>
+          <Link to="/admin/me">
+            <p>
+              <AccountCircleIcon /> Profile
+            </p>
+          </Link>
+          <Link to="/" onClick={logoutUser}>
+            <p>
+              <ExitToAppIcon /> Logout
+            </p>
+          </Link>
+        </div>
       );
     }
   };
 
-  return (
-    <>
-      <div className="sidebar">
-        <Link to="/">
-          <img src="/Images/logo.png" alt="MediPros" />
-        </Link>
-
-        {<RenderMenu />}
-
-        <Link to="/admin/me">
-          <p>
-            <AccountCircleIcon /> Profile
-          </p>
-        </Link>
-        <Link to="/" onClick={logoutUser}>
-          <p>
-            <ExitToAppIcon /> Logout
-          </p>
-        </Link>
-      </div>
-    </>
-  );
+  return <RenderMenu />;
 };
 
 export default Sidebar;
