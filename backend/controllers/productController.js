@@ -623,7 +623,20 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
 exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   
   const userId = req.user.id; 
-   let cart = await Cart.findOne({user:userId }).populate("user", "defaultAddress" );
+
+  const query = [
+    {
+      path: "user",
+      select: "defaultAddress",
+    },
+    {
+      path: "products.productId",
+      select: "images ",
+    },
+ 
+  ];
+   let cart = await Cart.findOne({user:userId }).populate(query);
+   console.log(cart)
    if(cart){
      
      // const prices = cart.products.map(product=>product.price * product.quantity)
@@ -662,7 +675,7 @@ exports.deleteFromCart = catchAsyncErrors(async (req, res, next) => {
   const  productId  = req.query.productId; 
   const userId = req.user.id; 
   try {
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({user:userId });
     if (cart) {
       //cart exists for user
       let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
