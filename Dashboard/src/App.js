@@ -46,13 +46,8 @@ import UpdatePackage from "./component/Admin/Package/UpdatePackage.js";
 import SampleList from "./component/Admin/Sample/SampleList";
 import NewSample from "./component/Admin/Sample/NewSample";
 import UpdateSample from "./component/Admin/Sample/UpdateSample";
-import { createContext, useReducer } from "react";
-import { initialState, reducer } from "../src/reducers/Reducer";
-export const UserContext = createContext();
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-console.log(`APP.JS ${state}`)
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   const [contactData, setContactData] = useState("");
   const [registerData, setRegisterData] = useState("");
@@ -70,136 +65,131 @@ console.log(`APP.JS ${state}`)
 
   return (
     <>
-      <UserContext.Provider value={{ state, dispatch }}>
-        <Router>
-          {/* <Header /> */}
+      <Router>
+        {/* <Header /> */}
 
-          {/* {isAuthenticated && <UserOption user={{ loading, user }} />} */}
-          <Routes>
-            <Route path="/loading" element={<Loader />} />
+        {/* {isAuthenticated && <UserOption user={{ loading, user }} />} */}
+        <Routes>
+          <Route path="/loading" element={<Loader />} />
 
-            {/* <Route path="/search" element={<Search />} /> */}
-            {isAuthenticated && (
-              <Route path="/admin/me/update" element={<ProfileUpdate />} />
-            )}
+          {/* <Route path="/search" element={<Search />} /> */}
+          {isAuthenticated && (
+            <Route path="/admin/me/update" element={<ProfileUpdate />} />
+          )}
 
-            {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
+          {/* <Route path="/admin/login" element={<AdminLoginSignUp />} /> */}
+          <Route
+            path="/"
+            element={<LoginScreen setContactData={setContactData} />}
+          />
+          <Route
+            path="/admin/register"
+            element={<RegisterScreen setRegisterData={setRegisterData} />}
+          />
+          <Route
+            path="/otp"
+            element={<OtpScreen data={[contactData, registerData]} />}
+          />
+
+          <Route
+            OtpScreen
+            path="/admin/dashboard"
+            element={
+              // <ProtectedRoute isAdmin={true}>
+              <Dashboard />
+              // </ProtectedRoute>
+            }
+          />
+          {isAuthenticated && (
+            <Route path="/admin/products" element={<ProductList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/product" element={<NewProduct />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/product/:id" element={<UpdateProduct />} />
+          )}
+
+          {isAuthenticated && (
+            <Route path="/admin/orders" element={<OrderList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/order/:id" element={<ProcessOrder />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/users" element={<UserList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/user/:id" element={<UpdateUser />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/reviews" element={<ProductReviews />} />
+          )}
+          {/* <Route path="*" element={<ErrorPage />} /> */}
+
+          {isAuthenticated && (
+            <Route path="/admin/me" element={<AdminProfile />} />
+          )}
+
+          {isAuthenticated && (
+            <Route path="/admin/categories" element={<CategoryList />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/category" element={<NewCategory />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/category/:id" element={<UpdateCategory />} />
+          )}
+
+          {isAuthenticated && (
+            <Route path="/admin/prescription" element={<PrescriptionList />} />
+          )}
+          {isAuthenticated && (
             <Route
-              path="/"
-              element={<LoginScreen setContactData={setContactData} />}
+              path="/admin/prescription/:id"
+              element={<PrescriptionProcess />}
             />
+          )}
+
+          {isAuthenticated && (
             <Route
-              path="/admin/register"
-              element={<RegisterScreen setRegisterData={setRegisterData} />}
+              path="/admin/addPrescription"
+              element={<NewPrescription />}
             />
-            <Route
-              path="/otp"
-              element={<OtpScreen data={[contactData, registerData]} />}
-            />
+          )}
 
-            <Route
-              OtpScreen
-              path="/admin/dashboard"
-              element={
-                // <ProtectedRoute isAdmin={true}>
-                <Dashboard />
-                // </ProtectedRoute>
-              }
-            />
-            {isAuthenticated && (
-              <Route path="/admin/products" element={<ProductList />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/product" element={<NewProduct />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/product/:id" element={<UpdateProduct />} />
-            )}
+          <Route path="/admin/banner" element={<BannerList />} />
 
-            {isAuthenticated && (
-              <Route path="/admin/orders" element={<OrderList />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/order/:id" element={<ProcessOrder />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/users" element={<UserList />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/user/:id" element={<UpdateUser />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/reviews" element={<ProductReviews />} />
-            )}
-            {/* <Route path="*" element={<ErrorPage />} /> */}
+          {isAuthenticated && (
+            <Route path="/admin/addbanner" element={<NewBanner />} />
+          )}
+          {isAuthenticated && (
+            <Route path="/admin/banner/:id" element={<UpdateBanner />} />
+          )}
 
-            {isAuthenticated && (
-              <Route path="/admin/me" element={<AdminProfile />} />
-            )}
+          <Route path="/payment" element={<Home />} />
+          <Route path="/paymentsuccess" element={<PaymentSuccess />} />
 
-            {isAuthenticated && (
-              <Route path="/admin/categories" element={<CategoryList />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/category" element={<NewCategory />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/category/:id" element={<UpdateCategory />} />
-            )}
+          <Route path="/admin/labcategory" element={<NewlabCategory />} />
+          <Route path="/admin/labcategories" element={<LabCategoryList />} />
+          <Route
+            path="/admin/labcategory/:id"
+            element={<UpdateLabCategory />}
+          />
 
-            {isAuthenticated && (
-              <Route
-                path="/admin/prescription"
-                element={<PrescriptionList />}
-              />
-            )}
-            {isAuthenticated && (
-              <Route
-                path="/admin/prescription/:id"
-                element={<PrescriptionProcess />}
-              />
-            )}
+          <Route path="/admin/test" element={<NewTest />} />
+          <Route path="/admin/tests" element={<TestList />} />
+          <Route path="/admin/test/:id" element={<UpdateTest />} />
 
-            {isAuthenticated && (
-              <Route
-                path="/admin/addPrescription"
-                element={<NewPrescription />}
-              />
-            )}
+          <Route path="/admin/package" element={<NewPackage />} />
+          <Route path="/admin/packages" element={<PackageList />} />
+          <Route path="/admin/package/:id" element={<UpdatePackage />} />
 
-            <Route path="/admin/banner" element={<BannerList />} />
-
-            {isAuthenticated && (
-              <Route path="/admin/addbanner" element={<NewBanner />} />
-            )}
-            {isAuthenticated && (
-              <Route path="/admin/banner/:id" element={<UpdateBanner />} />
-            )}
-
-            <Route path="/payment" element={<Home />} />
-            <Route path="/paymentsuccess" element={<PaymentSuccess />} />
-
-            <Route path="/admin/labcategory" element={<NewlabCategory />} />
-            <Route path="/admin/labcategories" element={<LabCategoryList />} />
-            <Route
-              path="/admin/labcategory/:id"
-              element={<UpdateLabCategory />}
-            />
-
-            <Route path="/admin/test" element={<NewTest />} />
-            <Route path="/admin/tests" element={<TestList />} />
-            <Route path="/admin/test/:id" element={<UpdateTest />} />
-
-            <Route path="/admin/package" element={<NewPackage />} />
-            <Route path="/admin/packages" element={<PackageList />} />
-            <Route path="/admin/package/:id" element={<UpdatePackage />} />
-
-            <Route path="/admin/samples" element={<SampleList />} />
-            <Route path="/admin/sample" element={<NewSample />} />
-            <Route path="/admin/sample/:id" element={<UpdateSample />} />
-          </Routes>
-        </Router>
-      </UserContext.Provider>
+          <Route path="/admin/samples" element={<SampleList />} />
+          <Route path="/admin/sample" element={<NewSample />} />
+          <Route path="/admin/sample/:id" element={<UpdateSample />} />
+        </Routes>
+      </Router>
     </>
   );
 }

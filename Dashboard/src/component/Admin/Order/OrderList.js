@@ -24,7 +24,7 @@ const OrderList = () => {
 
   const alert = useAlert();
 
-  const {loading, error, orders } = useSelector((state) => state.allOrders);
+  const { loading, error, orders } = useSelector((state) => state.allOrders);
 
   const { error: deleteError, isDeleted } = useSelector((state) => state.order);
 
@@ -56,7 +56,7 @@ const OrderList = () => {
     {
       field: "id",
       headerName: "Order ID",
-      minwidth: 200,
+      minWidth: 300,
       flex: 0.1,
       headerAlign: "center",
       align: "center",
@@ -65,7 +65,7 @@ const OrderList = () => {
     {
       field: "status",
       headerName: "Status",
-      minWidth: 200,
+      minWidth: 250,
       flex: 0.1,
       align: "center",
       headerAlign: "center",
@@ -79,7 +79,7 @@ const OrderList = () => {
       field: "itemsQty",
       headerName: "Items Qty",
       type: "number",
-      minWidth: 200,
+      minWidth: 250,
       flex: 0.1,
       headerAlign: "center",
       align: "center",
@@ -88,7 +88,7 @@ const OrderList = () => {
     {
       field: "amount",
       headerName: "Amount",
-      minWidth: 200,
+      minWidth: 250,
       type: "number",
       flex: 0.1,
       headerAlign: "center",
@@ -99,7 +99,7 @@ const OrderList = () => {
       field: "actions",
       flex: 0.1,
       headerName: "Actions",
-      minWidth: 200,
+      minWidth: 250,
       type: "number",
       headerAlign: "center",
       align: "center",
@@ -138,26 +138,31 @@ const OrderList = () => {
 
   return (
     <Fragment>
-        <MetaData title={`ALL ORDERS - Admin`} />
+      <MetaData title={`ALL ORDERS - Admin`} />
 
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          {loading ? (<Loader />) :  <> <h1 id="productListHeading">ALL ORDERS</h1>
-          
-          {orders && orders.length > 0 ? (
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={10}
-              disableSelectionOnClick
-              className="productListTable"
-              autoHeight
-            />
+          {loading ? (
+            <Loader />
           ) : (
-            <NotFoundProduct />
-          )} </>}
-      
+            <>
+              {" "}
+              <h1 id="productListHeading">ALL ORDERS</h1>
+              {orders && orders.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  autoHeight
+                />
+              ) : (
+                <NotFoundProduct />
+              )}{" "}
+            </>
+          )}
         </div>
       </div>
     </Fragment>

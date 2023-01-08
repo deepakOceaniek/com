@@ -23,7 +23,7 @@ const PackageList = () => {
 
   const alert = useAlert();
 
-  const {loading, error, packages } = useSelector((state) => state.packages);
+  const { loading, error, packages } = useSelector((state) => state.packages);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.testPackage
@@ -57,8 +57,8 @@ const PackageList = () => {
     {
       field: "id",
       headerName: "Package ID",
-      minWidth: 150,
-      flex: 0.5,
+      minWidth: 0,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
       hide: true,
@@ -67,15 +67,16 @@ const PackageList = () => {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 100,
-      flex: 0.5,
+      minWidth: 250,
+      flex: 0.3,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      minWidth: 300,
+      flex: 0.5,
       headerAlign: "center",
       align: "center",
 
@@ -96,7 +97,7 @@ const PackageList = () => {
     {
       field: "sample",
       headerName: "Sample",
-      minWidth: 50,
+      minWidth: 250,
       flex: 0.3,
       headerAlign: "center",
       align: "center",
@@ -106,17 +107,17 @@ const PackageList = () => {
       field: "price",
       headerName: "Price",
       type: "number",
-      minWidth: 60,
+      minWidth: 200,
       headerAlign: "center",
       align: "center",
-      flex: 0.5,
+      flex: 0.3,
     },
 
     {
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
-      minWidth: 150,
+      minWidth: 200,
       headerAlign: "center",
       align: "center",
       type: "number",
@@ -164,24 +165,28 @@ const PackageList = () => {
         <SideBar />
 
         <div className="productListContainer">
-         {loading ? (<Loader />): <>
-         <h1 id="productListHeading">ALL PACKAGE</h1>
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <h1 id="productListHeading">ALL PACKAGE</h1>
 
-{packages && packages.length > 0 ? (
-  <DataGrid
-    rows={rows}
-    columns={columns}
-    pageSize={10}
-    disableSelectionOnClick
-    className="productListTable"
-    rowHeight={100}
-    autoHeight
-    // checkboxSelection
-  />
-) : (
-  <NotFoundProduct />
-)}
-         </>}
+              {packages && packages.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                  autoHeight
+                  // checkboxSelection
+                />
+              ) : (
+                <NotFoundProduct />
+              )}
+            </>
+          )}
         </div>
       </div>
     </Fragment>

@@ -24,9 +24,11 @@ const NewProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  const [type, setType] = useState("");
+
   const [salt, setSalt] = useState("");
   const [expired, setExpired] = useState("");
-  const [tabletPerStrip, setTabletPerStrip] = useState("");
+  const [productQuantity, setProductQuantity] = useState("");
   const [company, setCompany] = useState("");
   const [category, setCategory] = useState("");
   const [discount, setDiscount] = useState("");
@@ -75,9 +77,10 @@ const NewProduct = () => {
     myForm.set("name", name);
     myForm.set("description", description);
     myForm.set("price", price);
+    myForm.set("type", type);
     myForm.set("salt", salt);
     myForm.set("expired", expired);
-    myForm.set("tabletPerStrip", tabletPerStrip);
+    myForm.set("productQuantity", productQuantity);
     myForm.set("company", company);
     myForm.set("category", category);
     myForm.set("discount", discount);
@@ -130,7 +133,7 @@ const NewProduct = () => {
                 <div className="product_row">
                   <h1>Add Product</h1>
                 </div>
-                <div className="product_row">
+                <div className="product_row field">
                   <div className="inputdiv">
                     <input
                       type="text"
@@ -153,6 +156,13 @@ const NewProduct = () => {
                       placeholder=" Price"
                       required
                       onChange={(e) => setPrice(e.target.value)}
+                    />
+                    <input
+                      type="number"
+                      className="productadd"
+                      placeholder="Type"
+                      required
+                      onChange={(e) => setType(e.target.value)}
                     />
                     <input
                       type="text"
@@ -183,9 +193,9 @@ const NewProduct = () => {
                     <input
                       className="productadd"
                       type="number"
-                      placeholder="tabletPerStrip"
+                      placeholder="Product Quantity"
                       required
-                      onChange={(e) => setTabletPerStrip(e.target.value)}
+                      onChange={(e) => setProductQuantity(e.target.value)}
                     />
                   </div>
                   <div className="inputdiv">

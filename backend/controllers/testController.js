@@ -2,10 +2,10 @@ const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const ErrorHandler = require("../utils/errorHandler");
 const ApiFeatures = require("../utils/apiFeatures");
-const Test = require("../Models/testModel");
-const Package = require("../Models/packageTestModel");
-const LabCategory = require("../Models/labCategory");
-const Sample = require("../Models/sampleModel")
+const Test = require("../models/testModel");
+const Package = require("../models/packageTestModel");
+const LabCategory = require("../models/labCategory");
+const Sample = require("../models/sampleModel");
 
 // Create Test --admin
 exports.createTest = catchAsyncErrors(async (req, res, next) => {
@@ -526,12 +526,6 @@ exports.deleteLabCategory = catchAsyncErrors(async (req, res, next) => {
     .json({ success: true, message: "Product deleted Successfully" });
 });
 
-
-
-
-
-
-
 // All Sample   --admin
 exports.getAdminSample = catchAsyncErrors(async (req, res, next) => {
   const samples = await Sample.find();
@@ -585,10 +579,3 @@ exports.deleteSample = catchAsyncErrors(async (req, res, next) => {
     .status(200)
     .json({ success: true, message: "Sample deleted Successfully" });
 });
-
-
-
-
-
-
-

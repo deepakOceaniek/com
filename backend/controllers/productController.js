@@ -1,9 +1,9 @@
 const Product = require("../models/productModel");
-const Category =require("../Models/categoryModel")
-const Prescription = require("../Models/prescriptionModel")
-const  Banner = require("../Models/bannerModel")
+const Category =require("../models/categoryModel")
+const Prescription = require("../models/prescriptionModel")
+const  Banner = require("../models/bannerModel")
 const sendToken = require("../utils/jwtToken");
-const Cart = require("../Models/CartModel")
+const Cart = require("../models/CartModel")
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
@@ -587,13 +587,21 @@ exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
 
 // Add to cart 
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
-  const { productId, quantity, name, price, discount } = req.body;
+  const { productId, quantity } = req.body;
   console.log(req.body)
   console.log(req.user.id)
   const user = req.user.id; 
   console.log(user)
+  // const query = [
+  //   {
+  //     path: "products.productId",
+  //     select: "images name price discount",
+  //   },
+ 
+  // ];
+
   try {
-    let cart = await Cart.findOne({ user });
+    let cart = await Cart.findOne({ user })
     if (cart) {
       //cart exists for user
       let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
@@ -601,7 +609,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
        cart.products[itemIndex].quantity = quantity       
       } else {
         //product does not exists in cart, add new item
-        cart.products.push({ productId, quantity, name, price,discount});
+        cart.products.push({ productId, quantity});
       }
       cart = await cart.save();
       // return res.status(201).send(cart);
@@ -609,7 +617,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
       //no cart for user, create new cart
        cart = await Cart.create({
         user,
-        products: [{ productId, quantity, name, price ,discount}]
+        products: [{ productId, quantity}]
       }); 
     }
     return res.status(201).send(cart);
@@ -623,7 +631,21 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
 exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   
   const userId = req.user.id; 
-   let cart = await Cart.findOne({user: userId }).populate("user", "defaultAddress" );
+
+
+  const query = [
+    {
+      path: "user",
+      select: "defaultAddress",
+    },
+    {
+      path: "products.productId",
+      select: "images name price discount",
+    },
+ 
+  ];
+   let cart = await Cart.findOne({user:userId }).populate(query);
+   console.log(cart)
    if(cart){
      
      // const prices = cart.products.map(product=>product.price * product.quantity)
@@ -635,16 +657,16 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
      let totalSaving = 0
     //  console.log(cart.products[0].populate("productId","name price discount" ))
      for(let product of cart.products ){
-      totalPrice += product.price * product.quantity
+      totalPrice += product.productId.price * product.quantity
       console.log(product)
-      afterDiscountPrice  +=  (product.price - ((product.discount /100)* product.price))*product.quantity
+      afterDiscountPrice  +=  (product.productId.price - ((product.productId.discount /100)* product.productId.price))*product.quantity
       totalSaving = totalPrice - afterDiscountPrice     
     }
 
     cart.totalPrice = totalPrice // Todo : afterDiscountPrice
     cart.totalSaving = totalSaving
 
-    if(afterDiscountPrice < 500){
+    if(afterDiscountPrice < 500 && cart.products.length > 0){
      cart.shippingFee = 99 
 
     }else{
@@ -662,7 +684,9 @@ exports.deleteFromCart = catchAsyncErrors(async (req, res, next) => {
   const  productId  = req.query.productId; 
   const userId = req.user.id; 
   try {
+
     let cart = await Cart.findOne({ user :userId });
+
     if (cart) {
       //cart exists for user
       let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);

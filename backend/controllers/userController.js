@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
-const Prescription = require("../Models/prescriptionModel");
-const Banner = require("../Models/bannerModel");
+const Prescription = require("../models/prescriptionModel");
+const Banner = require("../models/bannerModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
@@ -83,12 +83,12 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   // if (!name || !contact || contact.toString().length !== 12) {
   //   return next(new ErrorHandler("Please fill the all Entries Properly", 400));
   // }
-   // console.log(req.body);
+  // console.log(req.body);
   // console.log(req.query.contact);
   // console.log(req.query.channel);
 
   const userExist = await User.findOne({ contact: req.query.contact });
-console.log(userExist)
+  console.log(userExist);
   if (userExist) {
     return next(new ErrorHandler("Already registered", 409));
   } else {
@@ -277,14 +277,14 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
     toTime: req.body.toTime,
     status: req.body.status,
   };
-  console.log(newUserData)
-  console.log(`user id upper${req.user.id}`)
-  console.log(`profileImage  file ${req.body.profileImage}`)
-  console.log(`body ${req.body}`)
-  console.log(`certificateImage  file ${req.body.certificateImage}`)
+  console.log(newUserData);
+  console.log(`user id upper${req.user.id}`);
+  console.log(`profileImage  file ${req.body.profileImage}`);
+  console.log(`body ${req.body}`);
+  console.log(`certificateImage  file ${req.body.certificateImage}`);
 
   // Cloudinary
-  if (req.body.profileImage !== "" || req.body.profileImage !== undefined ) {
+  if (req.body.profileImage !== "" || req.body.profileImage !== undefined) {
     const user = await Admin.findById(req.user.id);
     const imageId = user.profileImage.public_id;
 
@@ -304,7 +304,10 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
       url: profileMyCloud.secure_url,
     };
   }
-  if (req.body.certificateImage !== "" || req.body.certificateImage !== undefined ) {
+  if (
+    req.body.certificateImage !== "" ||
+    req.body.certificateImage !== undefined
+  ) {
     const user = await Admin.findById(req.user.id);
     const imageId = user.certificateImage.public_id;
 
@@ -324,7 +327,7 @@ exports.updateAdminProfile = catchAsyncErrors(async (req, res, next) => {
       url: certificateMyCloud.secure_url,
     };
   }
-  console.log(`user id lower ${req.user.id}`)
+  console.log(`user id lower ${req.user.id}`);
   const user = await Admin.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
@@ -410,7 +413,7 @@ exports.getAllAddress = catchAsyncErrors(async (req, res, next) => {
 
 // Add user Address
 exports.addUserAddress = catchAsyncErrors(async (req, res, next) => {
-  const { name ,address, city, area, state, pinCode, contact } = req.body;
+  const { name, address, city, area, state, pinCode, contact } = req.body;
   console.log(req.body);
   if (!name || !address || !city || !area || !state || !pinCode || !contact) {
     res.status(400).json({ message: "please fill the Address details" });
@@ -522,14 +525,12 @@ exports.getAddressDefault = catchAsyncErrors(async (req, res, next) => {
   if (address.length <= 0) {
     return next(new ErrorHandler("User address not found", 400));
   } else {
-    const defaultaddress =   await user.makeDefault(address)
+    const defaultaddress = await user.makeDefault(address);
     res.status(200).json({
       success: true,
     });
   }
 });
-
-
 
 //Add prescription
 exports.addPrescription = catchAsyncErrors(async (req, res, next) => {

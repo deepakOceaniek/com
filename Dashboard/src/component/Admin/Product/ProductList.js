@@ -23,7 +23,7 @@ const ProductList = () => {
 
   const alert = useAlert();
 
-  const {loading, error, products } = useSelector((state) => state.products);
+  const { loading, error, products } = useSelector((state) => state.products);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -57,8 +57,8 @@ const ProductList = () => {
     {
       field: "id",
       headerName: "Product ID",
-      minWidth: 150,
-      flex: 0.5,
+      minWidth: 0,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
       hide: true,
@@ -67,7 +67,7 @@ const ProductList = () => {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 100,
+      minWidth: 250,
       flex: 0.5,
       headerAlign: "center",
       align: "center",
@@ -75,8 +75,8 @@ const ProductList = () => {
     {
       field: "image",
       headerName: "Image",
-      minWidth: 150,
-      flex:0.5,
+      minWidth: 250,
+      flex: 0.5,
       headerAlign: "center",
       align: "center",
 
@@ -97,7 +97,7 @@ const ProductList = () => {
       field: "stock",
       headerName: "Stock",
       type: "number",
-      minWidth: 100,
+      minWidth: 250,
       flex: 0.3,
       headerAlign: "center",
       align: "center",
@@ -107,7 +107,7 @@ const ProductList = () => {
       field: "price",
       headerName: "Price",
       type: "number",
-      minWidth: 60,
+      minWidth: 250,
       headerAlign: "center",
       align: "center",
       flex: 0.5,
@@ -117,7 +117,7 @@ const ProductList = () => {
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
-      minWidth: 150,
+      minWidth: 250,
       headerAlign: "center",
       align: "center",
       type: "number",
@@ -163,24 +163,26 @@ const ProductList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-        {loading ? (<Loader />) :<> 
-        
-          <h1 id="productListHeading">ALL PRODUCTS</h1>
-          {products && products.length > 0 ? (
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={10}
-              disableSelectionOnClick
-              className="productListTable"
-              rowHeight={100}
-              // checkboxSelection
-            />
+          {loading ? (
+            <Loader />
           ) : (
-            <NotFoundProduct />
+            <>
+              <h1 id="productListHeading">ALL PRODUCTS</h1>
+              {products && products.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                  // checkboxSelection
+                />
+              ) : (
+                <NotFoundProduct />
+              )}
+            </>
           )}
-        
-        </>}
         </div>
       </div>
     </Fragment>

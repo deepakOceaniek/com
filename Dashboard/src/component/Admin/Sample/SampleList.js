@@ -23,7 +23,7 @@ const SampleList = () => {
 
   const alert = useAlert();
 
-  const { loading , error, samples } = useSelector((state) => state.samples);
+  const { loading, error, samples } = useSelector((state) => state.samples);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.testPackage
@@ -57,8 +57,8 @@ const SampleList = () => {
     {
       field: "id",
       headerName: "Sample ID",
-      minWidth: 150,
-      flex: 0.5,
+      minWidth: 0,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
       hide: true,
@@ -67,25 +67,25 @@ const SampleList = () => {
     {
       field: "name",
       headerName: "Sample Name",
-      minWidth: 100,
+      minWidth: 250,
       flex: 0.5,
       headerAlign: "center",
       align: "center",
     },
     {
-        field: "sampleCode",
-        headerName: "Sample Code",
-        minWidth: 100,
-        flex: 0.5,
-        headerAlign: "center",
-        align: "center",
-      },
-    
+      field: "sampleCode",
+      headerName: "Sample Code",
+      minWidth: 250,
+      flex: 0.5,
+      headerAlign: "center",
+      align: "center",
+    },
+
     {
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
-      minWidth: 150,
+      minWidth: 250,
       headerAlign: "center",
       align: "center",
       type: "number",
@@ -113,7 +113,7 @@ const SampleList = () => {
   const rows = [];
 
   samples &&
-  samples.forEach((item) => {
+    samples.forEach((item) => {
       rows.push({
         id: item._id,
         sampleCode: item.sampleCode,
@@ -128,20 +128,26 @@ const SampleList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-          {loading ? (<Loader />): <>
-          <h1 id="productListHeading">ALL SAMPLES</h1>
-            {samples && samples.length >0 ? (      <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            rowHeight={100}
-            // checkboxSelection
-          />):(<NotFoundProduct />) }
-          </>}
-       
-         
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <h1 id="productListHeading">ALL SAMPLES</h1>
+              {samples && samples.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                  // checkboxSelection
+                />
+              ) : (
+                <NotFoundProduct />
+              )}
+            </>
+          )}
         </div>
       </div>
     </Fragment>

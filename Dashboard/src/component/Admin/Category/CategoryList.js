@@ -23,8 +23,10 @@ const CategoryList = () => {
 
   const alert = useAlert();
 
-  const {loading, error, categories } = useSelector((state) => state.categories);
-console.log(categories)
+  const { loading, error, categories } = useSelector(
+    (state) => state.categories
+  );
+  console.log(categories);
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
   );
@@ -54,22 +56,29 @@ console.log(categories)
   }, [dispatch, alert, error, deleteError, Navigate, isDeleted]);
 
   const columns = [
-    { field: "id", headerName: "Category ID", minWidth: 100, flex: 0.4 ,headerAlign: "center",
-    align: "center",},
+    {
+      field: "id",
+      headerName: "Category ID",
+      minWidth: 0,
+      flex: 0.1,
+      headerAlign: "center",
+      align: "center",
+      hide: true,
+    },
 
     {
       field: "name",
       headerName: "Name",
-      minWidth: 100,
-      flex: 0.4,
+      minWidth: 250,
+      flex: 0.3,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "image",
       headerName: "Image",
-      width: 300,
-      flex: 0.4,
+      minWidth: 500,
+      flex: 0.5,
 
       headerAlign: "center",
       align: "center",
@@ -77,7 +86,6 @@ console.log(categories)
       renderCell: (params) => {
         return (
           <div style={{ height: "90px", width: "60px", borderRadius: "30%" }}>
-          
             <img
               style={{ height: "100%", width: "100%" }}
               src={params.value}
@@ -92,7 +100,7 @@ console.log(categories)
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
-      minWidth: 150,
+      minWidth: 250,
       type: "number",
       sortable: false,
       headerAlign: "center",
@@ -119,7 +127,7 @@ console.log(categories)
 
   const rows = [];
   categories &&
-  categories.forEach((item) => {
+    categories.forEach((item) => {
       rows.push({
         id: item._id,
         name: item.categoryName,
@@ -135,16 +143,26 @@ console.log(categories)
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-    {loading ? (<Loader />):<>       <h1 id="productListHeading">ALL CATEGORY</h1>
-{categories && categories.length >0 ? (  <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            rowHeight={100}
-          />):( <NotFoundProduct />)}</>}
-        
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              {" "}
+              <h1 id="productListHeading">ALL CATEGORY</h1>
+              {categories && categories.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                />
+              ) : (
+                <NotFoundProduct />
+              )}
+            </>
+          )}
         </div>
       </div>
     </Fragment>

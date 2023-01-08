@@ -24,7 +24,7 @@ const TestList = () => {
 
   const alert = useAlert();
 
-  const {loading, error, tests } = useSelector((state) => state.tests);
+  const { loading, error, tests } = useSelector((state) => state.tests);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.testPackage
@@ -58,8 +58,8 @@ const TestList = () => {
     {
       field: "id",
       headerName: "Test ID",
-      minWidth: 150,
-      flex: 0.5,
+      minWidth: 0,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
       hide: true,
@@ -68,7 +68,7 @@ const TestList = () => {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 100,
+      minWidth: 250,
       flex: 0.5,
       headerAlign: "center",
       align: "center",
@@ -76,7 +76,8 @@ const TestList = () => {
     {
       field: "image",
       headerName: "Image",
-      width: 150,
+      minWidth: 500,
+      flex: 0.5,
       headerAlign: "center",
       align: "center",
 
@@ -97,7 +98,7 @@ const TestList = () => {
     {
       field: "category",
       headerName: "Category",
-      minWidth: 50,
+      minWidth: 250,
       flex: 0.3,
       headerAlign: "center",
       align: "center",
@@ -105,7 +106,7 @@ const TestList = () => {
     {
       field: "description",
       headerName: "Description",
-      minWidth: 50,
+      minWidth: 250,
       flex: 0.3,
       headerAlign: "center",
       align: "center",
@@ -115,7 +116,7 @@ const TestList = () => {
       field: "price",
       headerName: "Price",
       type: "number",
-      minWidth: 60,
+      minWidth: 200,
       headerAlign: "center",
       align: "center",
       flex: 0.5,
@@ -125,7 +126,7 @@ const TestList = () => {
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
-      minWidth: 150,
+      minWidth: 200,
       headerAlign: "center",
       align: "center",
       type: "number",
@@ -172,19 +173,26 @@ const TestList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="prodackagetContainer">
-  {loading ? (<Loader />) : <> 
-  <h1 id="productListHeading">ALL Test</h1>
-{tests && tests.length >0 ? (<DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            rowHeight={100}
-            // checkboxSelection
-          />):(<NotFoundProduct />)}
-  </>}
-          
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <h1 id="productListHeading">ALL Test</h1>
+              {tests && tests.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                  // checkboxSelection
+                />
+              ) : (
+                <NotFoundProduct />
+              )}
+            </>
+          )}
         </div>
       </div>
     </Fragment>
