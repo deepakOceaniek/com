@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./Sidebar.js";
 import "./dashboard.css";
-import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,12 +10,9 @@ import { getAllUsers } from "../../actions/userAction.js";
 import MetaData from "../layout/MetaData";
 import Chart from "chart.js/auto";
 import Loader from "../layout/Loader/Loader.js";
-import { UserContext } from "../../App";
 
 const Dashboard = () => {
-  const { dispatch } = useContext(UserContext);
-
-  const dispatched = useDispatch();
+  const dispatch = useDispatch();
 
   const { user, error, loading, isAuthenticated } = useSelector(
     (state) => state.user
@@ -43,10 +39,10 @@ const Dashboard = () => {
       dispatch({ type: "PHARMACY", payload: true });
     }
 
-    dispatched(getAdminProduct());
-    dispatched(getAllOrders());
-    dispatched(getAllUsers());
-  }, [dispatched, dispatch, user]);
+    dispatch(getAdminProduct());
+    dispatch(getAllOrders());
+    dispatch(getAllUsers());
+  }, [dispatch, user]);
 
   let totalAmount = 0;
   orders &&

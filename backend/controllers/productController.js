@@ -587,13 +587,21 @@ exports.deleteBanner = catchAsyncErrors(async (req, res, next) => {
 
 // Add to cart 
 exports.addToCart = catchAsyncErrors(async (req, res, next) => {
-  const { productId, quantity, name, price, discount } = req.body;
+  const { productId, quantity } = req.body;
   console.log(req.body)
   console.log(req.user.id)
   const user = req.user.id; 
   console.log(user)
+  // const query = [
+  //   {
+  //     path: "products.productId",
+  //     select: "images name price discount",
+  //   },
+ 
+  // ];
+
   try {
-    let cart = await Cart.findOne({ user });
+    let cart = await Cart.findOne({ user })
     if (cart) {
       //cart exists for user
       let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
@@ -601,7 +609,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
        cart.products[itemIndex].quantity = quantity       
       } else {
         //product does not exists in cart, add new item
-        cart.products.push({ productId, quantity, name, price,discount});
+        cart.products.push({ productId, quantity});
       }
       cart = await cart.save();
       // return res.status(201).send(cart);
@@ -609,7 +617,7 @@ exports.addToCart = catchAsyncErrors(async (req, res, next) => {
       //no cart for user, create new cart
        cart = await Cart.create({
         user,
-        products: [{ productId, quantity, name, price ,discount}]
+        products: [{ productId, quantity}]
       }); 
     }
     return res.status(201).send(cart);
@@ -631,7 +639,7 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
     },
     {
       path: "products.productId",
-      select: "images ",
+      select: "images name price discount",
     },
  
   ];
@@ -648,16 +656,16 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
      let totalSaving = 0
     //  console.log(cart.products[0].populate("productId","name price discount" ))
      for(let product of cart.products ){
-      totalPrice += product.price * product.quantity
+      totalPrice += product.productId.price * product.quantity
       console.log(product)
-      afterDiscountPrice  +=  (product.price - ((product.discount /100)* product.price))*product.quantity
+      afterDiscountPrice  +=  (product.productId.price - ((product.productId.discount /100)* product.productId.price))*product.quantity
       totalSaving = totalPrice - afterDiscountPrice     
     }
 
     cart.totalPrice = totalPrice // Todo : afterDiscountPrice
     cart.totalSaving = totalSaving
 
-    if(afterDiscountPrice < 500){
+    if(afterDiscountPrice < 500 && cart.products.length > 0){
      cart.shippingFee = 99 
 
     }else{

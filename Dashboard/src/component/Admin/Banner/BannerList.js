@@ -14,7 +14,7 @@ import MetaData from "../../layout/MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SideBar from "../Sidebar";
-import { DELETE_BANNER_RESET  } from "../../../constants/productConstants";
+import { DELETE_BANNER_RESET } from "../../../constants/productConstants";
 import NotFoundProduct from "../../layout/NotFound/NotFoundProduct";
 import Loader from "../../layout/Loader/Loader";
 const BannerList = () => {
@@ -23,7 +23,7 @@ const BannerList = () => {
 
   const alert = useAlert();
 
-  const {loading , error, banners } = useSelector((state) => state.banners);
+  const { loading, error, banners } = useSelector((state) => state.banners);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.product
@@ -57,19 +57,18 @@ const BannerList = () => {
     {
       field: "id",
       headerName: "Banner ID",
-      minWidth: 150,
-      flex: 0.5,
+      minWidth: 0,
+      flex: 0.1,
       headerAlign: "center",
       align: "center",
       hide: true,
     },
 
-   
     {
       field: "image",
       headerName: "Image",
-      width: 900,
-      flex: 0.8,
+      minWidth: 900,
+      flex: 1,
       headerAlign: "center",
       align: "center",
 
@@ -86,12 +85,12 @@ const BannerList = () => {
       },
       // editable: true,
     },
-  
+
     {
       field: "actions",
       flex: 0.5,
       headerName: "Actions",
-      minWidth: 150,
+      minWidth: 300,
       headerAlign: "center",
       align: "center",
       type: "number",
@@ -119,12 +118,11 @@ const BannerList = () => {
   const rows = [];
 
   banners &&
-  banners.forEach((item) => {
+    banners.forEach((item) => {
       rows.push({
         id: item._id,
         type: "image",
         image: item.images[0].url,
-       
       });
     });
 
@@ -135,21 +133,26 @@ const BannerList = () => {
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
-       {loading ? (<Loader />): <> 
-       <h1 id="productListHeading">ALL Banners</h1>
-          {banners && banners.length > 0 ? (   <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="productListTable"
-            rowHeight={100}
-            // checkboxSelection
-          />):(
-            <NotFoundProduct />
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <h1 id="productListHeading">ALL Banners</h1>
+              {banners && banners.length > 0 ? (
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  pageSize={10}
+                  disableSelectionOnClick
+                  className="productListTable"
+                  rowHeight={100}
+                  // checkboxSelection
+                />
+              ) : (
+                <NotFoundProduct />
+              )}
+            </>
           )}
-       </>}
-       
         </div>
       </div>
     </Fragment>

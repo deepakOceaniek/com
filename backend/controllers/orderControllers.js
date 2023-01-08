@@ -9,20 +9,20 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     shippingInfo,
     orderItems,
     paymentInfo,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
     totalPrice,
+    totalSaving,
+    shippingFee,
+    amountToBePaid,
   } = req.body;
 
   const order = await Order.create({
     shippingInfo,
     orderItems,
     paymentInfo,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
     totalPrice,
+    totalSaving,
+    shippingFee,
+    amountToBePaid,
     paidAt: Date.now(),
     user: req.user._id,
   });
@@ -35,15 +35,20 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
 //Get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
-
   const query = [
     {
       path: "orderItems.product",
-      select: "name price ",
+      select: "name price images",
     },
     {
-      path: "user",
-      select: "name email",
+      path: "shippingInfo.address",
+      select: "defaultAddress",
+      strictPopulate: false,
+    },
+    {
+      path: "orderItems.prescription",
+      select: "images status",
+      strictPopulate: false,
     },
   ];
 
@@ -51,6 +56,8 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   if (!order) {
     return next(new ErrorHandler("Order not found with this Id", 404));
   }
+
+  console.log(order);
   res.status(200).json({
     success: true,
     order,
@@ -86,13 +93,27 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
 
 //Get Single Order --admin
 exports.orderDetailsAdmin = catchAsyncErrors(async (req, res, next) => {
-
-  const order = await Order.findById(req.params.id).populate("user" ," name contact");
+  const query = [
+    {
+      path: "orderItems.product",
+      select: "name price images",
+    },
+    {
+      path: "shippingInfo.address",
+      select: "defaultAddress",
+      strictPopulate: false,
+    },
+    {
+      path: "orderItems.prescription",
+      select: "images status",
+      strictPopulate: false,
+    },
+  ];
+  const order = await Order.findById(req.params.id).populate(query);
   if (!order) {
     return next(new ErrorHandler("Order not found with this Id", 404));
   }
 
-   
   res.status(200).json({
     success: true,
     order,
@@ -121,7 +142,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (req.body.status === "Delivered") {
     order.deliveredAt = Date.now();
   }
-console.log(order)
+  console.log(order);
   await order.save({ validateBeforeSave: false });
   res.status(200).json({
     success: true,

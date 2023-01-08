@@ -15,9 +15,25 @@ const userSchema = mongoose.Schema({
     type: Number,
     required: [true, "please Enter Your Contact Number"],
   },
+  email: {
+    type: String,
+    unique: true,
+    validate: [validator.isEmail, "Please enter a valid Email"],
+  },
+  gender: {
+    type: String,
+  },
 
-  defaultAddress:{
-  type:Object,
+  age: {
+    type: Number,
+  },
+
+  bloodGroup: {
+    type: String,
+  },
+
+  defaultAddress: {
+    type: Object,
   },
 
   userAddresses: [
@@ -32,9 +48,9 @@ const userSchema = mongoose.Schema({
       //   type:Boolean,
       //   default:false
       // },
-      name:{
-        type:String,
-        required:true
+      name: {
+        type: String,
+        required: true,
       },
 
       address: {
@@ -119,7 +135,7 @@ userSchema.methods.addMessage = async function (
       state,
       pinCode,
       contact,
-    }); 
+    });
     await this.save();
     return this.userAddresses;
   } catch (error) {
@@ -127,13 +143,9 @@ userSchema.methods.addMessage = async function (
   }
 };
 
-
-
-userSchema.methods.makeDefault = async function (
-  address,
-) {
+userSchema.methods.makeDefault = async function (address) {
   try {
-    this.defaultAddress = address
+    this.defaultAddress = address;
     await this.save();
     // return this.defaultAddress;
   } catch (error) {

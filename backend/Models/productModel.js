@@ -15,6 +15,10 @@ const productSchema = mongoose.Schema({
     required: [true, "please Enter Product Price"],
     maxLength: [8, "Price can not exceed 8 character"],
   },
+  type: {
+    type: String,
+    required: true,
+  },
   ratings: {
     type: Number,
     default: 0,
@@ -28,7 +32,7 @@ const productSchema = mongoose.Schema({
     required: [true, "please Enter Expiry date"],
   },
 
-  tabletPerStrip: {
+  productQuantity: {
     type: Number,
     required: [true, "please Enter tablet per strip"],
   },
@@ -50,11 +54,6 @@ const productSchema = mongoose.Schema({
     },
   ],
 
-  // category: {
-  //   type: String,
-  //   required: [true, "please Enter Product category"],
-  // },
-
   category: {
     type: mongoose.Schema.ObjectId,
     ref: "Category",
@@ -64,7 +63,7 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 1,
   },
-  discount : {type:Number ,default :0},
+  discount: { type: Number, default: 0 },
   numOfReviews: {
     type: Number,
     default: 0,

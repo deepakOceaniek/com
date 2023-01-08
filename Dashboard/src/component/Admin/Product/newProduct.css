@@ -189,8 +189,9 @@
 
 .content_addproduct {
   display: flex;
+  height: 95vh;
   justify-content: center;
-  margin-top: 2em;
+  margin-top: 0.1em;
   box-shadow: 0px 2px 12px 2px;
   width: 65vw;
   padding: 2em 0em;
@@ -198,14 +199,22 @@
   background-color: #fff;
   background-image: url("../../../../public/Images/backcoveradmin.png");
 }
-
+.addproductrow {
+  padding: 1em 0em;
+}
 .product_row {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-
+.product_row.field {
+  padding-top: 8em;
+  overflow: scroll;
+}
+.product_row.field::-webkit-scrollbar {
+  display: none;
+}
 .productadd {
   width: 24vw;
   height: 5vh;
@@ -216,7 +225,7 @@
 }
 
 .button_row {
-  margin-top: 2em;
+  margin-top: 0.2em;
 }
 #createProductBtn {
   border: none;
@@ -241,7 +250,7 @@
 
 #createProductFormImage > img {
   width: 8vmax;
-  margin: 0 3vmax;
+  margin: 1em 0em;
 }
 
 .addImage {
