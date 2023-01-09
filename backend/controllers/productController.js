@@ -654,24 +654,27 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
      let totalPrice = 0
      let afterDiscountPrice = 0
      let totalSaving = 0
+     let newProducts = []
 
-   
+   console.log(cart.products.length)
      for(let product of cart.products ){
          product = {
         productId : product.productId._id,
         name  : product.productId.name,
         price  : product.productId.price,
         images  : product.productId.images,
-        quantity:product.quantity,
+        quantity: product.quantity,
         discount:product.productId.discount
       };
       console.log(product)
-      // cart.products.push(product) 
+      newProducts.push(product)
+       
       
       totalPrice += product.price * product.quantity
       afterDiscountPrice  +=  (product.price - ((product.discount /100)* product.price))*product.quantity
       totalSaving = totalPrice - afterDiscountPrice   
     }
+    cart.products = newProducts
 
     cart.totalPrice = totalPrice 
     cart.totalSaving = totalSaving
