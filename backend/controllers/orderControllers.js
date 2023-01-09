@@ -6,7 +6,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncError");
 // Create new Order
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
-    shippingInfo,
+    ordersBy,
     orderItems,
     paymentInfo,
     totalPrice,
@@ -16,7 +16,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   } = req.body;
 
   const order = await Order.create({
-    shippingInfo,
+    ordersBy,
     orderItems,
     paymentInfo,
     totalPrice,
@@ -38,10 +38,10 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   const query = [
     {
       path: "orderItems.product",
-      select: "name price images",
+      select: "name price images discount",
     },
     {
-      path: "shippingInfo.address",
+      path: "user",
       select: "defaultAddress",
       strictPopulate: false,
     },
@@ -66,7 +66,18 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
 //Get logged in user All Order
 exports.myOrders = catchAsyncErrors(async (req, res, next) => {
-  const orders = await Order.find({ user: req.user._id });
+  const query = [
+    {
+      path: "user",
+      select: "defaultAddress",
+      strictPopulate: false,
+    },
+    {
+      path: "orderItems.product",
+      select: "name price images discount",
+    },
+  ];
+  const orders = await Order.find({ user: req.user._id }).populate(query);
 
   res.status(200).json({
     success: true,
