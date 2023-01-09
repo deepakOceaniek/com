@@ -16,9 +16,14 @@ const UserOtpScreen = (props) => {
   console.log(`data----------${props.data[0]}`);
   console.log(`data----------${props.data[1]}`);
 
-  // const [otp, setOtp] = useState(0);
-  // console.log(otp);
-  // console.log(isAuthenticated, loading);
+  // const [otp, setOtp] = useState("");
+  //   <OtpInput
+  //   value={otp}
+  //   onChange={handleChange}
+  //   numInputs={4}
+  //   separator={<span>&nbsp;&nbsp;</span>}
+  //   inputStyle={{ width: "2.5vw" }}
+  // />
 
   const [otpData, setOtpData] = useState({
     otpInput1: "",
