@@ -14,14 +14,14 @@ exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
   // req.user = await User.findById(decodedData.id); // jab Tak login rehga request mai  se hum kabhi user ka deta access kar  sakte hai
   // next();
 
-  const reqtoken = req.headers.authorization
-  let token
-if(reqtoken){
-   token = reqtoken.split(" ")[1];
-}else{
-  return next(new ErrorHandler("Please Login to access this resource ", 401));
-}
-console.log(token);
+  const reqtoken = req.headers.authorization;
+  let token;
+  if (reqtoken) {
+    token = reqtoken.split(" ")[1];
+  } else {
+    return next(new ErrorHandler("Please Login to access this resource ", 401));
+  }
+  console.log(token);
 
   // const token = req.headers.authorization;
   if (!token) {
@@ -33,20 +33,20 @@ console.log(token);
   if (!req.user) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }
- console.log(req.user)
-  
+  // console.log(req.user);
+
   next();
 });
 
 exports.isAuthenticatedAdmin = catchAsyncError(async (req, res, next) => {
   const { token } = req.cookies;
-    // console.log(token);
+  // console.log(token);
   if (!token) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }
   const decodedData = jwt.verify(token, process.env.JWT_SECRET);
   req.user = await Admin.findById(decodedData.id); // jab Tak login rehga request mai  se hum kabhi user ka deta access kar  sakte hai
-//  console.log(req.user)
+  //  console.log(req.user)
   next();
 });
 

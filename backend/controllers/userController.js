@@ -88,7 +88,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   // console.log(req.query.channel);
 
   const userExist = await User.findOne({ contact: req.query.contact });
-  console.log(userExist);
+  // console.log(userExist);
   if (userExist) {
     return next(new ErrorHandler("Already registered", 409));
   } else {
@@ -116,8 +116,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 //**  login phoneNumber and channel(sms/call) **
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   const contact = req.query.contact;
-  console.log(req.query.contact);
-  console.log(req.query.channel);
+  // console.log(req.query.contact);
+  // console.log(req.query.channel);
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
 
@@ -151,8 +151,8 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
   // let contact = req.query.phonenumber;
   const user = await User.findOne({ contact });
   const admin = await Admin.findOne({ contact });
-  console.log(`User-----${user}`);
-  console.log(`Admin-----${admin}`);
+  // console.log(`User-----${user}`);
+  // console.log(`Admin-----${admin}`);
   if (user || admin) {
     const verified = await client.verify
       .services(process.env.SERVICEID)
@@ -245,7 +245,7 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 });
 //Get User Details --User Own Details
 exports.getAdminDetails = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.user.id);
+  // console.log(req.user.id);
   const user = await Admin.findById(req.user.id);
   res.status(200).json({ success: true, user });
 });
@@ -262,7 +262,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
-  console.log(user);
+  // console.log(user);
   res.status(200).json({ success: true });
 });
 
