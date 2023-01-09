@@ -645,7 +645,6 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
  
   ];
    let cart = await Cart.findOne({user:userId }).populate(query);
-   console.log(cart)
    if(cart){
      
      // const prices = cart.products.map(product=>product.price * product.quantity)
@@ -655,15 +654,29 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
      let totalPrice = 0
      let afterDiscountPrice = 0
      let totalSaving = 0
-    //  console.log(cart.products[0].populate("productId","name price discount" ))
-     for(let product of cart.products ){
-      totalPrice += product.productId.price * product.quantity
-      console.log(product)
-      afterDiscountPrice  +=  (product.productId.price - ((product.productId.discount /100)* product.productId.price))*product.quantity
-      totalSaving = totalPrice - afterDiscountPrice     
-    }
+     let newProducts = []
 
-    cart.totalPrice = totalPrice // Todo : afterDiscountPrice
+   console.log(cart.products.length)
+     for(let product of cart.products ){
+         product = {
+        productId : product.productId._id,
+        name  : product.productId.name,
+        price  : product.productId.price,
+        images  : product.productId.images,
+        quantity: product.quantity,
+        discount:product.productId.discount
+      };
+      console.log(product)
+      newProducts.push(product)
+       
+      
+      totalPrice += product.price * product.quantity
+      afterDiscountPrice  +=  (product.price - ((product.discount /100)* product.price))*product.quantity
+      totalSaving = totalPrice - afterDiscountPrice   
+    }
+    cart.products = newProducts
+
+    cart.totalPrice = totalPrice 
     cart.totalSaving = totalSaving
 
     if(afterDiscountPrice < 500 && cart.products.length > 0){

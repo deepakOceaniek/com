@@ -14,6 +14,21 @@ const CartSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
+        name: { type: String },
+        price: { type: Number },
+        images: [
+          {
+            public_id: {
+              type: String,
+              required: true,
+            },
+            url: {
+              type: String,
+              required: true,
+            },
+          },
+        ],
+        discount: { type: Number },
         quantity: { type: Number, default: 1 },
       },
     ],
