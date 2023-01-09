@@ -27,6 +27,7 @@ const Sidebar = () => {
     alert.success("Logout Successfully");
     Navigate("/login");
   };
+
   return (
     <>
       {user && user.category === "Pharmacy" ? (

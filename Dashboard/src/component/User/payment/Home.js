@@ -25,9 +25,9 @@ const Home = () => {
       // image: "https://avatars.githubusercontent.com/u/25058652?",
       order_id: order.id,
       callback_url: "/api/v1/paymentverification",
-      //   handler: function (response) {
-      //     console.log(response);
-      //   },
+      // handler: function (response) {
+      //   console.log(response);
+      // },
       prefill: {
         name: "Deepak Singh",
         email: "Deepak@oceaniek.com",

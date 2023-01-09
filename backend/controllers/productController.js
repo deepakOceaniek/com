@@ -632,6 +632,7 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
   
   const userId = req.user.id; 
 
+
   const query = [
     {
       path: "user",
@@ -683,7 +684,9 @@ exports.deleteFromCart = catchAsyncErrors(async (req, res, next) => {
   const  productId  = req.query.productId; 
   const userId = req.user.id; 
   try {
-    let cart = await Cart.findOne({user:userId });
+
+    let cart = await Cart.findOne({ user :userId });
+
     if (cart) {
       //cart exists for user
       let itemIndex = cart.products.findIndex(p =>(p.productId) == productId);
