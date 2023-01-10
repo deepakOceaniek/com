@@ -54,7 +54,7 @@ const Home = () => {
           }),
         });
 
-        const data = resp.json();
+        const data = resp.JSON();
         console.log(data);
       },
       prefill: {
