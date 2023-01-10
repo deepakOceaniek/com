@@ -61,6 +61,8 @@ const NewProduct = () => {
                     <h1>Add New Sample</h1>
                   </div>
                   <div className="Category_row">
+                    <div className="add_new_sample_label">
+                      <label>Sample Name :</label>
                     <input
                       type="text"
                       placeholder="Sample Name"
@@ -68,7 +70,9 @@ const NewProduct = () => {
                       required
                       onChange={(e) => setName(e.target.value)}
                     />
-
+                    </div>
+                    <div className="add_new_sample_label">
+                      <label>Sample Code :</label>
                     <input
                       type="text"
                       placeholder="Sample Code"
@@ -76,6 +80,8 @@ const NewProduct = () => {
                       className="sample_input"
                       onChange={(e) => setSampleCode(e.target.value)}
                     />
+                    </div>
+
                   </div>
 
                   <div className="button_Category">

@@ -91,23 +91,29 @@ const UpdateSample = () => {
                     <h1>Update Sample</h1>
                   </div>
                   <div className="Category_row">
-                    <input
-                      type="text"
-                      placeholder="Sample Name"
-                      className="sample_input"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
+                    <div className="update_sample_label">
+                      <label>Sample Name :</label>
+                      <input
+                        type="text"
+                        placeholder="Sample Name"
+                        className="sample_input"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
 
-                    <input
-                      type="text"
-                      placeholder="Sample Code"
-                      required
-                      className="sample_input"
-                      value={sampleCode}
-                      onChange={(e) => setSampleCode(e.target.value)}
-                    />
+                    <div className="update_sample_label">
+                      <label>Sample Code :</label>
+                      <input
+                        type="text"
+                        placeholder="Sample Code"
+                        required
+                        className="sample_input"
+                        value={sampleCode}
+                        onChange={(e) => setSampleCode(e.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="button_Category">

@@ -45,3 +45,48 @@
     font-size: 2.8vmax;
   }
 }
+
+
+/* ----------Prescription CSS--------------- */
+
+.newProductContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ECF1F7;
+  
+
+}
+.createProductForm{
+  height: 70vh;
+  width: 30vw;
+  border-radius: 8px;
+  background-color: #fff;
+  align-items: center;
+  background-image: url("../../../../public/Images/backcoveradmin.png");
+
+}
+
+.createProductForm >h1{
+  background-color: #308C89;
+  border-radius: 5px;
+  width: 15vw;
+  height: 5vh;
+  text-align: center;
+  margin: 2em 0em 0em 6em;
+  color: #fff;
+}
+
+.createProductForm >div > input{
+ margin: 2em 0em 3em 2em ;
+ 
+}
+
+.createProductFormImage{
+  height: 15vh;
+  width: 10vw;
+}
+.prescription_bttn >button{
+  width: 10vw;
+}
