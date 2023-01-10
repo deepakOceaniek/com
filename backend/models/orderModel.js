@@ -21,6 +21,22 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "Product",
       },
+      name: { type: String },
+      price: { type: Number },
+      images: [
+        {
+          public_id: {
+            type: String,
+            required: true,
+          },
+          url: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      discount: { type: Number },
+      quantity: { type: Number, default: 1 },
 
       prescription: {
         type: mongoose.Schema.ObjectId,

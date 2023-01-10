@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../layout/Loader/Loader";
 import { useAlert } from "react-alert";
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import { Button } from "@material-ui/core";
 import { UPDATE_PRESCRIPTION_RESET } from "../../../constants/productConstants";
 import "./prescriptionProcess.css";
 
@@ -21,6 +20,7 @@ const PrescriptionProcess = () => {
   const { prescription, error, loading } = useSelector(
     (state) => state.prescriptionDetails
   );
+  console.log(prescription);
   const { error: updateError, isUpdated } = useSelector(
     (state) => state.product
   );
@@ -69,39 +69,40 @@ const PrescriptionProcess = () => {
       <MetaData title="Process Order" />
       <div className="dashboard">
         <SideBar />
-        <div className="newProductContainer">
+        <div className="newPrescriptionContainer">
           {loading ? (
             <Loader />
           ) : (
             <div
-              className="confirmOrderPage"
-              style={{
-                display:
-                  prescription &&
-                  prescription.status === "Your Medicine Get Ready Pay Now"
-                    ? "block"
-                    : "grid",
-              }}
+              className="confirmPrescriptionOrderPage"
+              // style={{
+              //   display:
+              //     prescription &&
+              //     prescription.status === "Your Medicine Get Ready Pay Now"
+              //       ? "block"
+              //       : "grid",
+              // }}
             >
-              <div>
-                <div className="confirmshippingArea">
-                  <Typography>Prescription Info</Typography>
-                  <div className="orderDetailsContainerBox">
+              <div className="prescriptionOrderDetails">
+                <div className="confirmPrescriptionShippingArea">
+                  <h1>Prescription Info</h1>
+                  <div className="prescriptionOrderDetailsContainerBox">
+                    <h1>User Details</h1>
                     <div>
                       <p>Name:</p>
-                      <span>{prescription.user && prescription.user.name}</span>
+                      <p>{prescription.user && prescription.user.name}</p>
                     </div>
                     <div>
                       <p>Contact:</p>
-                      <span>
+                      <p>
                         {prescription.user && prescription.user.contact}
-                      </span>
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="confirmCartItems">
-                  <Typography>Prescription </Typography>
-                  <div className="confirmCartItemsContainer">
+                <div className="prescriptionConfirmCartItems">
+                  <h1>Prescription Images </h1>
+                  <div className="prescriptionConfirmCartItemsContainer">
                     {prescription.images &&
                       prescription.images.map((item) => (
                         <div key={item._id}>
@@ -113,12 +114,12 @@ const PrescriptionProcess = () => {
               </div>
 
               <div
-                style={{
-                  display:
-                    prescription.status === "Your Medicine Get Ready Pay Now"
-                      ? "none"
-                      : "block",
-                }}
+                // style={{
+                //   display:
+                //     prescription.status === "Your Medicine Get Ready Pay Now"
+                //       ? "none"
+                //       : "block",
+                // }}
               >
                 <form
                   className="updatePrescriptionForm"
@@ -127,7 +128,6 @@ const PrescriptionProcess = () => {
                   <h1>Update Prescription status </h1>
 
                   <div>
-                    <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value="">Update Status</option>
                       {prescription && prescription.status === "Processing" && (
@@ -197,7 +197,7 @@ const PrescriptionProcess = () => {
                     </div>
                   </div>
 
-                  <Button
+                  <button
                     id="createProductBtn"
                     type="submit"
                     disabled={
@@ -205,7 +205,7 @@ const PrescriptionProcess = () => {
                     }
                   >
                     Process
-                  </Button>
+                  </button>
                 </form>
               </div>
             </div>

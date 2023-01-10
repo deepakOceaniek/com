@@ -81,7 +81,26 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
       select: "name price images discount",
     },
   ];
-  const orders = await Order.find({ user: req.user._id }).populate(query);
+  let orders = await Order.find({ user: req.user._id }).populate(query);
+  let newOrders = [];
+
+  for (let order of orders) {
+    let newProducts = [];
+    for (let item of order.orderItems) {
+      item = {
+        product: item.product._id,
+        name: item.product.name,
+        price: item.product.price,
+        images: item.product.images,
+        quantity: item.quantity,
+        discount: item.product.discount,
+      };
+      newProducts.push(item);
+    }
+    order.orderItems= newProducts
+    newOrders.push(order)
+  }
+orders = newOrders
 
   res.status(200).json({
     success: true,
@@ -157,7 +176,6 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (req.body.status === "Delivered") {
     order.deliveredAt = Date.now();
   }
-  console.log(order);
   await order.save({ validateBeforeSave: false });
   res.status(200).json({
     success: true,
