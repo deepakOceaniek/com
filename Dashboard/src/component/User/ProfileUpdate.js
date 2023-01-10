@@ -4,7 +4,11 @@ import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updateProfile, loadadmin } from "../../actions/userAction";
+import {
+  clearErrors,
+  updateProfile,
+  loadadmin,
+} from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import { UPDATE_ADMIN_PROFILE_RESET } from "../../constants/userConstants";
 import MetaData from "../layout/MetaData";
@@ -12,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../Admin/Sidebar";
 
 const ProfileUpdate = () => {
-    const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -55,19 +59,17 @@ const ProfileUpdate = () => {
       if (reader.readyState === 2) {
         setProfileImagePreview(reader.result);
         setProfileImage(reader.result);
-     
       }
     };
 
     reader.readAsDataURL(e.target.files[0]);
   };
-  
+
   const updateCertificateDataChange = (e) => {
     const reader = new FileReader();
 
     reader.onload = () => {
       if (reader.readyState === 2) {
-       
         setCertificateImagePreview(reader.result);
         setCertificateImage(reader.result);
       }
@@ -80,11 +82,11 @@ const ProfileUpdate = () => {
     if (user) {
       setName(user.name);
       setContact(user.contact);
-      setAddress(user.address)
-      setCategory(user.category)
-      setStatus(user.status)
+      setAddress(user.address);
+      setCategory(user.category);
+      setStatus(user.status);
       setProfileImagePreview(user.profileImage.url);
-      setCertificateImagePreview(user.certificateImage.url)
+      setCertificateImagePreview(user.certificateImage.url);
     }
 
     if (error) {
@@ -112,7 +114,7 @@ const ProfileUpdate = () => {
           <MetaData title="Update Profile" />
           <div className="updateProfileContainer">
             <div className="sideBar">
-          <Sidebar /> 
+              <Sidebar />
             </div>
             <div className="updateProfileBox">
               <h2 className="updateProfileHeading">Update Profile</h2>
@@ -122,102 +124,95 @@ const ProfileUpdate = () => {
                 encType="multipart/form-data"
                 onSubmit={updateProfileSubmit}
               >
-                <div className="profile_main_Content" >
-                <div className="inner_content_div" >
-                <div className="updateProfileName">
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    required
-                    name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="updateProfileContact">
-                  <input
-                    type="number"
-                    placeholder="Contact"
-                    required
-                    name="contact"
-                    value={contact}
-                    onChange={(e) => setContact(e.target.value)}
-                  />
-                </div>
+                <div className="profile_main_Content">
+                  <div className="inner_content_div">
+                    <div className="updateProfileName">
+                      <input
+                        type="text"
+                        placeholder="Name"
+                        required
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+                    <div className="updateProfileContact">
+                      <input
+                        type="number"
+                        placeholder="Contact"
+                        required
+                        name="contact"
+                        value={contact}
+                        onChange={(e) => setContact(e.target.value)}
+                      />
+                    </div>
 
-                <div className="updateProfileAddress">
-                  <input
-                    type="text"
-                    placeholder="Address"
-                    required
-                    name="address"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                </div>
+                    <div className="updateProfileAddress">
+                      <input
+                        type="text"
+                        placeholder="Address"
+                        required
+                        name="address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
+                    </div>
+                    <div id="updateProfileImageAdmin">
+                      <img src={profileImagePreview} alt="Profile Preview" />
+                      <input
+                        type="file"
+                        name="profileImagePreview"
+                        accept="image/*"
+                        onChange={updateProfileDataChange}
+                      />
+                    </div>
 
-                <div id="updateProfileImageAdmin">
-                  <img src={profileImagePreview} alt="Profile Preview" />
-                  <input
-                    type="file"
-                    name="profileImagePreview"
-                    accept="image/*"
-                    onChange={updateProfileDataChange}
-                  />
-                </div>
+                  </div>
+                  <div className="inner_content_div">
+                    <div id="updateCertificateImageAdmin">
+                      <img
+                        src={certificateImagePreview}
+                        alt="Certificate Preview"
+                      />
+                      <input
+                        type="file"
+                        name="certificateImagePreview"
+                        accept="image/*"
+                        onChange={updateCertificateDataChange}
+                      />
+                    </div>
+                    <div className="updateProfileStatus">
+                      <input
+                        type="text"
+                        placeholder="Status"
+                        required
+                        name="status"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                      />
+                    </div>
 
 
-
- 
-
-                </div>
-                <div className="inner_content_div" >
-                  
-                <div id="updateCertificateImageAdmin">
-                  <img src={certificateImagePreview} alt="Certificate Preview" />
-                  <input
-                    type="file"
-                    name="certificateImagePreview"
-                    accept="image/*"
-                    onChange={updateCertificateDataChange}
-                  />
-                </div>
-              
-            
-                <div className="updateProfileStatus">
-                  <input
-                    type="text"
-                    placeholder="Status"
-                    required
-                    name="status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  />
-                </div>
-           
-
-                <div className="updateProfileTime">
-                  <p>Timings</p>
-                  <input
-                    type="time"
-                    placeholder="fromTime"
-                    required
-                    name="fromTime"
-                    value={fromTime}
-                    onChange={(e) => setFromTime(e.target.value)}
-                  />
-                     <input
-                    type="time"
-                    placeholder="toTime"
-                    required
-                    name="toTime"
-                    value={toTime}
-                    onChange={(e) => setToTime(e.target.value)}
-                  />
-                </div>
-
-                </div>
-             
+                    <div className="updateProfileTime">
+                      <p>Timings</p>
+                      <input 
+                        type="time"
+                        placeholder="fromTime"
+                        required
+                        name="fromTime"
+                        value={fromTime}
+                        onChange={(e) => setFromTime(e.target.value)}
+                      />
+                      <input 
+                        type="time"
+                        placeholder="toTime"
+                        required
+                        name="toTime"
+                        value={toTime}
+                        onChange={(e) => setToTime(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <input
                   type="submit"

@@ -162,6 +162,7 @@ const ProductList = () => {
 
       <div className="dashboard">
         <SideBar />
+        <div className="prescription_add">
         <div className="productListContainer">
           {loading ? (
             <Loader />
@@ -183,6 +184,7 @@ const ProductList = () => {
               )}
             </>
           )}
+        </div>
         </div>
       </div>
     </Fragment>

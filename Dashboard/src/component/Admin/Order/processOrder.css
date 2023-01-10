@@ -44,6 +44,9 @@
   padding: 3vmax;
   background-color: white;
   display: block;
+  border-radius: 8px;
+  border: 1px solid black;
+  height: 50vh;
 }
 
 .updateOrderForm > div {
@@ -60,6 +63,12 @@
   border-radius: 4px;
   font: 300 0.9vmax cursive;
   outline: none;
+}
+
+.updateOrderForm >h1{
+  height: 4vh;
+  margin: 0em 0em 0em 2em;
+  font-weight: 700;
 }
 
 .updateOrderForm > div > svg {

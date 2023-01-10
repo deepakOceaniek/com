@@ -154,10 +154,10 @@ const ProcessOrder = () => {
                     className="updateOrderForm"
                     onSubmit={updateOrderSubmitHandler}
                   >
-                    <h1>Update Order status </h1>
+                    <h1>Update Order status</h1>
 
                     <div>
-                      <AccountTreeIcon />
+                      {/* <AccountTreeIcon /> */}
                       <select onChange={(e) => setStatus(e.target.value)}>
                         <option value="">Update Status</option>
                         {order.orderStatus === "Processing" && (

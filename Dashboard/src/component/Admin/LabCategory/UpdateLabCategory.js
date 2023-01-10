@@ -122,41 +122,53 @@ const UpdateLabCategory = () => {
                   </div>
                   <div className="Category_row">
                     <div className="input_Category">
-                      <input
-                        type="text"
-                        placeholder="Category Name"
-                        required
-                        className="category_input"
-                        value={categoryName}
-                        onChange={(e) => setCategoryName(e.target.value)}
-                      />
+                      <div className="update_lab_category_label">
+                        <label>Category Name :</label>
+                        <input
+                          type="text"
+                          placeholder="Category Name"
+                          required
+                          className="category_input"
+                          value={categoryName}
+                          onChange={(e) => setCategoryName(e.target.value)}
+                        />
+                      </div>
                     </div>
                     <div className="input_Category_upload">
-                      <input
-                        accept="image/png image/jpeg"
-                        className="Category_add_image"
-                        type="file"
-                        name="categoryImage"
-                        onChange={updateProductImagesChange}
-                        placeholder=" Product Image Upload"
-                      />
-                      <div id="createProductFormImage">
-                        {oldImages &&
-                          oldImages.map((image, index) => (
+                      <div className="input_Category">
+                        <div className="update_lab_category_label">
+                          <label>Category Image :</label>
+                          <input
+                            accept="image/png image/jpeg"
+                            className="Category_add_image"
+                            type="file"
+                            name="categoryImage"
+                            onChange={updateProductImagesChange}
+                            placeholder=" Product Image Upload"
+                          />
+                        </div>
+                        <div id="createProductFormImage">
+                          {oldImages &&
+                            oldImages.map((image, index) => (
+                              <img
+                                key={index}
+                                src={image.url}
+                                alt="Old Product Preview"
+                              />
+                            ))}
+                          {imagesPreview.map((image, index) => (
                             <img
                               key={index}
-                              src={image.url}
-                              alt="Old Product Preview"
+                              src={image}
+                              alt="Product Preview"
                             />
                           ))}
-                           {imagesPreview.map((image, index) => (
-                          <img key={index} src={image} alt="Product Preview" />
-                        ))}
-                      </div>
+                        </div>
 
-                      {/* <div id="createProductFormImage">
+                        {/* <div id="createProductFormImage">
                        
                       </div> */}
+                      </div>
                     </div>
                   </div>
                   <div className="button_Category">
