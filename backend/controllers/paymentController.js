@@ -25,7 +25,7 @@ exports.checkout = catchAsyncErrors(async (req, res, next) => {
     amount: Number(req.body.amount * 100),
     currency: "INR",
   };
-
+console.log(options)
   const order = await instance.orders.create(options);
   console.log(order);
 
@@ -39,10 +39,11 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
   // console.log(`Header${JSON.stringify(req.headers)}`);
+  // console.log(`body${JSON.stringify(req.body)}`);
   // const { cookie } = req.headers;
   // const token = cookie.split("=")[1];
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTljOGUzMGRiNjRjNjYzMmU3OWRiYiIsImlhdCI6MTY3MzI1ODMyMywiZXhwIjoxNjczODYzMTIzfQ.6AAlYsl0TaAHAVR-6uEAQEkyqjiz9yDzNquR22j18wY";
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTljOGUzMGRiNjRjNjYzMmU3OWRiYiIsImlhdCI6MTY3MzI1ODMyMywiZXhwIjoxNjczODYzMTIzfQ.6AAlYsl0TaAHAVR-6uEAQEkyqjiz9yDzNquR22j18wY";
   // console.log(`Token ${token}`);
 
   const decodedData = jwt.verify(token, process.env.JWT_SECRET);
@@ -115,7 +116,7 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
       shippingFee,
       amountToBePaid,
       paidAt: Date.now(),
-      user,
+      userId,
     });
     //cart.remove(); //Todo uncomment later
     // res.status(200).json({

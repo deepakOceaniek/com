@@ -475,7 +475,6 @@ export const getAdminSample = () => async (dispatch) => {
     dispatch({ type: SAMPLE_REQUEST });
 
     const { data } = await axios.get("/api/v1/admin/sample");
-console.log(data)
     dispatch({
       type: SAMPLE_SUCCESS,
       payload: data.samples,
