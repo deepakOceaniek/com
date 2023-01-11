@@ -1,3 +1,37 @@
+.confirmPrescriptionOrderPage{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.prescriptionOrderDetails{
+  display: flex;
+  flex-direction: column;
+}
+.prescriptionOrderDetailsContainerBox  {
+  height: 20vh;
+  width: 30vw;
+  margin: 1.5em 0em 0em 0em;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.prescriptionOrderDetailsContainerBox >h1 {
+  background-color: #8e9092;
+  width: 100%;
+  height: 4vh;
+  border-radius: 10px 10px 0px 0px;
+  padding-left: 1em;
+}
+
+.prescriptionOrderDetailsContainerBox >div {
+  display: flex;
+  flex-direction: row;
+}
+
+.prescriptionConfirmCartItemsContainer > div >img {
+  height: 60vh;
+  width: 40vw;
+}
+
 .updatePrescriptionForms {
   margin: 5vmax 0;
   padding: 3vmax;
@@ -21,14 +55,19 @@
   outline: none;
 }
 
-.updatePrescriptionForms > div > svg {
+/* .updatePrescriptionForms > div > svg {
   position: absolute;
   transform: translateX(1vmax);
   font-size: 1.6vmax;
   color: rgba(0, 0, 0, 0.623);
-}
+} */
 .updatePrescriptionForms .billForm {
   display: none;
+  margin-top: 2em;
+}
+
+.billForm  > div > input {
+  width :5vw;
 }
 
 @media screen and (max-width: 600px) {
@@ -45,3 +84,5 @@
     font-size: 2.8vmax;
   }
 }
+
+

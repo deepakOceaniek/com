@@ -149,7 +149,7 @@ exports.optVerify = catchAsyncErrors(async (req, res, next) => {
   const { contact, code } = req.body;
 
   // let contact = req.query.phonenumber;
-  const user = await User.findOne({ contact });
+  const user = await User.findOne({ contact })
   const admin = await Admin.findOne({ contact });
   // console.log(`User-----${user}`);
   // console.log(`Admin-----${admin}`);
@@ -255,6 +255,10 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     contact: req.body.contact,
+    email:  req.body.email,
+    gender: req.body.gender,
+    age:req.body.age,
+    bloodGroup:req.body.bloodGroup
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {

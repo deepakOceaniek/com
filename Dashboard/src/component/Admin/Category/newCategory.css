@@ -7,7 +7,6 @@
 .create_Category{
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     justify-content: center;
     width: 100%;
     background-color: rgba(231, 237, 244, 0.79);
@@ -34,7 +33,6 @@
 }
 
 .Category_row{
-    margin: 2em;
     justify-content: center;
 
 }
@@ -46,13 +44,19 @@
    border-radius: 8px;
 
 }
-.input_Category_upload{
-    margin-top: 2em;
-    
+/* .input_Category_upload{
+    margin-top: 0em;  
+} */
+.update_lab_category_label > label{
+    font-weight: 600;
+    margin: 0em 0em 0em 4em ;
+    font-size: 18px;
 }
-
+.update_lab_category_label{
+    margin: 1em 0em 0em 0em ;
+}
 .button_Category{
-    margin-top: 1em;
+    margin-bottom: 3em;
 }
 .categoryDiv{
     margin: 1em 5em;
@@ -60,19 +64,36 @@
     width:12vw;
 }
 .category_input,.Category_add_image{
-    margin-left: 2em;
+    margin: 0em 0em 0em 4.5em;
 }
 
 .Category_row > h1 {
     color: rgba(0, 0, 0, 0.733);
     font: 300 2rem "Roboto";
     text-align: center;
+    margin-top: 1.5em;
   }
 
 .Category_add_image{
     margin-bottom: 1em;
 }
+/* -------------------------------------------- */
+.update_sample_label >label{
+    font-weight: 600;
+    margin: 0em 0em 0em  3.5em;
+}
+
+
+/* -------------------------------------------- */
+
 .sample_input{
-    margin:1em 3em;
+    margin: .2em 3em;
     padding-left: 1em;
+}
+.add_new_sample_label >label{
+    font-weight: 600;
+    margin: 0em 0em 0em 3.5em;
+}
+.add_new_sample_label{
+    margin: 1em 0em 0em 0em ;
 }

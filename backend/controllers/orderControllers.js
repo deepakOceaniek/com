@@ -40,20 +40,20 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 //Get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   const query = [
-    {
-      path: "orderItems.product",
-      select: "name price images discount",
-    },
+    // {
+    //   path: "orderItems.product",
+    //   select: "name price images discount",
+    // },
     {
       path: "user",
       select: "defaultAddress",
       strictPopulate: false,
     },
-    {
-      path: "orderItems.prescription",
-      select: "images status",
-      strictPopulate: false,
-    },
+    // {
+    //   path: "orderItems.prescription",
+    //   select: "images status",
+    //   strictPopulate: false,
+    // },
   ];
 
   const order = await Order.findById(req.params.id).populate(query);
@@ -76,12 +76,33 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
       select: "defaultAddress",
       strictPopulate: false,
     },
-    {
-      path: "orderItems.product",
-      select: "name price images discount",
-    },
+    // {
+    //   path: "orderItems.product",
+    //   select: "name price images discount",
+    // },
   ];
-  const orders = await Order.find({ user: req.user._id }).populate(query);
+
+  let orders = await Order.find({ user: req.user._id }).populate(query);
+  // let newOrders = [];
+
+//   for (let order of orders) {
+//     let newProducts = [];
+//     for (let item of order.orderItems) {
+//       item = {
+//         product: item.product._id,
+//         name: item.product.name,
+//         price: item.product.price,
+//         images: item.product.images,
+//         quantity: item.quantity,
+//         discount: item.product.discount,
+//       };
+//       connsole.log(item)
+//       newProducts.push(item);
+//     }
+//     order.orderItems= newProducts
+//     newOrders.push(order)
+//   }
+// orders = newOrders
 
   res.status(200).json({
     success: true,
@@ -110,14 +131,11 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
 exports.orderDetailsAdmin = catchAsyncErrors(async (req, res, next) => {
   const query = [
     {
-      path: "orderItems.product",
-      select: "name price images",
-    },
-    {
-      path: "shippingInfo.address",
+      path: "user",
       select: "defaultAddress",
       strictPopulate: false,
     },
+  
     {
       path: "orderItems.prescription",
       select: "images status",
@@ -157,7 +175,6 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (req.body.status === "Delivered") {
     order.deliveredAt = Date.now();
   }
-  console.log(order);
   await order.save({ validateBeforeSave: false });
   res.status(200).json({
     success: true,

@@ -30,6 +30,7 @@
 .orderDetailsContainerBox > div {
   display: flex;
   flex-direction: row;
+  
 }
 .orderDetailsContainerBox > div {
   padding: 0.5em 0em 0em 1em;
@@ -43,6 +44,7 @@
   padding: 3vmax;
   background-color: white;
   display: block;
+ 
 }
 
 .updateOrderForm > div {
@@ -60,6 +62,8 @@
   font: 300 0.9vmax cursive;
   outline: none;
 }
+
+
 
 .updateOrderForm > div > svg {
   position: absolute;

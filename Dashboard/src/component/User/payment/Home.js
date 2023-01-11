@@ -24,39 +24,10 @@ const Home = () => {
       description: "RazorPay",
       // image: "https://avatars.githubusercontent.com/u/25058652?",
       order_id: order.id,
-      // callback_url: "/api/v1/paymentverification",
-      handler: function (response) {
-        console.log(response);
-
-        const resp = fetch("/api/v1/order/new", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ordersBy: "Lab",
-            totalPrice: 1240,
-            totalSaving: 0,
-            shippingFee: 0,
-            amountToBePaid: 1240,
-            orderItems: [
-              {
-                product: "63a33af6086f320d1ba636c8",
-                image: "sample Image",
-                quantity: 2,
-              },
-            ],
-            user: "63a9c8e30db64c6632e79dbb",
-            paymentInfo: {
-              id: "sample paymentInfo",
-              status: "succeeded",
-            },
-          }),
-        });
-
-        const data = resp.JSON();
-        console.log(data);
-      },
+      callback_url: "/api/v1/paymentverification",
+      // handler: function (response) {
+      //   console.log(response);
+      // },
       prefill: {
         name: "Deepak Singh",
         email: "Deepak@oceaniek.com",

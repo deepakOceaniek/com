@@ -530,6 +530,7 @@ exports.deleteLabCategory = catchAsyncErrors(async (req, res, next) => {
 exports.getAdminSample = catchAsyncErrors(async (req, res, next) => {
   const samples = await Sample.find();
 
+ 
   res.status(200).json({
     success: true,
     samples,

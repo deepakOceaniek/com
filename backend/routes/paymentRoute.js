@@ -20,9 +20,14 @@ const {
   getInvoice,
   getKey,
 } = require("../controllers/paymentController.js");
+const {
+  isAuthenticated,
+  authorizeRoles,
+  isAuthenticatedAdmin,
+} = require("../middleware/auth");
 
 const router = express.Router();
-router.route("/getkey").get(getKey)
+router.route("/getkey").get(getKey);
 router.route("/checkout").post(checkout);
 
 router.route("/paymentverification").post(paymentVerification);

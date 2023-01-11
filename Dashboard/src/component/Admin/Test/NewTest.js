@@ -123,6 +123,8 @@ const NewTest = () => {
                   </div>
                   <div className="test_row">
                     <div className="input-inside">
+                      <div className="test_labels_name">
+                        <label>Test Name :</label>
                       <input
                         type="text"
                         placeholder="Test Name"
@@ -130,11 +132,17 @@ const NewTest = () => {
                         className="test_add"
                         onChange={(e) => setName(e.target.value)}
                       />
+                      </div>
+                      <div className="test_labels_name">
+                        <label>Test Description :</label>
                       <input
                         placeholder="Test Description"
                         className="test_add"
                         onChange={(e) => setDescription(e.target.value)}
                       />
+                      </div>
+                      <div className="test_labels_name">
+                        <label>Price :</label>
                       <input
                         type="number"
                         placeholder="Price"
@@ -142,7 +150,10 @@ const NewTest = () => {
                         className="test_add"
                         onChange={(e) => setPrice(e.target.value)}
                       />
-                      <div   >
+                      </div>
+                      <div>
+                      <div className="test_labels_name">
+                        <label>Choose Sample :</label>
                         <select className="test_add" onChange={(e) => setSample(e.target.value)}>
                           <option value="">Choose Sample</option>
                           {samples &&
@@ -153,9 +164,12 @@ const NewTest = () => {
                             ))}
                         </select>
                       </div>
+                      </div>
                     </div>
                     <div className="input-inside">
-                      <div  >
+                      <div>
+                      <div className="test_labels_name">
+                        <label>Choose Package :</label>
                         <select className="test_add"
                           onChange={(e) => setPackageTest(e.target.value)}
                         >
@@ -168,8 +182,11 @@ const NewTest = () => {
                             ))}
                         </select>
                       </div>
+                      </div>
 
-                      <div   >
+                      <div>
+                      <div className="test_labels_name">
+                        <label>Choose Category :</label>
                         <select className="test_add" onChange={(e) => setCategory(e.target.value)}>
                           <option value="">Choose Category</option>
                           {labCategories &&
@@ -180,8 +197,11 @@ const NewTest = () => {
                             ))}
                         </select>
                       </div>
+                      </div>
 
                       <div id="createProductFormFile">
+                      <div className="test_labels_name_image">
+                        <label>Test Image :</label>
                         <input
                           type="file"
                           name="avatar"
@@ -190,6 +210,7 @@ const NewTest = () => {
                           onChange={createProductImagesChange}
                           multiple
                         />
+                      </div>
                           <div id="createTestFormImage">
                     {imagesPreview.map((image, index) => (
                       <img key={index} src={image} alt="Product Preview" />

@@ -97,13 +97,13 @@ const NewPrescription = () => {
               ))}
             </div>
 
-            <Button
+            <button 
               id="createProductBtn"
               type="submit"
               disabled={loading ? true : false}
             >
               Create
-            </Button>
+            </button>
           </form>}
         </div>
       </div>

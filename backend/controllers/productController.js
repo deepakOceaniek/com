@@ -3,7 +3,7 @@ const Category =require("../models/categoryModel")
 const Prescription = require("../models/prescriptionModel")
 const  Banner = require("../models/bannerModel")
 const sendToken = require("../utils/jwtToken");
-const Cart = require("../models/CartModel")
+const Cart = require("../models/cartModel") 
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
@@ -686,6 +686,7 @@ exports.getCartItems = catchAsyncErrors(async (req, res, next) => {
       cart.shippingFee = 0 
     }
     cart.amountToBePaid = afterDiscountPrice + cart.shippingFee 
+    cart.save()
      res.status(200).send(cart);
    }else{
      res.status(200).json({message:"Your Cart is Empty Add Some Product"});      
