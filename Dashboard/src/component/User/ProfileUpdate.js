@@ -117,7 +117,7 @@ const ProfileUpdate = () => {
               <Sidebar />
             </div>
             <div className="updateProfileBox">
-              <h2 className="updateProfileHeading">Update Profile</h2>
+              <h2 className="updateProfileHeading">Update Your Profile</h2>
 
               <form
                 className="updateProfileForm"
@@ -126,47 +126,57 @@ const ProfileUpdate = () => {
               >
                 <div className="profile_main_Content">
                   <div className="inner_content_div">
-                    <div className="updateProfileName">
-                      <input
-                        type="text"
-                        placeholder="Name"
-                        required
-                        name="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
+                    <div className="profile_update_label">
+                      <label> Name</label>
+                      <div className="updateProfileName">
+                        <input
+                          type="text"
+                          placeholder="Name"
+                          required
+                          name="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      </div>
                     </div>
-                    <div className="updateProfileContact">
-                      <input
-                        type="number"
-                        placeholder="Contact"
-                        required
-                        name="contact"
-                        value={contact}
-                        onChange={(e) => setContact(e.target.value)}
-                      />
+                    <div className="profile_update_label">
+                      <label>Contact</label>
+                      <div className="updateProfileContact">
+                        <input
+                          type="number"
+                          placeholder="Contact"
+                          required
+                          name="contact"
+                          value={contact}
+                          onChange={(e) => setContact(e.target.value)}
+                        />
+                      </div>
                     </div>
-
-                    <div className="updateProfileAddress">
-                      <input
-                        type="text"
-                        placeholder="Address"
-                        required
-                        name="address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                      />
+                    <div className="profile_update_label">
+                      <label>Address</label>
+                      <div className="updateProfileAddress">
+                        <input
+                          type="text"
+                          placeholder="Address"
+                          required
+                          name="address"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                        />
+                      </div>
                     </div>
-                    <div id="updateProfileImageAdmin">
-                      <img src={profileImagePreview} alt="Profile Preview" />
-                      <input
-                        type="file"
-                        name="profileImagePreview"
-                        accept="image/*"
-                        onChange={updateProfileDataChange}
-                      />
+                    <div className="profile_update_label">
+                      <label>Profile Image</label>
+                      <div id="updateProfileImageAdmin">
+                        <input
+                          type="file"
+                          name="profileImagePreview"
+                          accept="image/*"
+                          onChange={updateProfileDataChange}
+                        />
+                        <img src={profileImagePreview} alt="Profile Preview" />
+                      </div>
                     </div>
-
                   </div>
                   <div className="inner_content_div">
                     <div id="updateCertificateImageAdmin">
@@ -174,51 +184,57 @@ const ProfileUpdate = () => {
                         src={certificateImagePreview}
                         alt="Certificate Preview"
                       />
-                      <input
-                        type="file"
-                        name="certificateImagePreview"
-                        accept="image/*"
-                        onChange={updateCertificateDataChange}
-                      />
+                      <div className="profile_update_label">
+                        <label>Certificate Image</label>
+                        <div>
+                          <input
+                            type="file"
+                            name="certificateImagePreview"
+                            accept="image/*"
+                            onChange={updateCertificateDataChange}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="updateProfileStatus">
-                      <input
-                        type="text"
-                        placeholder="Status"
-                        required
-                        name="status"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                      />
+                    <div className="profile_update_label">
+                      <label>Status</label>
+                      <div className="updateProfileStatus">
+                        <input
+                          type="text"
+                          placeholder="Status"
+                          required
+                          name="status"
+                          value={status}
+                          onChange={(e) => setStatus(e.target.value)}
+                        />
+                      </div>
                     </div>
-
-
-                    <div className="updateProfileTime">
-                      <p>Timings</p>
-                      <input 
-                        type="time"
-                        placeholder="fromTime"
-                        required
-                        name="fromTime"
-                        value={fromTime}
-                        onChange={(e) => setFromTime(e.target.value)}
-                      />
-                      <input 
-                        type="time"
-                        placeholder="toTime"
-                        required
-                        name="toTime"
-                        value={toTime}
-                        onChange={(e) => setToTime(e.target.value)}
-                      />
+                    <div className="profile_update_label">
+                      <label>From Time</label>
+                      <div className="updateProfileTime">
+                        <input
+                          type="time"
+                          placeholder="fromTime"
+                          required
+                          name="fromTime"
+                          value={fromTime}
+                          onChange={(e) => setFromTime(e.target.value)}
+                        />
+                        <label>To Time</label>
+                        <input
+                          type="time"
+                          placeholder="toTime"
+                          required
+                          name="toTime"
+                          value={toTime}
+                          onChange={(e) => setToTime(e.target.value)}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <input
-                  type="submit"
-                  value="Update Profile"
-                  className="updateProfileBtn"
-                />
+                <button className="updateProfileBtn"> Save
+                </button>
               </form>
             </div>
           </div>

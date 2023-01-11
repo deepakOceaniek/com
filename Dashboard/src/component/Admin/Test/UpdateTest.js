@@ -17,6 +17,7 @@ import SideBar from "../Sidebar";
 import { UPDATE_TEST_RESET } from "../../../constants/testConstants";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../layout/Loader/Loader";
+import "./newTest.css"
 
 const UpdateTest = () => {
   const dispatch = useDispatch();
@@ -222,14 +223,14 @@ const UpdateTest = () => {
                       <div id="createProductFormFile">
                         <div className="add_test_label_image">
                           <label>Choose Image :</label>
-                        <input
-                          type="file"
-                          name="avatar"
-                          className="test_add_image"
-                          accept="image/*"
-                          onChange={updateProductImagesChange}
-                          multiple
-                        />
+                          <input
+                            type="file"
+                            name="avatar"
+                            className="test_add_image"
+                            accept="image/*"
+                            onChange={updateProductImagesChange}
+                            multiple
+                          />
                         </div>
                         <div id="createTestFormImage">
                           {oldImages &&
@@ -254,10 +255,9 @@ const UpdateTest = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="button_test_row">
+                  <div className="button_Test_Row">
                     <button
-                      id="createProductBtn"
+                      id="create_Test_Button"
                       type="submit"
                       disabled={loading ? true : false}
                     >

@@ -46,18 +46,24 @@
 }
 
 .edit_btn {
-  height: 7vh;
-  width: 20vw;
+  height: 6vh;
+  width: 10vw;
   background: #308c89;
   border-radius: 5px;
   color: #ffffff;
   text-align: center;
   padding: 0.5em;
   cursor: pointer;
-  box-shadow: 2px 3px 3px 2px #999;
+  margin: 2em 0em 0em 0em ;
 }
 
-.productReviewsForm >button:hover {
+.edit_btn:hover {
+  background-color: #359c98;
+  box-shadow: 2px 2px  gray;
+  transition:0.5s ease-in-out;
+}
+
+.productReviewsForm > button:hover {
   background-color: #46ddd8;
 }
 
@@ -69,7 +75,6 @@
   color: #ffffff;
   text-align: center;
   padding: 0.5em;
-
 }
 
 .content .profileUpload {
@@ -90,8 +95,6 @@
   border-radius: 5px;
   border: 1px solid #ada7a7;
 }
-
-
 
 /* ----------------------------Responsive--------------------------- */
 
