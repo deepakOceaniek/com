@@ -40,20 +40,20 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 //Get Single Order
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   const query = [
-    {
-      path: "orderItems.product",
-      select: "name price images discount",
-    },
+    // {
+    //   path: "orderItems.product",
+    //   select: "name price images discount",
+    // },
     {
       path: "user",
       select: "defaultAddress",
       strictPopulate: false,
     },
-    {
-      path: "orderItems.prescription",
-      select: "images status",
-      strictPopulate: false,
-    },
+    // {
+    //   path: "orderItems.prescription",
+    //   select: "images status",
+    //   strictPopulate: false,
+    // },
   ];
 
   const order = await Order.findById(req.params.id).populate(query);
@@ -76,10 +76,10 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
       select: "defaultAddress",
       strictPopulate: false,
     },
-    {
-      path: "orderItems.product",
-      select: "name price images discount",
-    },
+    // {
+    //   path: "orderItems.product",
+    //   select: "name price images discount",
+    // },
   ];
 
   let orders = await Order.find({ user: req.user._id }).populate(query);
@@ -131,14 +131,11 @@ exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
 exports.orderDetailsAdmin = catchAsyncErrors(async (req, res, next) => {
   const query = [
     {
-      path: "orderItems.product",
-      select: "name price images",
-    },
-    {
-      path: "shippingInfo.address",
+      path: "user",
       select: "defaultAddress",
       strictPopulate: false,
     },
+  
     {
       path: "orderItems.prescription",
       select: "images status",

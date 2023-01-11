@@ -38,10 +38,12 @@ console.log(options)
 exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
-  // console.log(`Header${JSON.stringify(req.headers)}`);
-  // console.log(`body${JSON.stringify(req.body)}`);
-  // const { cookie } = req.headers;
-  // const token = cookie.split("=")[1];
+    console.log(req.query)
+    console.log(req.query.id)
+  console.log(`Header${JSON.stringify(req.headers)}`);
+  console.log(`body${JSON.stringify(req.body)}`);
+  const { cookie } = req.headers;
+  const token = cookie.split("=")[1];
   // const token =
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTljOGUzMGRiNjRjNjYzMmU3OWRiYiIsImlhdCI6MTY3MzI1ODMyMywiZXhwIjoxNjczODYzMTIzfQ.6AAlYsl0TaAHAVR-6uEAQEkyqjiz9yDzNquR22j18wY";
   // console.log(`Token ${token}`);
@@ -84,17 +86,18 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
     // console.log(`reqUser ${req.user}`);
 
     // console.log(`UserId ${req.user.id}`);
-    const query = [
-      {
-        path: "user",
-        select: "defaultAddress",
-      },
-      {
-        path: "products.productId",
-        select: "images name price discount",
-      },
-    ];
-    let cart = await Cart.findOne({ user: userId }).populate(query);
+    // const query = [
+    //   {
+    //     path: "user",
+    //     select: "defaultAddress",
+    //   },
+    //   {
+    //     path: "products.productId",
+    //     select: "images name price discount",
+    //   },
+    // ];
+    let cart = await Cart.findOne({ user: userId })
+    // .populate(query);
     // console.log(`cart ${cart}`);
 
     const {
@@ -116,7 +119,7 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
       shippingFee,
       amountToBePaid,
       paidAt: Date.now(),
-      userId,
+      user:userId,
     });
     //cart.remove(); //Todo uncomment later
     // res.status(200).json({

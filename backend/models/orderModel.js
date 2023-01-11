@@ -17,7 +17,7 @@ const productSchema = mongoose.Schema({
       quantity: {
         type: Number,
       },
-      product: {
+      productId: {
         type: mongoose.Schema.ObjectId,
         ref: "Product",
       },

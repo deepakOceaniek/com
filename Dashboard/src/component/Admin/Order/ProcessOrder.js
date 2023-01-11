@@ -80,8 +80,8 @@ const ProcessOrder = () => {
                       <p>Name : </p>
                       <p>
                         &nbsp;&nbsp;&nbsp;
-                        {order.shippingInfo &&
-                          order.shippingInfo.address.defaultAddress[0].name}
+                        {order.user &&
+                          order.user.defaultAddress[0].name}
                       </p>
                     </div>
                     <div>
@@ -95,8 +95,8 @@ const ProcessOrder = () => {
                     <div>
                       <p>Address :</p>
                       <p>
-                        {order.shippingInfo &&
-                          `${order.shippingInfo.address.defaultAddress[0].address}, ${order.shippingInfo.address.defaultAddress[0].area}, ${order.shippingInfo.address.defaultAddress[0].city}, ${order.shippingInfo.address.defaultAddress[0].pinCode}, ${order.shippingInfo.address.defaultAddress[0].state}`}
+                        {order.user &&
+                          `${order.user.defaultAddress[0].address}, ${order.user.defaultAddress[0].area}, ${order.user.defaultAddress[0].city}, ${order.user.defaultAddress[0].pinCode}, ${order.user.defaultAddress[0].state}`}
                       </p>
                     </div>
                   </div>
@@ -197,15 +197,15 @@ const ProcessOrder = () => {
                   <div className="confirmCartItemsContainer">
                     {order.orderItems &&
                       order.orderItems.map((item) => (
-                        <div key={item.product._id}>
-                          <img src={item.product.images[0].url} alt="Product" />
-                          <Link to={`/product/${item.product}`}>
-                            {item.product.name}
+                        <div key={item._id}>
+                          <img src={item.images[0].url} alt="Product" />
+                          <Link to={`/product/${item.productId}`}>
+                            {item.name}
                           </Link>
                           <p>{item.quantity}</p>
-                          <p>₹{item.product.price}</p>
+                          <p>₹{item.price}</p>
                           <p>
-                            <b>₹{item.product.price * item.quantity}</b>
+                            <b>₹{item.price * item.quantity}</b>
                           </p>
                         </div>
                       ))}
