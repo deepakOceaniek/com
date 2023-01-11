@@ -11,6 +11,7 @@
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
+  background-image: url("../../../public/Images/background.png");
 }
 
 .updateProfileHeading {
@@ -27,7 +28,7 @@
 
 .updateProfileForm {
   margin: auto;
-  padding: 2vmax;
+  padding: 1.5vmax;
   transition: all 0.5s;
 }
 
@@ -35,19 +36,20 @@
   display: flex;
   justify-content: space-around;
 }
-.inner_content_div > div,
+
+.inner_content_div > div {
+  margin: .8em 0em 0em 0em;
+}
 .updateProfileTime > input {
-  margin: 1em 0em 0em 0em;
+  margin: 0em 0em .8em 0em;
 }
-.updateProfileForm > input {
-  margin: 2em 0em 0em 18em;
-}
+
 
 #updateProfileImageAdmin > img,
 #updateCertificateImageAdmin > img {
   width: 24vw;
-  max-height:25vh;
-  margin-bottom: 1em;
+  max-height: 25vh;
+  margin-bottom: .8em;
 }
 #updateProfileImage > input {
   display: flex;
@@ -73,17 +75,21 @@
 }
 
 .updateProfileBtn {
-  height: 7vh;
-  width: 20vw;
+  height: 6vh;
+  width: 10vw;
   background: #308c89;
   border-radius: 5px;
   color: #ffffff;
   text-align: center;
-  box-shadow: 2px 3px 3px 2px #999;
+  margin: 1em 0em 0em 28em;
 }
 
 .updateProfileBtn:hover {
-  background-color: #46ddd8;
+  background-color: #359c98;
+  box-shadow: 2px 2px  gray;
+  transition:0.5s ease-in-out;
+/* translate:100px -100px; */
+/* transform:rotate(360deg) */
 }
 
 .updateProfileTime {
@@ -91,11 +97,19 @@
   flex-direction: column;
 }
 
-.updateProfileName >input ,
-.updateProfileContact >input ,
-.updateProfileAddress >input ,.updateProfileStatus >input ,.updateProfileTime >input{
-  padding-left: .5em;
+.profile_update_label > div > input {
+  padding-left: 0.5em;
 }
+
+.profile_update_label > label,
+.updateProfileTime > label {
+  font-weight: 500;
+}
+
+/* .updateProfileForm > input {
+  margin: 2em 0em 0em 18em;
+} */
+
 /* -----------Responsive--------------------------- */
 @media screen and (max-width: 600px) {
   .updateProfileContainer {
